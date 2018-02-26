@@ -7,9 +7,15 @@ import java.util.Date;
  * Created by Schoolpost on 2018-02-26.
  */
 
+enum Statuses {
+    requested, assigned, completed
+}
+
 public class Task {
 
     private String taskID;
+
+    private Statuses status;
     private String title;
     private String description;
     private ArrayList<Bid> bidList;
@@ -19,8 +25,6 @@ public class Task {
     private Boolean hasNewBids;
 
 
-    private Enum status;
-
     public String getTaskID() {
         return taskID;
     }
@@ -29,11 +33,11 @@ public class Task {
         this.taskID = taskID;
     }
 
-    public Enum getStatus() {
-        return status;
+    public Statuses getStatus() {
+        return this.status;
     }
 
-    public void setStatus(Enum status) {
+    public void setStatus(Statuses status) {
         this.status = status;
     }
 
