@@ -3,42 +3,50 @@ package cmput301w18t22.com.tenner;
 import android.test.ActivityInstrumentationTestCase2;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class BidTest extends ActivityInstrumentationTestCase2 {
 
     public BidTest() {
-        super(MyBidsActivity.class);
+        super(Bid.class);
 
     }
 
     public void testSetOwner() {
 
         Bid bid = new Bid();
-        bid.setOwner("Name");
-
-        assertTrue(bid.owner());
+        User user = new User();
+        bid.setOwner(user);
+        assertEquals(bid.getOwner(), user);
 
     }
 
     public void testSetValue() {
         Bid bid = new Bid();
-        bid.setValue(1.0);
+        Double val = 2.0;
 
-        assertTrue(bid.value());
+        BigDecimal Bg = new BigDecimal(val);
+        bid.setValue(Bg);
+
+        assertEquals(Bg, bid.getValue());
     }
 
 
     public void testGetOwner() {
         Bid bid = new Bid();
-        bid.setOwner("Name");
-
-        assertEquals(bid.getOwner(), "Name");
+        User user = new User();
+        bid.setOwner(user);
+        assertEquals(bid.getOwner(), user);
     }
 
     public void testGetValue() {
         Bid bid = new Bid();
-        bid.setValue(1.0);
-        assertEquals(bid.getValue(), 1.0);
+        Double val = 2.0;
+
+        BigDecimal Bg = new BigDecimal(val);
+        bid.setValue(Bg);
+
+        assertEquals(Bg, bid.getValue());
     }
 
 }

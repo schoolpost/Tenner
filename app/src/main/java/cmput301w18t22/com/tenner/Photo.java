@@ -11,30 +11,8 @@ import java.io.File;
 public class Photo {
 
     private File imageFile;
-    private int width;
-    private int height;
 
     public File getImageFile() {
         return imageFile;
-    }
-
-    public void setImageFile(File imageFile) {
-        this.imageFile = imageFile;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 }

@@ -131,40 +131,105 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
 
     }
 
-    public void setBidList(ArrayList<Bid> bidList) {
-        this.bidList = bidList;
+
+    public void testGetLoction() {
+        Task task = new Task();
+        Location loc = new Location();
+        loc.setLatitude(12.2f);
+        task.setLocaiton(loc);
+
+        assertEquals(loc, task.getLocaiton());
+
     }
 
-    public Location getLocaiton() {
-        return locaiton;
+    public void testSetLocation() {
+        Task task = new Task();
+        Location loc = new Location();
+        loc.setLatitude(12.2f);
+        task.setLocaiton(loc);
+
+        assertEquals(loc, task.getLocaiton());
     }
 
-    public void setLocaiton(Location locaiton) {
-        this.locaiton = locaiton;
+    public void testGetPhoto() {
+        Task task = new Task();
+        Photo photo = new Photo();
+
+
+        ArrayList<Photo> photolist = task.getPhotos();
+        photolist.add(photo);
+
+        Photo returnedphoto = photolist.get(0);
+        assertEquals(photo.getImageFile(), returnedphoto.getImageFile());
+
     }
 
-    public ArrayList<Photo> getPhotos() {
-        return photos;
+    public void testDeletePhoto() {
+
+        Task task = new Task();
+        Photo photo = new Photo();
+
+        ArrayList<Photo> photolist = task.getPhotos();
+        photolist.add(photo);
+        photolist.remove(photo);
+
+        assertFalse(photolist.contains(photo));
+
     }
 
-    public void setPhotos(ArrayList<Photo> photos) {
-        this.photos = photos;
+    public void testAddPhoto() {
+
+        Task task = new Task();
+        Photo photo = new Photo();
+
+        ArrayList<Photo> photolist = task.getPhotos();
+        photolist.add(photo);
+
+        assertTrue(photolist.contains(photo));
+
+
     }
 
-    public Date getDate() {
-        return date;
+    public void testHasPhoto() {
+
+        Task task = new Task();
+        Photo photo = new Photo();
+
+        ArrayList<Photo> photolist = task.getPhotos();
+
+        assertFalse(photolist.contains(photo));
+        photolist.add(photo);
+        assertTrue(photolist.contains(photo));
+
+
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void testGetDate() {
+        Task task = new Task();
+        Date date = new Date();
+        task.setDate(date);
+        assertEquals(date, task.getDate());
     }
 
-    public Boolean getHasNewBids() {
-        return hasNewBids;
+    public void testSetDate() {
+        Task task = new Task();
+        Date date = new Date();
+        task.setDate(date);
+        assertEquals(date, task.getDate());
     }
 
-    public void setHasNewBids(Boolean hasNewBids) {
-        this.hasNewBids = hasNewBids;
+    public void testgetHasNewBids() {
+        Task task = new Task();
+        Boolean hasNew = false;
+        task.setHasNewBids(hasNew);
+        assertTrue(task.getHasNewBids() == hasNew);
+    }
+
+    public void testHasNewBids(Boolean hasNewBids) {
+        Task task = new Task();
+        Boolean hasNew = false;
+        task.setHasNewBids(hasNew);
+        assertTrue(task.getHasNewBids() == hasNew);
     }
 
 }
