@@ -12,7 +12,7 @@ public class BidTest extends ActivityInstrumentationTestCase2 {
 
 	public void testSetOwner() {
 		
-		Bids bid = new Bids();
+		Bid bid = new Bid();
 		bid.setOwner("Name");
 		
 		assertTrue(bid.owner());
@@ -20,7 +20,7 @@ public class BidTest extends ActivityInstrumentationTestCase2 {
 	}
 	
 	public void testSetValue() {
-		Bids bid = new Bids();
+		Bid bid = new Bid();
 		bid.setValue(1.0);
 		
 		assertTrue(bid.value());
@@ -28,14 +28,14 @@ public class BidTest extends ActivityInstrumentationTestCase2 {
 	
 	
 	public void testGetOwner() {
-		Bids bid = new Bids();
+		Bid bid = new Bid();
 		bid.setOwner("Name");
 		
 		assertEquals(bid.getOwner(), "Name");
 	}
 
 	public void testGetValue() {
-		Bids bid = new Bids();
+		Bid bid = new Bid();
 		bid.setValue(1.0);
 		assertEquals(bid.getValue(), 1.0);
 	}
