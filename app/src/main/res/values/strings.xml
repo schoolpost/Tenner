@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Tenner</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="title_post">Posts</string>
+    <string name="title_bids">Bids</string>
+    <string name="title_profile">Profile</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -17,4 +19,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Strings related to Post -->
+    <string name="post_title">Title</string>
+    <string name="post_description">Description</string>
+    <string name="post_location">Location (Optional)</string>
+    <string name="post_address">Address</string>
+    <string name="post_Image">Image (Optional)</string>
 </resources>
