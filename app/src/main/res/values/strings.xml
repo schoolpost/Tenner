@@ -26,4 +26,5 @@
     <string name="post_location">Location (Optional)</string>
     <string name="post_address">Address</string>
     <string name="post_Image">Image (Optional)</string>
+    <string name="post_save">Save</string>
 </resources>

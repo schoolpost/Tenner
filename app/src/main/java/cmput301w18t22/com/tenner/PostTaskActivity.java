@@ -1,13 +1,17 @@
 package cmput301w18t22.com.tenner;
 
+import android.app.ActionBar;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 public class PostTaskActivity extends AppCompatActivity {
+
 
     // Nav Bar
     private TextView mTextMessage;
@@ -37,12 +41,37 @@ public class PostTaskActivity extends AppCompatActivity {
             return false;
         }
     };
+
     // Nav Bar End
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_task);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_black_24dp);
     }
+
+    // Action Bar Save Button
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflaater = getMenuInflater();
+        inflaater.inflate(R.menu.menu_addtask, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.post_save:
+                // Save Action
+                done();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void done() {
+        // Save Task
+    }
+
 }

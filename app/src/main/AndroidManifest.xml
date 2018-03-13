@@ -28,6 +28,7 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".PostTaskActivity"
+            android:parentActivityName=".HomeActivity"
             android:label="New Task">
         </activity>
     </application>

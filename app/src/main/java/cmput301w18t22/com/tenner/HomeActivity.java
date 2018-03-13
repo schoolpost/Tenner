@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.content.Intent;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -25,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_post:
                     mTextMessage.setText("Posts");
+                    post();
                     return true;
                 case R.id.navigation_bids:
                     mTextMessage.setText("Bids");
@@ -45,6 +47,12 @@ public class HomeActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    // temp
+    public void post(){
+        Intent intent = new Intent(this, PostTaskActivity.class);
+        startActivity(intent);
     }
 
 }
