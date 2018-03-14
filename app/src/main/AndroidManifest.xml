@@ -25,7 +25,8 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity android:name=".MyTasksActivity"></activity>
     </application>
 
 </manifest>
