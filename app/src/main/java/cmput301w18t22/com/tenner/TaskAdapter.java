@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Custom Adapter provides the adapter to add the Subscriptions in the AllSubscriptions object
  * to the ListView display
@@ -19,30 +21,30 @@ import android.widget.TextView;
  * Based on https://guides.codepath.com/android/Using-a-BaseAdapter-with-ListView
  * Retrieved 2018-02-05
  */
-public class CustomAdapter extends BaseAdapter {
+public class TaskAdapter extends BaseAdapter {
     private Context context;
-    private AllSubscriptions subList;
+    private ArrayList<Task> taskList;
 
     //public constructor
-    public CustomAdapter(Context context, AllSubscriptions subList) {
+    public TaskAdapter(Context context, ArrayList<Task> taskList) {
         this.context = context;
-        this.subList = subList;
+        this.taskList = taskList;
     }
 
     @Override
     public int getCount() {
-        return subList.getSize(); //returns number of subscriptions in subList
+        return taskList.size(); //returns number of tasks in taskList
     }
 
     @Override
-    public Subscription getItem(int position) {
-        return subList.getSub(position); //returns subscription at specified position
+    public Task getItem(int position) {
+        return taskList.get(position); //returns subscription at specified position
     }
 
     @Override
     public long getItemId(int position) {
         return position;
-    }
+    } // This needs a better approach -- what's our plan for primary keys from ElasticSearch??
 
     /**
      * Get the view for the listView object.
@@ -57,21 +59,21 @@ public class CustomAdapter extends BaseAdapter {
         // inflate the layout for each list row
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
-                    inflate(R.layout.list_item, parent, false);
+                    inflate(R.layout.taskadapter_item, parent, false);
         }
 
         // get current item to be displayed
-        Subscription currentItem = getItem(position);
+        Task currentTask = getItem(position);
 
         // get TextView objects
         TextView nameTextView = (TextView) convertView.findViewById(R.id.name);
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.date);
-        TextView chargeTextView = (TextView) convertView.findViewById(R.id.charge);
+        TextView requesterNameTextView = (TextView) convertView.findViewById(R.id.requester_name);
+        TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.lowest_bid);
 
         // get Subscription information and display in textViews
-        nameTextView.setText(currentItem.getName());
-        dateTextView.setText(currentItem.getDate_s());
-        chargeTextView.setText(currentItem.getCharge_s());
+        nameTextView.setText(currentTask.getTitle());
+        requesterNameTextView.setText(currentTask.getRequester().toDisplayName());
+        lowestBidTextView.setText(currentTask.getLowestBid().toString());
 
         // returns the view for the current row
         return convertView;

@@ -36,4 +36,6 @@ public class Bid {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public String toString() {return "$ " + this.value.toString();}
 }

@@ -90,4 +90,9 @@ public class User {
     public void setBids(ArrayList<Bid> bids) {
         this.bids = bids;
     }
+
+    public String toDisplayName() {
+        String displayName = this.firstName + ' ' + this.lastName.substring(0,1) + ".";
+        return displayName;
+    }
 }
