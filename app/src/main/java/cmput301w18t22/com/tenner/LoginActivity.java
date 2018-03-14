@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void moveToHomeActivity() {
         Intent homeIntent = new Intent();
-        homeIntent.setClass(LoginActivity.this, HomeActivity.class);
+        homeIntent.setClass(LoginActivity.this, MainActivity.class);
         startActivity(homeIntent);
     }
 
