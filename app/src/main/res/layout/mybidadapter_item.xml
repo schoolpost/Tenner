@@ -36,7 +36,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/requester_name"
+        android:id="@+id/provider_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
@@ -50,9 +50,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:text="$ 7.47"
         android:textColor="@color/black"
-        android:textSize="30sp" />
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/lowest_bid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/my_bid"
+        android:text="$ 6.99"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
     <View
         android:id="@+id/colored_bar"

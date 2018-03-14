@@ -12,6 +12,7 @@ public class Bid {
     private User owner;
     private BigDecimal value;
     private Date date;
+    private Task task;
 
     public User getOwner() {
         return owner;
@@ -36,6 +37,10 @@ public class Bid {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public Task getTask() {return this.task;}
+
+    public void setTask(Task task) { this.task = task; }
 
     public String toString() {return "$ " + this.value.toString();}
 }

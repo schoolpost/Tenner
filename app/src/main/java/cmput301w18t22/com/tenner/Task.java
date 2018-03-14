@@ -8,15 +8,15 @@ import java.util.Date;
  * Created by Schoolpost on 2018-02-26.
  */
 
-enum Statuses {
-    requested, assigned, completed
+enum Status {
+    assigned, bidded, requested, done
 }
 
 public class Task {
 
     private String taskID;
 
-    private Statuses status;
+    private Status status;
     private String title;
     private String description;
     private ArrayList<Bid> bidList;
@@ -35,11 +35,11 @@ public class Task {
         this.taskID = taskID;
     }
 
-    public Statuses getStatus() {
+    public Status getStatus() {
         return this.status;
     }
 
-    public void setStatus(Statuses status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

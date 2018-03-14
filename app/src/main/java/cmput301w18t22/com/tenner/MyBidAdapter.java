@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Custom Adapter provides the adapter to add a specified taskList to a ListView object
+ * Custom Adapter provides the adapter for an array of my bids on others' tasks
  *
  * Needs to define all 4 overidden methods to function properly, as well as have layout defined in XML
  *
@@ -18,24 +18,24 @@ import java.util.ArrayList;
  * Based on https://guides.codepath.com/android/Using-a-BaseAdapter-with-ListView
  * Retrieved 2018-02-05
  */
-public class TaskAdapter extends BaseAdapter {
+public class MyBidAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<Task> taskList;
+    private ArrayList<Bid> bidList;
 
     //public constructor
-    public TaskAdapter(Context context, ArrayList<Task> taskList) {
+    public MyBidAdapter(Context context, ArrayList<Bid> bidList) {
         this.context = context;
-        this.taskList = taskList;
+        this.bidList = bidList;
     }
 
     @Override
     public int getCount() {
-        return taskList.size(); //returns number of tasks in taskList
+        return bidList.size(); //returns number of tasks in taskList
     }
 
     @Override
-    public Task getItem(int position) {
-        return taskList.get(position); //returns subscription at specified position
+    public Bid getItem(int position) {
+        return bidList.get(position); //returns subscription at specified position
     }
 
     @Override
@@ -56,21 +56,21 @@ public class TaskAdapter extends BaseAdapter {
         // inflate the layout for each list row
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
-                    inflate(R.layout.taskadapter_item, parent, false);
+                    inflate(R.layout.mybidadapter_item, parent, false);
         }
 
         // get current item to be displayed
-        Task currentTask = getItem(position);
+        Bid currentBid = getItem(position);
 
         // get TextView objects
         TextView nameTextView = (TextView) convertView.findViewById(R.id.name);
-        TextView requesterNameTextView = (TextView) convertView.findViewById(R.id.requester_name);
+        TextView providerNameTextView = (TextView) convertView.findViewById(R.id.provider_name);
         TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.my_bid);
 
         // get Subscription information and display in textViews
-        nameTextView.setText(currentTask.getTitle());
-        requesterNameTextView.setText(currentTask.getRequester().toDisplayName());
-        lowestBidTextView.setText(currentTask.getLowestBid().toString());
+        nameTextView.setText(currentBid.getTitle());
+        providerNameTextView.setText(currentBid.getRequester().toDisplayName());
+        lowestBidTextView.setText(currentBid.getLowestBid().toString());
 
         // returns the view for the current row
         return convertView;
