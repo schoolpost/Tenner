@@ -16,13 +16,13 @@ public class TaskFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((MainActivity) getActivity()).setActionBarTitle("Home");
+        ((MainActivity) getActivity()).setActionBarTitle("Tasks");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_home, container, false);
+        return inflater.inflate(R.layout.activity_task, container, false);
     }
 
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Tenner</string>
     <string name="title_home">Home</string>
-    <string name="title_tasks">Tasks</string>
+    <string name="title_task">Tasks</string>
     <string name="title_post">Posts</string>
     <string name="title_bids">Bids</string>
     <string name="title_profile">Profile</string>
