@@ -136,9 +136,9 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
         Task task = new Task();
         Location loc = new Location();
         loc.setLatitude(12.2f);
-        task.setLocaiton(loc);
+        task.setLocation(loc);
 
-        assertEquals(loc, task.getLocaiton());
+        assertEquals(loc, task.getLocation());
 
     }
 
@@ -146,9 +146,9 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
         Task task = new Task();
         Location loc = new Location();
         loc.setLatitude(12.2f);
-        task.setLocaiton(loc);
+        task.setLocation(loc);
 
-        assertEquals(loc, task.getLocaiton());
+        assertEquals(loc, task.getLocation());
     }
 
     public void testGetPhoto() {

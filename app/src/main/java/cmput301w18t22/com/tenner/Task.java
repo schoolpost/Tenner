@@ -19,7 +19,7 @@ public class Task {
     private String title;
     private String description;
     private ArrayList<Bid> bidList;
-    private Location locaiton;
+    private Location location;
     private ArrayList<Photo> photos;
     private Date date;
     private Boolean hasNewBids;
@@ -65,12 +65,12 @@ public class Task {
         this.bidList = bidList;
     }
 
-    public Location getLocaiton() {
-        return locaiton;
+    public Location getLocation() {
+        return location;
     }
 
-    public void setLocaiton(Location locaiton) {
-        this.locaiton = locaiton;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public ArrayList<Photo> getPhotos() {
