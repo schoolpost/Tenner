@@ -63,9 +63,9 @@ public class TaskAdapter extends BaseAdapter {
         Task currentTask = getItem(position);
 
         // get TextView objects
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.name);
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.task_title);
         TextView requesterNameTextView = (TextView) convertView.findViewById(R.id.requester_name);
-        TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.my_bid);
+        TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.bid_amt);
 
         // get Subscription information and display in textViews
         nameTextView.setText(currentTask.getTitle());

@@ -18,12 +18,12 @@ import java.util.ArrayList;
  * Based on https://guides.codepath.com/android/Using-a-BaseAdapter-with-ListView
  * Retrieved 2018-02-05
  */
-public class MyBidAdapter extends BaseAdapter {
+public class OtherBidAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Bid> bidList;
 
     //public constructor
-    public MyBidAdapter(Context context, ArrayList<Bid> bidList) {
+    public OtherBidAdapter(Context context, ArrayList<Bid> bidList) {
         this.context = context;
         this.bidList = bidList;
     }
@@ -64,17 +64,15 @@ public class MyBidAdapter extends BaseAdapter {
 
         // get TextView objects
         TextView taskTitleTextView = (TextView) convertView.findViewById(R.id.task_title);
-        TextView requesterNameTextView = (TextView) convertView.findViewById(R.id.requester_name);
-        TextView myBidTextView = (TextView) convertView.findViewById(R.id.bid_amt);
-        TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.lowest_bid);
+        TextView bidderNameTextView = (TextView) convertView.findViewById(R.id.bidder_name);
+        TextView bidAmtTextView = (TextView) convertView.findViewById(R.id.bid_amt);
 
         // get Subscription information and display in textViews
         taskTitleTextView.setText(currentBid.getTask().getTitle());
-        String requesterString ="Requester: " + currentBid.getTask().getRequester().toDisplayName();
-        requesterNameTextView.setText(requesterString);
-        myBidTextView.setText(currentBid.toString());
-        lowestBidTextView.setText(currentBid.getTask().getLowestBid().toString());
-        // TODO: Set picture and status bar colour
+        String bidderString ="Bidder: " + currentBid.getOwner().toDisplayName();
+        bidderNameTextView.setText(bidderString);
+        bidAmtTextView.setText(currentBid.toString());
+        // TODO: set photo and status bar
 
         // returns the view for the current row
         return convertView;

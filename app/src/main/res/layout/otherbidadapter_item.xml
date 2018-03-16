@@ -36,13 +36,13 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/requester_name"
+        android:id="@+id/bidder_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/task_title"
         android:layout_toEndOf="@+id/imageView"
         android:layout_toStartOf="@id/bid_amt"
-        android:text="Requester: Mark J."
+        android:text="Bidder: Mark J."
         android:textSize="16sp" />
 
     <TextView
@@ -54,16 +54,6 @@
         android:text="$ 7.47"
         android:textColor="@color/black"
         android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/lowest_bid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/bid_amt"
-        android:text="$ 6.99"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
 
     <View
         android:id="@+id/colored_bar"

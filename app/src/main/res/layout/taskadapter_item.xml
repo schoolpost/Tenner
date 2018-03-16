@@ -24,12 +24,12 @@
         app:srcCompat="@android:drawable/star_big_on" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/task_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_toStartOf="@id/my_bid"
+        android:layout_toStartOf="@id/bid_amt"
         android:text="Task Title"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -39,14 +39,14 @@
         android:id="@+id/requester_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:layout_below="@id/task_title"
         android:layout_toEndOf="@+id/imageView"
-        android:layout_toStartOf="@id/my_bid"
+        android:layout_toStartOf="@id/bid_amt"
         android:text="Mark J."
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/my_bid"
+        android:id="@+id/bid_amt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

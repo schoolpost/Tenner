@@ -25,6 +25,7 @@ public class Task {
     private Date date;
     private Boolean hasNewBids;
     private User requester;
+    private User provider;
 
 
     public String getTaskID() {
@@ -102,6 +103,10 @@ public class Task {
     public void setRequester(User user) {this.requester = user;}
 
     public User getRequester() { return this.requester; }
+
+    public void setProvider(User user) {this.provider = user;}
+
+    public User getProvider() {return this.provider;}
 
     public Bid getLowestBid() {
         int lowest = 0;
