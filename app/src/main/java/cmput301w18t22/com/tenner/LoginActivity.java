@@ -95,6 +95,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        User user1 = new User("h@gmail.com", "1", "2", "7803334444");
+        ElasticSearchController.AddUser addUser = new ElasticSearchController.AddUser();
+        addUser.execute(user1);
     }
 
     public void moveToHomeActivity() {
