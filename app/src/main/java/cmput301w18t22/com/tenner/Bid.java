@@ -4,9 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by Schoolpost on 2018-02-26.
+ * The Bid class represents a bid on a specific task belonging to a specific user. The user becomes
+ * the provider of the task if the bid is accepted.
+ *
+ * @author Team 22
+ * @version 1.1
+ * @see Bid
  */
-
 public class Bid {
 
     private User owner;

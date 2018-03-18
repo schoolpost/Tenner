@@ -6,9 +6,13 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- * Created by Schoolpost on 2018-02-26.
+ * The User class represents a Tenner user, who could be either a requester, or provider, or both.
+ * It contains their first and last name, contact info (phone and email), and keeps track of
+ * the user's requested tasks, provided tasks, and bids.
+ *
+ * @author Team 22
+ * @version 1.1
  */
-
 public class User {
 
     /* - Email : str min(8)
@@ -102,6 +106,12 @@ public class User {
         this.bids = bids;
     }
 
+    /**
+     * Sets up and returns the user in display format: FirstName LastInitial. <br>
+     * (ex. Daniel C.)
+     *
+     * @return The user's name in display format (FirstName LastInitial.)
+     */
     public String toDisplayName() {
         String displayName = this.firstName + ' ' + this.lastName.substring(0,1) + ".";
         return displayName;

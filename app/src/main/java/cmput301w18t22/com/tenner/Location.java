@@ -1,9 +1,12 @@
 package cmput301w18t22.com.tenner;
 
 /**
- * Created by Schoolpost on 2018-02-26.
+ * The location class defines a location in latitude and longitude
+ * and as a simple address string. Facilitates map views.
+ *
+ * @author Team 22
+ * @version 1.1
  */
-
 public class Location {
 
     private float latitude;

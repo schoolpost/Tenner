@@ -7,9 +7,17 @@ import java.util.Date;
 import static cmput301w18t22.com.tenner.Task.Status.requested;
 
 /**
- * Created by Schoolpost on 2018-02-26.
+ * The Task class represents a task that has been requested. Each task has a taskID, status
+ * (one of assigned, bidded, requested, or done), title, description, requestedDate, and requester.
+ * Optionally, a task may have a location and one or more photos. <br><br>
+ *
+ * Once requested, a task can acquire bids, and the requester can select a provider based on the bids.
+ *
+ * @author Team 22
+ * @version 1.2
+ * @see Bid
+ * @see Location
  */
-
 public class Task {
 
     public enum Status {
@@ -121,6 +129,11 @@ public class Task {
 
     public User getProvider() {return this.provider;}
 
+    /**
+     * Finds and returns the lowest bid on the task for display in MyBidLists
+     *
+     * @return Bid on task with the lowest value.
+     */
     public Bid getLowestBid() {
         int lowest = 0;
         for (int i = 1; i < this.bidList.size(); i++) {
