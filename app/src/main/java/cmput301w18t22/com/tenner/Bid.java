@@ -14,6 +14,18 @@ public class Bid {
     private Date date;
     private Task task;
 
+    public void Bid(User owner, String amount, Date date, Task task) {
+        this.owner = owner;
+
+        // Convert input string to Big Decimal
+        this.value = new BigDecimal(amount);
+        this.value.setScale(2);
+
+        this.date = date;
+
+        this.task = task;
+    }
+
     public User getOwner() {
         return owner;
     }

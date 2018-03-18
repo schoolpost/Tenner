@@ -4,29 +4,42 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static cmput301w18t22.com.tenner.Task.Status.requested;
+
 /**
  * Created by Schoolpost on 2018-02-26.
  */
 
-enum Status {
-    assigned, bidded, requested, done
-}
-
 public class Task {
 
-    private String taskID;
+    public enum Status {
+        assigned, bidded, requested, done
+    }
+
+    private String taskID; // How are we using task ID?
 
     private Status status;
     private String title;
     private String description;
     private ArrayList<Bid> bidList;
-    private Location locaiton;
+    private Location location;
     private ArrayList<Photo> photos;
-    private Date date;
+    private Date requestedDate;
     private Boolean hasNewBids;
     private User requester;
     private User provider;
 
+    public void Task(String title, String description, Location location, Date date, User requester){
+        this.status = requested;
+        this.title = title;
+        this.description = description;
+        this.bidList = new ArrayList<Bid>();
+        this.location = location;
+        this.photos = new ArrayList<Photo>();
+        this.requestedDate = date;
+        this.hasNewBids = false;
+        this.requester = requester;
+    }
 
     public String getTaskID() {
         return taskID;
@@ -69,11 +82,11 @@ public class Task {
     }
 
     public Location getLocaiton() {
-        return locaiton;
+        return location;
     }
 
     public void setLocaiton(Location locaiton) {
-        this.locaiton = locaiton;
+        this.location = locaiton;
     }
 
     public ArrayList<Photo> getPhotos() {
@@ -84,12 +97,12 @@ public class Task {
         this.photos = photos;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getRequestedDate() {
+        return requestedDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setRequestedDate(Date date) {
+        this.requestedDate = date;
     }
 
     public Boolean getHasNewBids() {
