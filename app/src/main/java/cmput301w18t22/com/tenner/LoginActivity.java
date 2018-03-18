@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +32,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -96,9 +98,82 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        User user1 = new User("h@gmail.com", "1", "2", "7803334444");
-        ElasticSearchController.AddUser addUser = new ElasticSearchController.AddUser();
-        addUser.execute(user1);
+        //Elastic search starts here**************** :
+
+        //Users ***
+        User newUser = new User("dummy@gmail.com", "John", "Doe", "7801112222");
+
+        //Check if the user exists first and then add them.
+
+        /*
+        if(!searchUser(newUser)){
+            signUpES(newUser);
+        }
+        */
+
+        //Tasks ***
+        Location newLoc = new Location(14.4423424f, 150.43423424f, "Edmonton, AB");
+        Task newTask = new Task("task1", "A nice task", newLoc, new Date(), newUser);
+
+        /*
+
+        addTasks(newTask);
+
+         */
+    }
+
+    public void signUpES(User user){
+        ElasticSearchController.AddUsers addUsers = new ElasticSearchController.AddUsers();
+        addUsers.execute(user);
+    }
+
+    public void addTasks(Task task){
+        ElasticSearchController.AddTasks addTasks = new ElasticSearchController.AddTasks();
+        addTasks.execute(task);
+    }
+
+    public boolean searchUser(User userToAdd){
+
+        //Gets all users
+        ElasticSearchController.SearchUser searchUser = new ElasticSearchController.SearchUser();
+        searchUser.execute("");
+        ArrayList<User> existingUsers = new ArrayList<User>();
+
+        try {
+            existingUsers = searchUser.get();
+        } catch (Exception e){
+            Log.i("Error", "User Search -> Error in Login Activity!");
+        }
+
+        boolean foundMatch = false;
+
+        for(User user : existingUsers) {
+            if (user.getEmail().equals(userToAdd.getEmail())) {
+                Log.i("Error", "User Registration -> Similar User Found!");
+                foundMatch = true;
+                break;
+            }
+        }
+
+        return foundMatch;
+    }
+
+    public void searchTasks(){
+        ElasticSearchController.SearchTasks searchTasks = new ElasticSearchController.SearchTasks();
+        searchTasks.execute("");
+        ArrayList<Task> foundTasks = new ArrayList<Task>();
+
+        try {
+            foundTasks = searchTasks.get();
+        } catch (Exception e){
+            Log.i("Error", "Tasks Search -> Error in Login Activity!");
+        }
+
+        /*int i = 0;
+        for(Task task : foundTasks){
+            i++;
+            Log.i("task" + i, task.getLocation().getAddress());
+        }*/
     }
 
     public void moveToHomeActivity() {

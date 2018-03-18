@@ -22,85 +22,106 @@ import io.searchbox.core.SearchResult;
 public class ElasticSearchController {
     public static JestDroidClient client;
 
-    // TODO we need a function which adds tweets to elastic search
-    public static class AddUser extends AsyncTask<User, Void, Void> {
+    //Users
+    public static class AddUsers extends AsyncTask<User, Void, Boolean> {
 
         @Override
-        protected Void doInBackground(User... users) {
+        protected Boolean doInBackground(User... users) {
             verifySettings();
-            int i = 0;
-            for (User user : users) {
-                Index index = new Index.Builder(user).index("tenner").type("user").build();
 
-                Log.i("user" + i, user.getEmail());
-                i++;
-
+            for(User user : users){
+                Index index = new Index.Builder(user).index("tenner").type("users").build();
                 try {
-                    // where is the client?
                     DocumentResult result = client.execute(index);
-                    if(result.isSucceeded())
-                    {
-                        Log.i("useragain", "hello");
-                        //tweet.setId(result.getId());
+                    if(result.isSucceeded()) {
+                        Log.i("LoginActivitySuccess", "User Registration Successful!");
+                        return true;
                     } else {
-                        Log.i("Error", result.getErrorMessage());
-                        Log.i("Error","Some error =(");
+                        Log.i("LoginActivityError", "User Registration ES -> Error!");
                     }
-
                 } catch (Exception e) {
-                    Log.i("Error", "The application failed to build and send the users!");
+                    Log.i("LoginActivityError", "User Registration ES Exception -> Error!");
                 }
-
             }
-            return null;
+
+            return false;
         }
     }
 
-    /*public static class AddUser extends AsyncTask<User, Void, Void> {
-        verifySettings();
-
-        @Override
-        protected Void doInBackground(User... users) {
-            int i = 0;
-            for(User user : users){
-//                Index index = new Index.Builder(user).index("testing").type("user").build();
-
-                Log.i("user" + i, user.getEmail());
-                i++;
-                //
-            }
-
-            return null;
-        }
-    }*/
-
-    public static class GetTweetsTask extends AsyncTask<String, Void, ArrayList<User>> {
+    public static class SearchUser extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
         protected ArrayList<User> doInBackground(String... search_parameters) {
             verifySettings();
 
             ArrayList<User> users = new ArrayList<User>();
 
-            // TODO Build the query
-            Search search = new Search.Builder(search_parameters[0]).addIndex("testing").addType("user").build();
+            Search search = new Search.Builder(search_parameters[0]).addIndex("tenner").addType("users").build();
+
             try {
-                // TODO get the results of the query
                 SearchResult result = client.execute(search);
-                if(result.isSucceeded())
-                {
+                if(result.isSucceeded()) {
                     List<User> foundUsers = result.getSourceAsObjectList(User.class);
                     users.addAll(foundUsers);
                 }
-                else
-                {
-                    Log.i("Error", "Search query failed to find any thing =/");
+                else {
+                    Log.i("LoginActivityError", "User Search ES -> Error!");
                 }
-            }
-            catch (Exception e) {
-                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            } catch (Exception e) {
+                Log.i("LoginActivityError", "User Search ES Exception -> Error!");
             }
 
             return users;
+        }
+    }
+
+    //Tasks
+    public static class AddTasks extends AsyncTask<Task, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Task... tasks) {
+            verifySettings();
+
+            for(Task task : tasks){
+                Index index = new Index.Builder(task).index("tenner").type("tasks").build();
+                try {
+                    DocumentResult result = client.execute(index);
+                    if(result.isSucceeded()) {
+                        Log.i("TaskActivitySuccess", "Task Upload Successful!");
+                        return true;
+                    } else {
+                        Log.i("TaskActivityError", "Task Upload ES -> Error!");
+                    }
+                } catch (Exception e) {
+                    Log.i("TaskActivityError", "Task Upload ES Exception -> Error!");
+                }
+            }
+
+            return false;
+        }
+    }
+
+    public static class SearchTasks extends AsyncTask<String, Void, ArrayList<Task>> {
+        @Override
+        protected ArrayList<Task> doInBackground(String... search_parameters) {
+            verifySettings();
+
+            ArrayList<Task> tasks = new ArrayList<Task>();
+
+            Search search = new Search.Builder(search_parameters[0]).addIndex("tenner").addType("tasks").build();
+
+            try {
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()) {
+                    List<Task> foundTasks = result.getSourceAsObjectList(Task.class);
+                    tasks.addAll(foundTasks);
+                } else {
+                    Log.i("TaskActivityError", "Task Search ES -> Error!");
+                }
+            } catch (Exception e) {
+                Log.i("TaskActivityError", "Task Search ES Exception -> Error!");
+            }
+
+            return tasks;
         }
     }
 

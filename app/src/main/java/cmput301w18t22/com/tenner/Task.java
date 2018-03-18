@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static cmput301w18t22.com.tenner.Task.Status.requested;
 
 /**
  * Created by Schoolpost on 2018-02-26.
@@ -12,13 +11,8 @@ import static cmput301w18t22.com.tenner.Task.Status.requested;
 
 public class Task {
 
-    public enum Status {
-        assigned, bidded, requested, done
-    }
-
-    private String taskID; // How are we using task ID?
-
-    private Status status;
+    private String taskID; // How are we using task ID -> Date for now?
+    private Status.bidStatus status;
     private String title;
     private String description;
     private ArrayList<Bid> bidList;
@@ -29,13 +23,15 @@ public class Task {
     private User requester;
     private User provider;
 
-    public void Task(String title, String description, Location location, Date date, User requester){
-        this.status = requested;
+    public Task(String title, String description, Location location, Date date, User requester){
+        this.taskID = String.valueOf(date);
+        this.status = Status.bidStatus.requested;
         this.title = title;
         this.description = description;
         this.bidList = new ArrayList<Bid>();
         this.location = location;
-        this.photos = new ArrayList<Photo>();
+        //TODO implement photo
+        //this.photos = new ArrayList<Photo>();
         this.requestedDate = date;
         this.hasNewBids = false;
         this.requester = requester;
@@ -49,11 +45,11 @@ public class Task {
         this.taskID = taskID;
     }
 
-    public Status getStatus() {
+    public Status.bidStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Status.bidStatus status) {
         this.status = status;
     }
 
@@ -81,11 +77,11 @@ public class Task {
         this.bidList = bidList;
     }
 
-    public Location getLocaiton() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocaiton(Location locaiton) {
+    public void setLocation(Location locaiton) {
         this.location = locaiton;
     }
 
@@ -113,13 +109,21 @@ public class Task {
         this.hasNewBids = hasNewBids;
     }
 
-    public void setRequester(User user) {this.requester = user;}
+    public void setRequester(User user) {
+        this.requester = user;
+    }
 
-    public User getRequester() { return this.requester; }
+    public User getRequester() {
+        return this.requester;
+    }
 
-    public void setProvider(User user) {this.provider = user;}
+    public void setProvider(User user) {
+        this.provider = user;
+    }
 
-    public User getProvider() {return this.provider;}
+    public User getProvider() {
+        return this.provider;
+    }
 
     public Bid getLowestBid() {
         int lowest = 0;
@@ -129,6 +133,7 @@ public class Task {
                 lowest = i;
             }
         }
+
         return this.bidList.get(lowest);
     }
 
