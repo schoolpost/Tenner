@@ -25,14 +25,17 @@
         android:id="@+id/profile_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="logout" />
+        android:layout_marginStart="8dp"
+        android:text="logout"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/profile_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:text="Edit"
-        tools:layout_editor_absoluteX="280dp"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteY="0dp" />
 
 </android.support.constraint.ConstraintLayout>
