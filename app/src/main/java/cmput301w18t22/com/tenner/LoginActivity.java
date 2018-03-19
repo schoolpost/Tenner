@@ -26,7 +26,6 @@ import java.lang.reflect.Type;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String FILENAME = "user.json";
     private User user = new User("");
 
     @Override
@@ -107,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loadFromFile() {
 
         try {
-            FileInputStream fis = openFileInput(FILENAME);
+            FileInputStream fis = openFileInput(Constants.FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
             Gson gson = new Gson();
@@ -135,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void saveInFile() {
         try {
-            FileOutputStream fos = openFileOutput(FILENAME,
+            FileOutputStream fos = openFileOutput(Constants.FILENAME,
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 

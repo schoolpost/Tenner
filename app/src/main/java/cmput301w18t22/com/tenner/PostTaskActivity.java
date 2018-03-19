@@ -20,27 +20,6 @@ import android.widget.Toast;
 public class PostTaskActivity extends AppCompatActivity {
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    return true;
-                case R.id.navigation_tasks:
-                    return true;
-                case R.id.navigation_post:
-                    return true;
-                case R.id.navigation_bids:
-                    return true;
-                case R.id.navigation_profile:
-                    return true;
-            }
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,18 +27,45 @@ public class PostTaskActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.toolbar_layout);
         // set the activity title
         ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_title)).setText(R.string.title_post);
 
-        // Task Object
-        final EditText title = (EditText) findViewById(R.id.editTitle);
-        final EditText description = (EditText) findViewById(R.id.editDescription);
-        final EditText location = (EditText) findViewById(R.id.editLocation);
-        // image
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(2);
+        menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                        break;
+                    case R.id.navigation_tasks:
+                        startActivity(new Intent(getApplicationContext(), TaskActivity.class));
+                        break;
+                    case R.id.navigation_post:
+                        break;
+                    case R.id.navigation_bids:
+                        break;
+                    case R.id.navigation_profile:
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        break;
+                }
+                return false;
+            }
+        });
+
+
+//        // Task Object
+//        final EditText title = (EditText) findViewById(R.id.editTitle);
+//        final EditText description = (EditText) findViewById(R.id.editDescription);
+//        final EditText location = (EditText) findViewById(R.id.editLocation);
+//        // image
 
         /*signUp.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,6 +28,8 @@
         <activity
             android:name=".HomeActivity"
             android:label="Home" />
+        <activity android:name=".PostTaskActivity"/>
+        <activity android:name=".ProfileActivity"/>
     </application>
 
 

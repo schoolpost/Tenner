@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,27 +38,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private TextView display;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    return true;
-                case R.id.navigation_tasks:
-                    return true;
-                case R.id.navigation_post:
-                    return true;
-                case R.id.navigation_bids:
-                    return true;
-                case R.id.navigation_profile:
-                    return true;
-            }
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +45,6 @@ public class HomeActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.toolbar_layout);
@@ -89,6 +69,33 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        break;
+                    case R.id.navigation_tasks:
+                        startActivity(new Intent(getApplicationContext(), TaskActivity.class));
+                        break;
+                    case R.id.navigation_post:
+                        startActivity(new Intent(getApplicationContext(), PostTaskActivity.class));
+                        break;
+                    case R.id.navigation_bids:
+                        break;
+                    case R.id.navigation_profile:
+                        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                        break;
+                }
+                return false;
+            }
+        });
+
     }
 
 
@@ -110,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void logout(){
+    private void logout() {
         Intent intent = new Intent();
         intent.setClass(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -118,15 +125,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     @Override
     public void onBackPressed() {

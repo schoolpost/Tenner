@@ -3,8 +3,17 @@ package cmput301w18t22.com.tenner;
 import android.util.Log;
 import android.util.Patterns;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
 import java.io.Console;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
@@ -69,7 +78,7 @@ public class Authenticator {
         return foundMatch;
     }
 
-    public User loginUser(User userToAdd) {
+    public User loginUser(User userToLogin) {
 
         //Gets all users
         ElasticSearchController.SearchUser searchUser = new ElasticSearchController.SearchUser();
@@ -83,11 +92,38 @@ public class Authenticator {
         }
 
 
-        Log.i("Added User:", userToAdd.getEmail());
+        Log.i("Added User:", userToLogin.getEmail());
 
         for (User user : existingUsers) {
             Log.i("Username", user.getEmail());
-            if (user.getEmail().equals(userToAdd.getEmail())) {
+            if (user.getEmail().equals(userToLogin.getEmail())) {
+                Log.i("Error", "User Registration -> Similar User Found!");
+                return user;
+            }
+        }
+
+        return new User("");
+
+    }
+
+
+    public User getUser(String username) {
+
+        //Gets all users
+        ElasticSearchController.SearchUser searchUser = new ElasticSearchController.SearchUser();
+        searchUser.execute(username);
+
+        ArrayList<User> existingUsers = new ArrayList<User>();
+
+        try {
+            existingUsers = searchUser.get();
+        } catch (Exception e) {
+            Log.i("Error", "User Search -> Error in Login Activity!");
+        }
+
+        for (User user : existingUsers) {
+            Log.i("Username", user.getEmail());
+            if (user.getEmail().equals(username)) {
                 Log.i("Error", "User Registration -> Similar User Found!");
                 return user;
             }
@@ -97,6 +133,7 @@ public class Authenticator {
         return loguser;
 
     }
+
 
 }
 
