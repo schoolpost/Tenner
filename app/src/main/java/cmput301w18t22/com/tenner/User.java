@@ -2,13 +2,14 @@ package cmput301w18t22.com.tenner;
 
 import android.media.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Schoolpost on 2018-02-26.
  */
 
-public class User {
+public class User implements Serializable {
 
     private String email;
     private String firstName;
