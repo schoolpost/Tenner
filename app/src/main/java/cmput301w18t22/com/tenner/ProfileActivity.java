@@ -43,9 +43,9 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.toolbar_layout);
+        getSupportActionBar().setCustomView(R.layout.toolbar_profile);
         // set the activity title
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_title)).setText(R.string.title_profile);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.profile_action_bar_title)).setText(R.string.title_profile);
 
 
         ImageView profile;

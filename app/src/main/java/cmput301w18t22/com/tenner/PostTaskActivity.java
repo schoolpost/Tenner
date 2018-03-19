@@ -1,45 +1,30 @@
 package cmput301w18t22.com.tenner;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+
 public class PostTaskActivity extends AppCompatActivity {
 
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    return true;
-                case R.id.navigation_tasks:
-                    return true;
-                case R.id.navigation_post:
-                    return true;
-                case R.id.navigation_bids:
-                    return true;
-                case R.id.navigation_profile:
-                    return true;
-            }
-            return false;
-        }
-    };
+    private TextView display;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +36,10 @@ public class PostTaskActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.toolbar_layout);
+        getSupportActionBar().setCustomView(R.layout.toolbar_post);
         // set the activity title
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_title)).setText(R.string.title_post);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.post_action_bar_title)).setText(R.string.title_home);
+
 
         // Task Object
         final EditText title = (EditText) findViewById(R.id.editTitle);
@@ -61,7 +47,9 @@ public class PostTaskActivity extends AppCompatActivity {
         final EditText location = (EditText) findViewById(R.id.editLocation);
         // image
 
-        /*signUp.setOnClickListener(new View.OnClickListener() {
+        final Button done = (Button) findViewById(R.id.post_done);
+
+        done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -76,30 +64,11 @@ public class PostTaskActivity extends AppCompatActivity {
                     intent.setClass(PostTaskActivity.this, TaskActivity.class);
                     startActivity(intent);
                     finish();
-
                 }
 
             }
-        });*/
-
+        });
     }
-
-/*    // Action Bar Save Button
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_addtask, menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.post_save:
-                // Save Action
-                // done();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
 
     // Validate and Save input
     public boolean done(String title, String description, String location) {
@@ -113,4 +82,51 @@ public class PostTaskActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+
+
+    // Basic Methods for 5 Main Activity
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    startActivity(new Intent(getApplicationContext(), PostTaskActivity.class));
+                    return true;
+                case R.id.navigation_tasks:
+                    startActivity(new Intent(getApplicationContext(), TaskActivity.class));
+                    return true;
+                case R.id.navigation_post:
+                    startActivity(new Intent(getApplicationContext(), PostTaskActivity.class));
+                    return true;
+                case R.id.navigation_bids:
+                    startActivity(new Intent(getApplicationContext(), BidActivity.class));
+                    return true;
+                case R.id.navigation_profile:
+                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() { super.onPause(); }
+
+    @Override
+    public void onBackPressed() {
+        // Disable Back Press
+    }
 }

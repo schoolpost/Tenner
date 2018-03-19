@@ -121,8 +121,9 @@ public class LoginActivity extends AppCompatActivity {
 
         } catch (FileNotFoundException e) {
             Log.i("Error", e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException();
+        //}
+        //catch (IOException e) {
+          //  throw new RuntimeException();
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -148,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException();
         }
+
     }
 
     @Override

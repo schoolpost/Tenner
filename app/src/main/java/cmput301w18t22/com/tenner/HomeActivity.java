@@ -36,27 +36,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private TextView display;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    return true;
-                case R.id.navigation_tasks:
-                    return true;
-                case R.id.navigation_post:
-                    return true;
-                case R.id.navigation_bids:
-                    return true;
-                case R.id.navigation_profile:
-                    return true;
-            }
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +46,9 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.toolbar_layout);
+        getSupportActionBar().setCustomView(R.layout.toolbar_home);
         // set the activity title
-        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.custom_action_bar_title)).setText(R.string.title_home);
+        ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title)).setText(R.string.title_home);
 
         display = ((TextView) findViewById(R.id.testText));
 
@@ -77,17 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         String user = intent.getStringExtra("User");
         display.setText(user);
 
-        final Button logout = (Button) findViewById(R.id.logout);
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setResult(RESULT_OK);
-                clear();
-                logout();
-
-            }
-        });
 
     }
 
@@ -118,6 +87,35 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
+    // Basic Methods for 5 Main Activity
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                    return true;
+                case R.id.navigation_tasks:
+                    startActivity(new Intent(getApplicationContext(), TaskActivity.class));
+                    return true;
+                case R.id.navigation_post:
+                    startActivity(new Intent(getApplicationContext(), PostTaskActivity.class));
+                    return true;
+                case R.id.navigation_bids:
+                    startActivity(new Intent(getApplicationContext(), BidActivity.class));
+                    return true;
+                case R.id.navigation_profile:
+                    startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                    return true;
+            }
+            return false;
+        }
+    };
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -129,8 +127,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() { super.onPause(); }
+
+    @Override
     public void onBackPressed() {
-
-
+        // Disable Back Press
     }
 }
