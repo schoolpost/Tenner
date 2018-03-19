@@ -1,8 +1,6 @@
 package cmput301w18t22.com.tenner;
 
 import android.media.Image;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -10,13 +8,6 @@ import java.util.ArrayList;
  */
 
 public class User {
-
-    /* - Email : str min(8)
-    - First Name : str max(30)
-    - Last Name : str max(30)
-    - Phone : int max(10)
-    - Photo : Photo (optional)
-    */
 
     private String email;
     private String firstName;
@@ -26,6 +17,18 @@ public class User {
     private ArrayList<Task> requestedTasks;
     private ArrayList<Task> providedTasks;
     private ArrayList<Bid> bids;
+
+    public User(String email, String firstName, String lastName, String phoneNum) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNum = phoneNum;
+        //TODO implement photo
+        //this.photo = photo;
+        this.requestedTasks = new ArrayList<Task>();
+        this.providedTasks = new ArrayList<Task>();
+        this.bids = new ArrayList<Bid>();
+    }
 
     public String getEmail() {
         return email;
@@ -89,5 +92,10 @@ public class User {
 
     public void setBids(ArrayList<Bid> bids) {
         this.bids = bids;
+    }
+
+    public String toDisplayName() {
+        String displayName = this.firstName + ' ' + this.lastName.substring(0,1) + ".";
+        return displayName;
     }
 }

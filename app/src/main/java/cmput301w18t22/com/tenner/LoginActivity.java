@@ -14,7 +14,6 @@ import java.io.File;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +45,23 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this, SignUpActivity.class);
-                startActivityForResult(intent, 100);
+                startActivity(intent);
+                finish();
             }
         });
 
-
     }
 
-    private void signIn(String username) {
+    private boolean signIn(String username) {
+
+        Authentacator auth = new Authentacator();
+        if (auth.checkEmail(username)) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
+
+
     }
 
 
