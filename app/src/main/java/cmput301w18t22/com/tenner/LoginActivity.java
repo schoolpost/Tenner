@@ -3,14 +3,11 @@ package cmput301w18t22.com.tenner;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.io.Console;
-import java.io.File;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,12 +26,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 String usernameText = username.getText().toString();
 
-                signIn(usernameText);
+                if (signIn(usernameText)) {
 
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
 
             }
         });
@@ -54,14 +52,21 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean signIn(String username) {
 
-        Authentacator auth = new Authentacator();
-        if (auth.checkEmail(username)) {
-            return Boolean.TRUE;
-        } else {
+        User user = new User(username);
+
+        Authenticator auth = new Authenticator();
+        if (!auth.searchUser(user)) {
+            notify("No account associated with this email!");
             return Boolean.FALSE;
         }
 
+        return Boolean.TRUE;
 
+
+    }
+
+    private void notify(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
 

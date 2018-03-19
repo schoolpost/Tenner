@@ -3,14 +3,11 @@ package cmput301w18t22.com.tenner;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -58,7 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Boolean signUp(String username, String firstn, String lastn, String phone) {
 
-        Authentacator auth = new Authentacator();
+        Authenticator auth = new Authenticator();
 
         if (auth.checkUserExists(username)) {
             return Boolean.FALSE;
@@ -81,10 +78,16 @@ public class SignUpActivity extends AppCompatActivity {
 
         User user = new User(username, firstn, lastn, phone);
 
-        if(!auth.searchUser(user)){
+        if (!auth.searchUser(user)) {
 
             ElasticSearchController.AddUsers newUser = new ElasticSearchController.AddUsers();
             newUser.execute(user);
+
+        } else {
+
+            notify("User already exists!");
+            return Boolean.FALSE;
+
         }
 
 

@@ -30,7 +30,7 @@ public class ElasticSearchController {
             verifySettings();
 
             for (User user : users) {
-                Index index = new Index.Builder(user).index("tenner").type("users").build();
+                Index index = new Index.Builder(user).index("tenner").type("user").build();
                 try {
                     DocumentResult result = client.execute(index);
                     if (result.isSucceeded()) {
@@ -56,7 +56,7 @@ public class ElasticSearchController {
 
             ArrayList<User> users = new ArrayList<User>();
 
-            Search search = new Search.Builder(search_parameters[0]).addIndex("tenner").addType("users").build();
+            Search search = new Search.Builder(search_parameters[0]).addIndex("tenner").addType("user").build();
 
             try {
                 SearchResult result = client.execute(search);

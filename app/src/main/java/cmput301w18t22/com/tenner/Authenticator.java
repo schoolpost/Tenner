@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * Created by Schoolpost on 2018-03-18.
  */
 
-public class Authentacator {
+public class Authenticator {
 
     public boolean checkEmail(String email) {
         if (email.length() < 8) {
@@ -40,7 +40,7 @@ public class Authentacator {
         return Boolean.FALSE;
     }
 
-    public boolean searchUser(User userToAdd){
+    public boolean searchUser(User userToAdd) {
 
         //Gets all users
         ElasticSearchController.SearchUser searchUser = new ElasticSearchController.SearchUser();
@@ -49,13 +49,16 @@ public class Authentacator {
 
         try {
             existingUsers = searchUser.get();
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.i("Error", "User Search -> Error in Login Activity!");
         }
 
         boolean foundMatch = false;
 
-        for(User user : existingUsers) {
+        Log.i("Added User:", userToAdd.getEmail());
+
+        for (User user : existingUsers) {
+            Log.i("Username", user.getEmail());
             if (user.getEmail().equals(userToAdd.getEmail())) {
                 Log.i("Error", "User Registration -> Similar User Found!");
                 foundMatch = true;

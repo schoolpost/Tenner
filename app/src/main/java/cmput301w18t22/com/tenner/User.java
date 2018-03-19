@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner;
 
 import android.media.Image;
+
 import java.util.ArrayList;
 
 /**
@@ -29,6 +30,19 @@ public class User {
         this.providedTasks = new ArrayList<Task>();
         this.bids = new ArrayList<Bid>();
     }
+
+    public User(String email) {
+        this.email = email;
+        this.firstName = "";
+        this.lastName = "";
+        this.phoneNum = "";
+        //TODO implement photo
+        //this.photo = photo;
+        this.requestedTasks = new ArrayList<Task>();
+        this.providedTasks = new ArrayList<Task>();
+        this.bids = new ArrayList<Bid>();
+    }
+
 
     public String getEmail() {
         return email;
@@ -95,7 +109,7 @@ public class User {
     }
 
     public String toDisplayName() {
-        String displayName = this.firstName + ' ' + this.lastName.substring(0,1) + ".";
+        String displayName = this.firstName + ' ' + this.lastName.substring(0, 1) + ".";
         return displayName;
     }
 }
