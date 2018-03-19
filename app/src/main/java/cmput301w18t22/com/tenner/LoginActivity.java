@@ -93,6 +93,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mEmailSignUpButton = (Button) findViewById(R.id.signup);
+        mEmailSignUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                moveToSignUpActivity();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -101,6 +109,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent homeIntent = new Intent();
         homeIntent.setClass(LoginActivity.this, HomeActivity.class);
         startActivity(homeIntent);
+    }
+
+    public void moveToSignUpActivity() {
+        Intent signUpIntent = new Intent();
+        signUpIntent.setClass(LoginActivity.this, SignUpActivity.class);
+        startActivity(signUpIntent);
     }
 
     private void populateAutoComplete() {

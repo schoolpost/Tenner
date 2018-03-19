@@ -5,11 +5,24 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private TextView User;
+
+
+    public static ArrayList<Task> taskList;
+    public static ArrayList<Task> recentSearches;
+    public static ArrayAdapter<Task> taskAdapter;
+    public static ArrayAdapter<Task> recentAdapter;
+    private ListView recentListView;
+    private ListView newListView;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
