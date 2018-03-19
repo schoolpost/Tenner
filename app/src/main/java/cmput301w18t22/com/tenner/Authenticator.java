@@ -69,6 +69,35 @@ public class Authenticator {
         return foundMatch;
     }
 
+    public User loginUser(User userToAdd) {
+
+        //Gets all users
+        ElasticSearchController.SearchUser searchUser = new ElasticSearchController.SearchUser();
+        searchUser.execute("");
+        ArrayList<User> existingUsers = new ArrayList<User>();
+
+        try {
+            existingUsers = searchUser.get();
+        } catch (Exception e) {
+            Log.i("Error", "User Search -> Error in Login Activity!");
+        }
+
+
+        Log.i("Added User:", userToAdd.getEmail());
+
+        for (User user : existingUsers) {
+            Log.i("Username", user.getEmail());
+            if (user.getEmail().equals(userToAdd.getEmail())) {
+                Log.i("Error", "User Registration -> Similar User Found!");
+                return user;
+            }
+        }
+
+        User loguser = new User("");
+        return loguser;
+
+    }
+
 }
 
 
