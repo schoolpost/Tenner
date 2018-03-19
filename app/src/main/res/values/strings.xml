@@ -15,4 +15,12 @@
     <string name="action_sign_up">Sign Up</string>
     <string name="title_activity_test">TestActivity</string>
 
+    <!-- Strings related to Post -->
+    <string name="post_title">Title</string>
+    <string name="post_description">Description</string>
+    <string name="post_location">Location (Optional)</string>
+    <string name="post_address">Address</string>
+    <string name="post_Image">Image (Optional)</string>
+    <string name="post_save">Save</string>
+
 </resources>
