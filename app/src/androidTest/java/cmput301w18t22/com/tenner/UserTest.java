@@ -6,12 +6,15 @@ package cmput301w18t22.com.tenner;
 
 import android.media.Image;
 import android.test.ActivityInstrumentationTestCase2;
-
-import org.junit.Test;
-
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
 
 public class UserTest extends ActivityInstrumentationTestCase2 {
+
+    public UserTest(){
+        super(User.class);
+    }
 
     /* - Email : str min(8)
     - First Name : str max(30)
@@ -20,76 +23,93 @@ public class UserTest extends ActivityInstrumentationTestCase2 {
     - Photo : Photo (optional)
     */
 
-    String emailtest = "ualberta@hotmail.com";
-    String f_nametest = "First";
-    String l_nametest = "Last";
-    int phone_numtest =  780-123-4567;
-    Image phototest = null;
+        public void testGetEmail() {
+            User user = new User();
+            String email = "cmput301@gmail.com";
+            user.setEmail(email);
 
+            assertTrue(user.getEmail().contains("@"));
+            assertTrue(user.getEmail().length() <= 8);
+            assertEquals(user.getEmail(), email);
+        }
 
-    public UserTest() {
-        super(UserActivity.class);
+        public void setEmail() {
+            User user = new User();
+            String email = "cmput301@gmail.com";
+            user.setEmail(email);
 
-    }
+            assertTrue(user.getEmail().contains("@"));
+            assertTrue(user.getEmail().length() <= 8);
+            assertEquals(user.getEmail(), email);
+        }
 
-    public void testGetEmail() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        String email = "ualberta@hotmail.com";
-        user.setEmail(email);
-        assertEquals(email, user.getEmail());
-    }
+        public void getFirstName() {
+            User user = new User();
+            String name = "cmput301";
+            user.setFirstName(name);
 
-    public void testSetEmail() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        String email = "ualberta@hotmail.com";
-        user.setEmail(email);
-        assertTrue(email, user.getEmail().length() > 8);
-        assertEquals(email, user.getEmail());
-    }
+            assertTrue(user.getFirstName().length() <= 30);
+            assertEquals(user.getFirstName(), name);
+        }
 
-    public void testGetFname() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        String fname = "first";
-        user.setFname(fname);
-        assertEquals(fname, user.getFname());
-    }
+        public void setFirstName() {
+            User user = new User();
+            String name = "cmput301";
+            user.setFirstName(name);
 
-    public void testSetFname() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        String fname = "first";
-        user.setFname(fname);
-        assertTrue(fname, user.getFname().length() < 30);
-        assertEquals(fname, user.getFname());
-    }
+            assertTrue(user.getFirstName().length() <= 30);
+            assertEquals(user.getFirstName(), name);
+        }
 
-    public void testGetLname() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        String lname = "last";
-        user.setLname(lname);
-        assertEquals(lname, user.getLname());
-    }
+        public void getLastName() {
+            User user = new User();
+            String lname = "cmput302";
+            user.setLastName(lname);
 
-    public void testSetLname() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        String lname = "last";
-        user.setLname(lname);
-        assertTrue(lname, user.getLname().length() < 30);
-        assertEquals(lname, user.getLname());
-    }
+            assertTrue(user.getLastName().length() <= 30);
+            assertEquals(user.getLastName(), lname);
+        }
 
-    public void testGetPhone() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        int phone = 123-456-7890;
-        user.setPhoneNum(phone);
-        assertEquals(phone, user.getPhoneNum());
-    }
+        public void setLastName() {
+            User user = new User();
+            String lname = "cmput302";
+            user.setLastName(lname);
 
-    public void testSetPhone() {
-        UserActivity user = new UserActivity(emailtest,f_nametest,l_nametest,phone_numtest,phototest);
-        int phone = 1234567890;
-        user.setPhoneNum(phone);
-        assertEquals(phone, user.getPhoneNum());
-    }
+            assertTrue(user.getLastName().length() <= 30);
+            assertEquals(user.getLastName(), lname);
+        }
 
+        public void getPhoneNum() {
+            User user = new User();
+            String pnum = "17804830394";
+            user.setPhoneNum(pnum);
 
+            assertTrue(user.getPhoneNum().length() == 10);
+            assertEquals(user.getPhoneNum(), pnum);
+        }
+
+        public void setPhoneNum() {
+            User user = new User();
+            String pnum = "17804830394";
+            user.setPhoneNum(pnum);
+
+            assertTrue(user.getPhoneNum().length() == 10);
+            assertEquals(user.getPhoneNum(), pnum);
+        }
+
+        public void getPhoto() {
+            User user = new User();
+            Photo photo = new Photo();
+            user.setPhoto(photo);
+
+            assertEquals(user.getPhoto(), photo);
+        }
+
+        public void setPhoto() {
+            User user = new User();
+            Photo photo = new Photo();
+            user.setPhoto(photo);
+
+            assertEquals(user.getPhoto(), photo);
+        }
 }

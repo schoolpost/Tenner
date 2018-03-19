@@ -1,43 +1,52 @@
 package cmput301w18t22.com.tenner;
 
 import android.test.ActivityInstrumentationTestCase2;
+
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class BidTest extends ActivityInstrumentationTestCase2 {
 
-	public BidTest() {
-		super(MyBidsActivity.class);
-	
-	}
+    public BidTest() {
+        super(Bid.class);
 
-	public void testSetOwner() {
-		
-		Bids bid = new Bids();
-		bid.setOwner("Name");
-		
-		assertTrue(bid.owner());
-		
-	}
-	
-	public void testSetValue() {
-		Bids bid = new Bids();
-		bid.setValue(1.0);
-		
-		assertTrue(bid.value());
-	}
-	
-	
-	public void testGetOwner() {
-		Bids bid = new Bids();
-		bid.setOwner("Name");
-		
-		assertEquals(bid.getOwner(), "Name");
-	}
+    }
 
-	public void testGetValue() {
-		Bids bid = new Bids();
-		bid.setValue(1.0);
-		assertEquals(bid.getValue(), 1.0);
-	}
+    public void testSetOwner() {
+
+        Bid bid = new Bid();
+        User user = new User();
+        bid.setOwner(user);
+        assertEquals(bid.getOwner(), user);
+
+    }
+
+    public void testSetValue() {
+        Bid bid = new Bid();
+        Double val = 2.0;
+
+        BigDecimal Bg = new BigDecimal(val);
+        bid.setValue(Bg);
+
+        assertEquals(Bg, bid.getValue());
+    }
+
+
+    public void testGetOwner() {
+        Bid bid = new Bid();
+        User user = new User();
+        bid.setOwner(user);
+        assertEquals(bid.getOwner(), user);
+    }
+
+    public void testGetValue() {
+        Bid bid = new Bid();
+        Double val = 2.0;
+
+        BigDecimal Bg = new BigDecimal(val);
+        bid.setValue(Bg);
+
+        assertEquals(Bg, bid.getValue());
+    }
 
 }
