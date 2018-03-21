@@ -9,7 +9,7 @@ var client = new elasticsearch.Client({
 });
 
 router.get('/', function(request, response){
-    response.send("Hello, Welcome To Tenner's Server!");
+    return response.send("Hello, Welcome To Tenner's Server!");
 });
 
 router.get('/ping', function(request, response){
@@ -18,19 +18,19 @@ router.get('/ping', function(request, response){
     }, function (error) {
       if (error) {
         //console.trace('Cluster is down!');
-        response.send('CMPUT 301 Tenner Server Is Down!');
+        return response.send('CMPUT 301 Tenner Server Is Down!');
       } else {
-        response.send('CMPUT 301 Tenner Server Is Up!');
+        return response.send('CMPUT 301 Tenner Server Is Up!');
       }
     });
 });
     
 //Users-------------------------------------------------------------->
 
-router.get('/getUsers', function(request, response){
+router.get('/getAllUsers', function(request, response){
     client.search({
       index: 'tenner',
-      type: 'users',
+      type: 'users'
       /*body: {
         query: {
           match: {
@@ -41,42 +41,26 @@ router.get('/getUsers', function(request, response){
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
         console.log(data);
-        response.send(data);
+        return response.send(data);
     }, function (err) {
         console.log(err.message);
-        response.send('Error!');
+        return response.send('Error at /getAllUsers : ' + err.message);
     });
 });
 
-router.post('/signUp', function(request, response){
+router.post('/signUpUser', function(request, response){
     var user = request.body.user;
+    
     client.search({
       index: 'tenner',
-      type: 'users',
-      /*body: {
-        query: {
-          match: {
-            body: ''
-          }
-        }
-      }*/
+      type: 'users'
     }).then(function (responseBody) {
-        client.search({
-            index: 'tenner',
-            type: 'users'
-        }).then(function (responseBody) {
-            var data = responseBody.hits.hits;
-            console.log(data);
-            response.send(data);
-        }, function (err) {
-            console.log(err.message);
-            response.send('Error!');
-        });
         var data = responseBody.hits.hits;
         console.log(data);
+        
         for(var dataObj in data){
             if(user.email == dataObj._source.email){
-                return response.send('Error : User Exists!');
+                return response.send('Error at /signUpUser : User Exists!');
             } else {
                 //TODO : Write data
                 return response.send('Success : User Signed Up!');
@@ -84,23 +68,56 @@ router.post('/signUp', function(request, response){
         }
     }, function (err) {
         console.log(err.message);
-        response.send('Error!');
+        return response.send('Error at /signUp : ' + err.message);
     });
 });
 
+router.post('/updateUser', function(request, response){
+    var user = request.body.user;
+    
+    client.search({
+      index: 'tenner',
+      type: 'users'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        console.log(data);
+        
+        for(var dataObj in data){
+            if(user.email == dataObj._source.email){
+                //TODO : Write data
+                return response.send('Success : User Updated!');
+            } else {
+                return response.send('Error at /updateUser : User not found!!');
+            }
+        }
+    }, function (err) {
+        console.log(err.message);
+        return response.send('Error at /updateUser : ' + err.message);
+    });
+});
+
+//Tasks-------------------------------------------------------------->
+
 router.post('/getAssignedTasks', function(request, response){
     var userID = request.body.email;
-    console.log(userID);
+    
     client.search({
       index: 'tenner',
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
         console.log(data);
-        response.send(data);
+        
+        var assignedTaskArray = [];
+        for(var dataObj in data){
+            if(dataObj._source.provider == userID){
+                assignedTaskArray.push(dataObj);
+            }
+        }
+        return response.send(assignedTaskArray);
     }, function (err) {
         console.log(err.message);
-        response.send('Error!');
+        return response.send('Error at /getAssignedTasks : ' + err.message);
     });
 });
 
@@ -114,14 +131,25 @@ router.post('/getRequestedTasks', function(request, response){
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
         console.log(data);
-        response.send(data);
+        
+        var assignedTaskArray = [];
+        for(var dataObj in data){
+            if(dataObj._source.provider != userID){
+                assignedTaskArray.push(dataObj);
+            }
+        }
+        return response.send(assignedTaskArray);
     }, function (err) {
         console.log(err.message);
-        response.send('Error!');
+        return response.send('Error at /getRequestedTasks : ' + err.message);
     });
 });
 
-router.get('/getBids', function(request, response){
+//Bids-------------------------------------------------------------->
+
+router.get('/getMyBids', function(request, response){
+    var userID = request.body.email;
+    
     client.search({
       index: 'tenner',
       type: 'tasks'
@@ -132,9 +160,35 @@ router.get('/getBids', function(request, response){
         var bidArray = [];
         
         for(var dataObj in data){
-            bidArray.push(dataObj._source.bids);
+            if(dataObj._source.provider != userID){
+                bidArray.push(dataObj._source.bids);
+            }
         }
         
+        response.send(data);
+    }, function (err) {
+        console.log(err.message);
+        response.send('Error!');
+    });
+});
+
+router.get('/getOtherBids', function(request, response){
+    var userID = request.body.email;
+    
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        console.log(data);
+        
+        var bidArray = [];
+        
+        for(var dataObj in data){
+            if(dataObj._source.provider == userID){
+                bidArray.push(dataObj._source.bids);
+            }
+        }
         response.send(data);
     }, function (err) {
         console.log(err.message);
