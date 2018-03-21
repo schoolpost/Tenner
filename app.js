@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 
 app.use(session({
     cookieName: 'session',
-    secret: "Secret Louis cmput 301",
+    secret: "Secret Louis CMPUT 301",
     resave: false,
     saveUninitialized: false,
     duration: 30 * 60 * 1000,
