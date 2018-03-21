@@ -17,9 +17,9 @@ app.use(session({
     secure : true
 }));
 
-app.get('/', function(request, response){
-    response.end('CMPUT 301 Tenner Server Started!'); 
-});
+var routes = require('./routes/routes');
+
+app.use(routes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Tenner Server Started!");
