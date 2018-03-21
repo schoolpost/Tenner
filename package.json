@@ -1,0 +1,19 @@
+{
+  "name": "cmput301w18t22",
+  "version": "1.0.0",
+  "description": "cmput 301 elastic search REST server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CMPUT301W18T22/Tenner.git"
+  },
+  "author": "Louis Moc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CMPUT301W18T22/Tenner/issues"
+  },
+  "homepage": "https://github.com/CMPUT301W18T22/Tenner#readme"
+}
