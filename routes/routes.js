@@ -9,26 +9,81 @@ var client = new elasticsearch.Client({
 });
 
 router.get('/', function(request, response){
-    response.send("Hello to Tenner's Server!");
+    response.send("Hello, Welcome To Tenner's Server!");
 });
 
 router.get('/ping', function(request, response){
     client.ping({
-      // ping usually has a 3000ms timeout
-      requestTimeout: 1000
+      requestTimeout: 3000
     }, function (error) {
       if (error) {
-        console.trace('elasticsearch cluster is down!');
-        response.end('CMPUT 301 Tenner Server Is Down!');
+        //console.trace('Cluster is down!');
+        response.send('CMPUT 301 Tenner Server Is Down!');
       } else {
-        console.log('All is well');
-        response.end('CMPUT 301 Tenner Server Is Up!');
+        response.send('CMPUT 301 Tenner Server Is Up!');
       }
     });
 });
     
+//Users-------------------------------------------------------------->
+
 router.get('/getUsers', function(request, response){
-    
+    client.search({
+      index: 'tenner',
+      type: 'users',
+      /*body: {
+        query: {
+          match: {
+            body: ''
+          }
+        }
+      }*/
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        console.log(data);
+        response.send(data);
+    }, function (err) {
+        console.log(err.message);
+    });
+});
+
+router.get('/getTasks', function(request, response){
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        console.log(data);
+        response.send(data);
+    }, function (err) {
+        console.log(err.message);
+    });
+});
+
+router.get('/getBids', function(request, response){
+    client.search({
+      index: 'tenner',
+      type: 'bids'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        console.log(data);
+        response.send(data);
+    }, function (err) {
+        console.log(err.message);
+    });
+});
+
+router.get('/getTasks', function(request, response){
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        console.log(data);
+        response.send(data);
+    }, function (err) {
+        console.log(err.message);
+    });
 });
 
 module.exports = router;
