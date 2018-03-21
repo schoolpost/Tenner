@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/CMPUT301W18T22/Tenner#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.3",
-    "express-session": "^1.15.6"
+    "express-session": "^1.15.6",
+    "geocoder": "^0.2.3"
   }
 }
