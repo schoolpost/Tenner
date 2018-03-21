@@ -44,6 +44,7 @@ router.get('/getUsers', function(request, response){
         response.send(data);
     }, function (err) {
         console.log(err.message);
+        response.send('Error!');
     });
 });
 
@@ -70,6 +71,7 @@ router.get('/getBids', function(request, response){
         response.send(data);
     }, function (err) {
         console.log(err.message);
+        response.send('Error!');
     });
 });
 
@@ -83,6 +85,21 @@ router.get('/getTasks', function(request, response){
         response.send(data);
     }, function (err) {
         console.log(err.message);
+        response.send('Error!');
+    });
+});
+
+router.get('/getTasks', function(request, response){
+    client.search({
+      index: 'tenner',
+      type: 'bids'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        console.log(data);
+        response.send(data);
+    }, function (err) {
+        console.log(err.message);
+        response.send('Error!');
     });
 });
 
