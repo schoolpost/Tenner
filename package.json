@@ -18,6 +18,7 @@
   "homepage": "https://github.com/CMPUT301W18T22/Tenner#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "elasticsearch": "^14.2.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "geocoder": "^0.2.3"
