@@ -18,7 +18,7 @@ app.use(session({
 }));
 
 app.get('/', function(request, response){
-    response.end('CMPUT 301 Tenner Served Started'); 
+    response.end('CMPUT 301 Tenner Server Started!'); 
 });
 
 app.listen(process.env.PORT, process.env.IP, function(){
