@@ -1,15 +1,25 @@
 package com.example.test;
 
-import com.loopj.android.http.*;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 /**
- * Created by moc on 3/18/18.
+ * Created by moc on 3/22/18.
  */
 
-public class ElasticSearchController {
+class ElasticServer {
+    private static final ElasticServer.RestClient ourInstance = new ElasticServer.RestClient();
+
+    static ElasticServer.RestClient getInstance() {
+        return ourInstance;
+    }
+
+    private ElasticServer() {
+    }
 
     public static class RestClient {
-        private static final String BASE_URL = "https://4bf5aa5ed70c412da36dcacb5b740d79.vfs.cloud9.us-east-1.amazonaws.com/";
+        private static final String BASE_URL = "https://cmput301tenner.herokuapp.com/";
 
         private static AsyncHttpClient client = new AsyncHttpClient();
 

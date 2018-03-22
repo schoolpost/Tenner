@@ -5,45 +5,49 @@ import android.util.Log;
 import org.json.*;
 import com.loopj.android.http.*;
 
-import cz.msebera.android.httpclient.entity.mime.Header;
-
 /**
  * Created by moc on 3/22/18.
  */
 
 public class ElasticSearchRestClient {
 
-    public void getData() throws JSONException {
-        ElasticSearchController.RestClient.get("ping", null, new JsonHttpResponseHandler() {
+    private static final ElasticSearchRestClient ourInstance = new ElasticSearchRestClient();
 
+    static ElasticSearchRestClient getInstance() {
+        return ourInstance;
+    }
 
+    private ElasticSearchRestClient() {
+    }
 
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.i("This", "Instead");
-                // If the response is JSONObject instead of expected JSONArray
+    public void getAllUsers() throws JSONException {
+        ElasticServer.RestClient.get("getAllUsers", null, new JsonHttpResponseHandler() {
+
+            //https://stackoverflow.com/questions/33215539/foreach-with-jsonarray-and-jsonobject/33215597
+            @Override
+            public void onStart() {
+                super.onStart();
             }
 
-            public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
-                // Pull out the first event on the public timeline
-                Log.i("this2", "instead");
-                int i = 0;
-//                for(Object o: timeline){
-//                    if ( o instanceof JSONObject ) {
-//                        i++;
-//                        try {
-//                            Log.i("tag" + i, ((JSONObject) o).getString("email"));
-//                        } catch (Exception e){
-//
-//                        }
-//                    }
-//                }
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
 
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    Log.i("yo11", response.get(0).toString());
+                } catch (Exception e) {
 
-//                JSONObject firstEvent = timeline.get(0);
-//                String tweetText = firstEvent.getString("text");
+                }
+            }
 
-                // Do something with the response
-//                System.out.println(tweetText);
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.i("Failure", String.valueOf(statusCode));
             }
         });
     }
