@@ -13,6 +13,7 @@ router.get('/', function(request, response){
 });
 
 router.get('/ping', function(request, response){
+    console.log("yuh");
     client.ping({
       requestTimeout: 3000
     }, function (error) {
