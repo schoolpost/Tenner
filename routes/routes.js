@@ -19,8 +19,7 @@ router.get('/ping', function(request, response){
       if (error) {
         //console.trace('Cluster is down!');
         return response.send('CMPUT 301 Tenner Server Is Down!');
-        } else {  
-            response.json({success : 'Updated Successfully', status : 200});
+        } else {
             return response.send('CMPUT 301 Tenner Server Is Up!');
       }
     });
