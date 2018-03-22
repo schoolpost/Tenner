@@ -24,6 +24,7 @@ public class ElasticSearchRestClient {
         ElasticServer.RestClient.get("getAllUsers", null, new JsonHttpResponseHandler() {
 
             //https://stackoverflow.com/questions/33215539/foreach-with-jsonarray-and-jsonobject/33215597
+            //http://loopj.com/android-async-http/
             @Override
             public void onStart() {
                 super.onStart();
