@@ -13,12 +13,12 @@ router.get('/', function(request, response){
 });
 
 router.get('/ping', function(request, response){
-    console.log("yuh");
     client.ping({
-      requestTimeout: 3000
+      requestTimeout: 10000
     }, function (error) {
       if (error) {
         //console.trace('Cluster is down!');
+        response.json({success : 'Updated Successfully', status : 200});
         return response.send('CMPUT 301 Tenner Server Is Down!');
       } else {
         return response.send('CMPUT 301 Tenner Server Is Up!');
