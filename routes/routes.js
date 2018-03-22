@@ -20,7 +20,7 @@ router.get('/ping', function(request, response){
         //console.trace('Cluster is down!');
         return response.send('CMPUT 301 Tenner Server Is Down!');
         } else {
-            return response.send('CMPUT 301 Tenner Server Is Up!');
+            return response.send(JSON.stringify('CMPUT 301 Tenner Server Is Up!'));
       }
     });
 });
