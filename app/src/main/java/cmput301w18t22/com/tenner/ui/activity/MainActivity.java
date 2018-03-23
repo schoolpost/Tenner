@@ -113,17 +113,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         } else {
             resetAllTabsAndShow(position);
         }
-//        toggleMenu(true);
     }
 
-    private void onUserLogout(int position) {
-//        if (position == -1) {
-//            resetAllTabsAndShow(mNavigator.getCurrentPosition());
-//        } else {
-//            resetAllTabsAndShow(position);
-//        }
-//        toggleMenu(false);
-    }
 
     private void setToolBar(final int position) {
 
@@ -206,7 +197,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                 if (action.equals(Action.LOGIN)) {
                     onUserLogin(position);
                 } else if (action.equals(Action.LOGOUT)) {
-                    onUserLogout(position);
                 }
             }
         }
