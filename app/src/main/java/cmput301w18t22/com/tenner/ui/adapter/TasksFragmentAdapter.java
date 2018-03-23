@@ -1,6 +1,8 @@
 package cmput301w18t22.com.tenner.ui.adapter;
 import android.support.v4.app.Fragment;
+
 import com.aspsine.fragmentnavigator.FragmentNavigatorAdapter;
+
 import cmput301w18t22.com.tenner.ui.fragment.MainFragment;
 
 /**

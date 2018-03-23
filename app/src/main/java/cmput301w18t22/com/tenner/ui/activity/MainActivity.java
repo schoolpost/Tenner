@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         setPageTitle(position);
     }
 
-    private void setPageTitle(int position) {
+    private void setPageTitle(final int position) {
         final int pos = position;
         pageTitle = ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title));
         pageTitle.setText(new FragmentAdapter().getName(position));

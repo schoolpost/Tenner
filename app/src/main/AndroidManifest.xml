@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -32,12 +32,13 @@
             android:label="@string/title_activity_login" />
         <activity
             android:name=".ui.activity.SignUpActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyANEV7NLb8Hfmqt6fLGLYTxyfREadIOvhk"/>
+            android:value="AIzaSyANEV7NLb8Hfmqt6fLGLYTxyfREadIOvhk" />
 
+        <activity android:name=".ui.activity.MapViewActivity"></activity>
     </application>
 
 </manifest>

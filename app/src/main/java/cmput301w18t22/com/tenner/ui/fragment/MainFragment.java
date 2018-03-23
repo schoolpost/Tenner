@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.ui.activity.MapViewActivity;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 /**
@@ -68,6 +70,12 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         tvText = (TextView) view.findViewById(R.id.tvText);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        tvText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), MapViewActivity.class));
+            }
+        });
     }
 
     @Override
