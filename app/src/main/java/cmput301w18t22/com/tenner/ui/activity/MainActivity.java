@@ -41,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(!SharedPrefUtils.isLogin(this)){
+            this.onDestroy();
+        }
+
         mNavigator = new FragmentNavigator(getSupportFragmentManager(), new FragmentAdapter(), R.id.container);
         mNavigator.setDefaultPosition(DEFAULT_POSITION);
         mNavigator.onCreate(savedInstanceState);
@@ -165,7 +169,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             @Override
             public void onClick(View view) {
                 logout();
-                finish();
+                Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
+                if (check) {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                } else {
+                    finish();
+                }
+
             }
         });
     }

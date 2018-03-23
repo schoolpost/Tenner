@@ -1,6 +1,5 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -39,14 +38,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (SharedPrefUtils.isLogin(this)) {
-            startActivity(new Intent(this, MainActivity.class));
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.sign_up_button) {
             tryLogin();
@@ -62,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (check(email, firstn, lastn, phone)) {
             markUserLogin();
             notifyUserLogin();
-            startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
     }
 
@@ -77,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             return false;
         }
 
-        if(checkUserExist(email)){
+        if (checkUserExist(email)) {
             etEmail.setError("email is already registered");
             return false;
         }
@@ -109,7 +100,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
-    private boolean checkUserExist(String email) { return false; }
+    private boolean checkUserExist(String email) {
+        return false;
+    }
 
     private void markUserLogin() {
         SharedPrefUtils.login(this);

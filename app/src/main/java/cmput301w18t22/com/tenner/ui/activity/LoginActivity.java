@@ -40,8 +40,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onStart() {
         super.onStart();
+        checkLoggedIn();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkLoggedIn();
+    }
+
+    public void checkLoggedIn(){
         if (SharedPrefUtils.isLogin(this)) {
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, MainActivity.class).putExtra("SIGNUP", true));
         }
     }
 
@@ -84,6 +94,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void notifyUserLogin() {
         BroadcastManager.sendLoginBroadcast(this, 1);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
 
