@@ -4,11 +4,10 @@ package cmput301w18t22.com.tenner;
  * Created by Dinesh on 2/26/2018.
  */
 
-import android.media.Image;
 import android.test.ActivityInstrumentationTestCase2;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.ArrayList;
+
+import cmput301w18t22.com.tenner.classes.Photo;
+import cmput301w18t22.com.tenner.classes.User;
 
 public class UserTest extends ActivityInstrumentationTestCase2 {
 
