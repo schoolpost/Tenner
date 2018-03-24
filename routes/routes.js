@@ -58,7 +58,7 @@ router.post('/signUpUser', function(request, response){
       type: 'users'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
+        // console.log(data);
         
         for(var dataObj in data){
             if(user.email == dataObj._source.email){
