@@ -2,6 +2,7 @@ package com.example.test;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,8 +13,12 @@ public class MainActivity extends AppCompatActivity {
 
         ElasticSearchRestClient elasticSearchRestClient = ElasticSearchRestClient.getInstance();
 
+        User user = new User("n1@gmail.com", "L", "m", "4938884444");
+
         try{
-            elasticSearchRestClient.getAllUsers();
+//            elasticSearchRestClient.getAllUsers();
+            Log.i("Hello", "World");
+            elasticSearchRestClient.postUser(user);
         } catch (Exception e){
 
         }
