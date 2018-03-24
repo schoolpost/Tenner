@@ -16,11 +16,11 @@ router.get('/ping', function(request, response){
     client.ping({
       requestTimeout: 10000
     }, function (error) {
-      if (error) {
-        //console.trace('Cluster is down!');
-        return response.send(JSON.stringify('CMPUT 301 Tenner Server Is Down!'));
+        if (error) {
+            //console.trace('Cluster is down!');
+            return response.send({'Error' : 'CMPUT 301 Tenner Server Is Down!'});
         } else {
-            return response.send(JSON.stringify('CMPUT 301 Tenner Server Is Up!'));
+            return response.send({'Success' : 'CMPUT 301 Tenner Server Is Up!'});
       }
     });
 });
@@ -40,37 +40,33 @@ router.get('/getAllUsers', function(request, response){
       }*/
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
         return response.send(data);
     }, function (err) {
         console.log(err.message);
-        return response.send('Error at /getAllUsers : ' + err.message);
+        return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
 });
 
 router.post('/signUpUser', function(request, response){
-    console.log("hello");
     var user = request.body.user;
-    console.log(user);
     
     client.search({
       index: 'tenner',
       type: 'users'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        // console.log(data);
         
         for(var dataObj in data){
             if(user.email == dataObj._source.email){
-                return response.send(JSON.stringify('Error at /signUpUser : User Exists!'));
+                return response.send({'Error' : 'At /signUpUser User Exists!'});
             }
         }
         //TODO : Write data
-        return response.send(JSON.stringify('Success : User Signed Up!'));
+        return response.send({'Success' : 'User Signed Up!'});
         
     }, function (err) {
         console.log(err.message);
-        return response.send('Error at /signUp : ' + err.message);
+        return response.send({'Error' : 'At /signUp' + err.message});
     });
 });
 
