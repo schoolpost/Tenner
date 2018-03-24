@@ -5,6 +5,11 @@ import android.test.ActivityInstrumentationTestCase2;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cmput301w18t22.com.tenner.classes.Bid;
+import cmput301w18t22.com.tenner.classes.Location;
+import cmput301w18t22.com.tenner.classes.Photo;
+import cmput301w18t22.com.tenner.classes.Task;
+
 /**
  * Created by Schoolpost on 2018-02-26.
  */

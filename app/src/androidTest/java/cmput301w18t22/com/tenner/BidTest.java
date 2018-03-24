@@ -2,8 +2,10 @@ package cmput301w18t22.com.tenner;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import java.io.IOException;
 import java.math.BigDecimal;
+
+import cmput301w18t22.com.tenner.classes.Bid;
+import cmput301w18t22.com.tenner.classes.User;
 
 public class BidTest extends ActivityInstrumentationTestCase2 {
 
