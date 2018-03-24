@@ -20,6 +20,8 @@
     <!--<string name="error_invalid_email">email is empty</string>-->
     <!--<string name="error_invalid_email">email is empty</string>-->
 
+    <string name="home_greeting">Welcome, </string>
+
 
     <string name="sign_up_prompt_title">Create New Account</string>
     <string name="prompt_first">First Name</string>

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.aspsine.fragmentnavigator.FragmentNavigatorAdapter;
 
+import cmput301w18t22.com.tenner.ui.fragment.HomeFragment;
 import cmput301w18t22.com.tenner.ui.fragment.MainFragment;
 import cmput301w18t22.com.tenner.ui.fragment.TasksFragment;
 
@@ -16,6 +17,9 @@ public class FragmentAdapter implements FragmentNavigatorAdapter {
 
     @Override
     public Fragment onCreateFragment(int position) {
+        if (position == 0){
+            return HomeFragment.newInstance(TABS[position]);
+        }
         if (position == 1) {
             return TasksFragment.newInstance(position);
         }
