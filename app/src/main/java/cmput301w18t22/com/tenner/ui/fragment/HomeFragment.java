@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 /**
@@ -38,9 +39,10 @@ public class HomeFragment extends Fragment {
 
     private String mText;
 
+    private User user;
+
     private TextView greeting;
     private EditText searchBar;
-
     private ProgressBar progressBar;
 
     public static Fragment newInstance(String text) {
@@ -75,7 +77,7 @@ public class HomeFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         searchBar = (EditText) view.findViewById(R.id.home_search);
 
-        greeting.setText("Welcome, John Doe");
+        greeting.setText("Welcome, " + user.getFirstName());
 
         // your text box
         searchBar.setOnEditorActionListener(new EditText.OnEditorActionListener() {
