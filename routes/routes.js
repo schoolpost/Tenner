@@ -49,7 +49,9 @@ router.get('/getAllUsers', function(request, response){
 });
 
 router.post('/signUpUser', function(request, response){
+    console.log("hello");
     var user = request.body.user;
+    console.log(user);
     
     client.search({
       index: 'tenner',
