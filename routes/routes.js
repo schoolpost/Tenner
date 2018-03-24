@@ -59,10 +59,14 @@ router.post('/signUpUser', function(request, response){
         console.log('XD');
         console.log(data);
         for(var dataObj in data){
-            if(user.email == dataObj._source.email){
-                console.log('User Exists!');
-                return response.send({'Error' : 'At /signUpUser User Exists!'});
+            if (data.hasOwnProperty(dataObj)) {
+                console.log(data[dataObj]);
+                console.log(data[dataObj]._source);
             }
+            // if(user.email == dataObj._source.email){
+            //     console.log('User Exists!');
+            //     return response.send({'Error' : 'At /signUpUser User Exists!'});
+            // }
         }
         //TODO : Write data
         return response.send({'Success' : 'User Signed Up!'});
