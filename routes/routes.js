@@ -58,6 +58,7 @@ router.post('/signUpUser', function(request, response){
         var data = responseBody.hits.hits;
         
         for(var dataObj in data){
+            console.log(dataObj._source);
             if(user.email == dataObj._source.email){
                 return response.send({'Error' : 'At /signUpUser User Exists!'});
             }
