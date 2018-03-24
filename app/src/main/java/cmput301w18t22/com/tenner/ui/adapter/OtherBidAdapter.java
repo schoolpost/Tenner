@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Bid;
+import cmput301w18t22.com.tenner.classes.Task;
 
 /**
  * Custom Adapter provides the adapter for an array of my bids on others' tasks
@@ -69,13 +70,28 @@ public class OtherBidAdapter extends BaseAdapter {
         TextView taskTitleTextView = (TextView) convertView.findViewById(R.id.task_title);
         TextView bidderNameTextView = (TextView) convertView.findViewById(R.id.bidder_name);
         TextView bidAmtTextView = (TextView) convertView.findViewById(R.id.bid_amt);
+        View coloredBar = (View) convertView.findViewById(R.id.colored_bar);
 
         // get Subscription information and display in textViews
         taskTitleTextView.setText(currentBid.getTask().getTitle());
         String bidderString ="Bidder: " + currentBid.getOwner().toDisplayName();
         bidderNameTextView.setText(bidderString);
         bidAmtTextView.setText(currentBid.toString());
-        // TODO: set photo and status bar
+        // TODO: set photo
+
+
+        // Set correct colored bar color based on task status
+        Task.Status taskStatus = currentBid.getTask().getStatus();
+        switch (taskStatus) {
+            case requested: coloredBar.setBackgroundResource(R.color.yellow);
+                break;
+            case bidded: coloredBar.setBackgroundResource(R.color.orange);
+                break;
+            case assigned: coloredBar.setBackgroundResource(R.color.green);
+                break;
+            case done: coloredBar.setBackgroundResource(R.color.black);
+                break;
+        }
 
         // returns the view for the current row
         return convertView;

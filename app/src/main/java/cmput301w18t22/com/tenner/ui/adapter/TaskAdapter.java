@@ -69,11 +69,25 @@ public class TaskAdapter extends BaseAdapter {
         TextView nameTextView = (TextView) convertView.findViewById(R.id.task_title);
         TextView requesterNameTextView = (TextView) convertView.findViewById(R.id.requester_name);
         TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.bid_amt);
+        View coloredBar = (View) convertView.findViewById(R.id.colored_bar);
 
         // get Subscription information and display in textViews
         nameTextView.setText(currentTask.getTitle());
         requesterNameTextView.setText(currentTask.getRequester().toDisplayName());
         lowestBidTextView.setText(currentTask.getLowestBid().toString());
+
+        // Set correct colored bar color based on task status
+        Task.Status taskStatus = currentTask.getStatus();
+        switch (taskStatus) {
+            case requested: coloredBar.setBackgroundResource(R.color.yellow);
+                break;
+            case bidded: coloredBar.setBackgroundResource(R.color.orange);
+                break;
+            case assigned: coloredBar.setBackgroundResource(R.color.green);
+                break;
+            case done: coloredBar.setBackgroundResource(R.color.black);
+                break;
+        }
 
         // returns the view for the current row
         return convertView;
