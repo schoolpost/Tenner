@@ -62,11 +62,12 @@ router.post('/signUpUser', function(request, response){
         
         for(var dataObj in data){
             if(user.email == dataObj._source.email){
-                return response.send('Error at /signUpUser : User Exists!');
+                return response.send(JSON.stringify('Error at /signUpUser : User Exists!'));
             }
         }
         //TODO : Write data
-        return response.send('Success : User Signed Up!');
+        return response.send(JSON.stringify('Success : User Signed Up!'));
+        
     }, function (err) {
         console.log(err.message);
         return response.send('Error at /signUp : ' + err.message);
@@ -86,11 +87,11 @@ router.post('/updateUser', function(request, response){
         for(var dataObj in data){
             if(user.email == dataObj._source.email){
                 //TODO : Write data
-                return response.send('Success : User Updated!');
-            } else {
-                return response.send('Error at /updateUser : User not found!!');
+                return response.send(JSON.stringify('Success : User Updated!'));
             }
         }
+        return response.send(JSON.stringify('Error at /updateUser : User not found!!'));
+        
     }, function (err) {
         console.log(err.message);
         return response.send('Error at /updateUser : ' + err.message);
