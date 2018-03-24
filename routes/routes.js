@@ -49,15 +49,13 @@ router.get('/getAllUsers', function(request, response){
 
 router.post('/signUpUser', function(request, response){
     var user = JSON.parse(request.body.user);
-    console.log(user);
     console.log(user.email);
+    
     client.search({
       index: 'tenner',
       type: 'users'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log('XD');
-        console.log(data);
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
                 if(user.email == data[dataObj]._source.email){
