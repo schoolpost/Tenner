@@ -55,10 +55,10 @@ router.post('/signUpUser', function(request, response){
       index: 'tenner',
       type: 'users'
     }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        
+        var data = JSON.parse(responseBody.hits.hits);
+        console.log('XD');
+        console.log(data);
         for(var dataObj in data){
-            console.log(dataObj);
             if(user.email == dataObj._source.email){
                 return response.send({'Error' : 'At /signUpUser User Exists!'});
             }
