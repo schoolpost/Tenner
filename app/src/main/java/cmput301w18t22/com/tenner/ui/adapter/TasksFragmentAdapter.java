@@ -1,9 +1,11 @@
 package cmput301w18t22.com.tenner.ui.adapter;
+
 import android.support.v4.app.Fragment;
 
 import com.aspsine.fragmentnavigator.FragmentNavigatorAdapter;
 
 import cmput301w18t22.com.tenner.ui.fragment.MainFragment;
+import cmput301w18t22.com.tenner.ui.fragment.TaskListFragment;
 
 /**
  * Created by schoo on 3/22/2018.
@@ -15,7 +17,7 @@ public class TasksFragmentAdapter implements FragmentNavigatorAdapter {
 
     @Override
     public Fragment onCreateFragment(int position) {
-        return MainFragment.newInstance(TABS[position]);
+        return TaskListFragment.newInstance(position);
     }
 
     @Override

@@ -28,12 +28,12 @@ public class User {
     private ArrayList<Task> providedTasks;
     private ArrayList<Bid> bids;
 
-    public void User(String email, String firstName, String lastName, String phoneNum, Photo photo) {
+    public User(String email, String firstName, String lastName, String phoneNum) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNum = phoneNum;
-        this.photo = photo;
+        //this.photo = photo;
         this.requestedTasks = new ArrayList<Task>();
         this.providedTasks = new ArrayList<Task>();
         this.bids = new ArrayList<Bid>();

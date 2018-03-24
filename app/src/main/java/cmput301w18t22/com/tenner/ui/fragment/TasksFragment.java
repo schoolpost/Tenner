@@ -26,14 +26,21 @@ public class TasksFragment extends Fragment {
 
     private TabLayout tabLayout;
 
+
     public TasksFragment() {
         // Required empty public constructor
     }
 
+    public static Fragment newInstance(int position) {
+        Fragment fragment = new TasksFragment();
+        return fragment;
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mNavigator = new FragmentNavigator(getChildFragmentManager(), new TasksFragmentAdapter(), R.id.taskChildContainer);
+        mNavigator = new FragmentNavigator(getChildFragmentManager(), new TasksFragmentAdapter(), R.id.childContainer);
         mNavigator.setDefaultPosition(0);
         mNavigator.onCreate(savedInstanceState);
     }
@@ -47,7 +54,7 @@ public class TasksFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tabLayout = (TabLayout) view.findViewById(R.id.taskTabLayout);
+        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         tabLayout.setOnTabItemClickListener(new TabLayout.OnTabItemClickListener() {
             @Override
             public void onTabItemClick(int position, View view) {
@@ -74,8 +81,4 @@ public class TasksFragment extends Fragment {
     }
 
 
-    public static Fragment newInstance(int position) {
-        Fragment fragment = new TasksFragment();
-        return fragment;
-    }
 }

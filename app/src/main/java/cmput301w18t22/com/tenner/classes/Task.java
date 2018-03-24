@@ -43,7 +43,7 @@ public class Task {
     private User requester;
     private User provider;
 
-    public void Task(String title, String description, Location location, Date date, User requester){
+    public Task(String title, String description, Location location, Date date, User requester){
         this.status = requested;
         this.title = title;
         this.description = description;

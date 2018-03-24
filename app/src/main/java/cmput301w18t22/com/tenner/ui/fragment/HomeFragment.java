@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         searchBar = (EditText) view.findViewById(R.id.home_search);
 
-        greeting.setText("Welcome, " + user.getFirstName());
+        greeting.setText("Welcome, Csaba");
 
         // your text box
         searchBar.setOnEditorActionListener(new EditText.OnEditorActionListener() {

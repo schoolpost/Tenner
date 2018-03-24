@@ -13,7 +13,7 @@ public class Location {
     private float longitude;
     private String address;
 
-    public void Location(float latitude, float longitude, String address) {
+    public Location(float latitude, float longitude, String address) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
