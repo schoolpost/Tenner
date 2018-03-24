@@ -3,6 +3,8 @@ package cmput301w18t22.com.tenner.ui.activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +41,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!isNetworkAvailable()){
+            setTheme(R.style.Theme_AppCompat_Light);
+        }
         setContentView(R.layout.activity_main);
 
         if(!SharedPrefUtils.isLogin(this)){
@@ -201,6 +207,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             }
         }
     };
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     @Override
     public void onBackPressed() {
