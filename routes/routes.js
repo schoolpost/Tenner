@@ -63,11 +63,10 @@ router.post('/signUpUser', function(request, response){
         for(var dataObj in data){
             if(user.email == dataObj._source.email){
                 return response.send('Error at /signUpUser : User Exists!');
-            } else {
-                //TODO : Write data
-                return response.send('Success : User Signed Up!');
             }
         }
+        //TODO : Write data
+        return response.send('Success : User Signed Up!');
     }, function (err) {
         console.log(err.message);
         return response.send('Error at /signUp : ' + err.message);
