@@ -6,9 +6,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,7 +38,8 @@ public class HomeFragment extends Fragment {
 
     private String mText;
 
-    private TextView tvText;
+    private TextView greeting;
+    private EditText searchBar;
 
     private ProgressBar progressBar;
 
@@ -66,7 +71,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        greeting = (TextView) view.findViewById(R.id.home_greeting);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        searchBar = (EditText) view.findViewById(R.id.home_search);
+
+        greeting.setText("Welcome, John Doe");
+
+        // your text box
+        searchBar.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    // TODO do something
+                    Log.i("yolo","bro");
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
     }
 
@@ -89,7 +112,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         sHandler.removeCallbacks(mRunnable);
-//        tvText = null;
+        searchBar = null;
         progressBar = null;
         super.onDestroyView();
     }
