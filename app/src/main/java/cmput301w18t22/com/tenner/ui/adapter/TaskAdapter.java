@@ -74,7 +74,7 @@ public class TaskAdapter extends BaseAdapter {
         // get Subscription information and display in textViews
         nameTextView.setText(currentTask.getTitle());
         requesterNameTextView.setText(currentTask.getRequester().toDisplayName());
-        lowestBidTextView.setText("$ 5.00");
+        lowestBidTextView.setText("5.00");
 
         // Set correct colored bar color based on task status
         Task.Status taskStatus = currentTask.getStatus();
