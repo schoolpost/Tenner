@@ -1,11 +1,14 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -45,7 +53,7 @@ public class TaskListFragment extends Fragment {
 
     private ArrayList<Task> taskList;
     private TaskAdapter myAdapter;
-    private ListView displayList;
+    private SwipeMenuListView displayList;
     private int tab;
 
     public TaskListFragment() {
@@ -80,15 +88,8 @@ public class TaskListFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         // Setup list display
-        displayList = (ListView) view.findViewById(R.id.tasksList);
+        displayList = (SwipeMenuListView) view.findViewById(R.id.tasksList);
 
-        displayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Do something
-                Log.i("Clicked Task", String.valueOf(i));
-            }
-        });
     }
 
     @Override
@@ -120,10 +121,51 @@ public class TaskListFragment extends Fragment {
 
     private void bindData() { // Attach to listview
         Log.i("debug", "Binding");
+
         myAdapter = new TaskAdapter(getContext(), taskList);
         displayList.setAdapter(myAdapter);
-        myAdapter.notifyDataSetChanged();
-        Log.i("debug", "Bound");
+
+        DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+        float dp = 80f;
+        float fpixels = metrics.density * dp;
+        final int pixels = (int) (fpixels + 0.5f);
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(pixels);
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_delete_black_24dp);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        displayList.setMenuCreator(creator);
+
+        displayList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        // open
+                        break;
+                    case 1:
+                        // delete
+                        break;
+                }
+                return false;
+            }
+        });
+
     }
 
     /**
@@ -133,7 +175,7 @@ public class TaskListFragment extends Fragment {
         Log.i("debug", "Loading");
         showProgressBar(true);
 
-        Task test = new Task("My Task", "Best Task Ever", new Location(1f,1f,"New York"),
+        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
                 new Date(), new User("me@google.com", "John", "Doe", "555-5556"));
 
         taskList.add(test);
@@ -156,7 +198,7 @@ public class TaskListFragment extends Fragment {
         taskList.add(test);
         taskList.add(test);
         taskList.add(test);
-        
+
         sHandler.postDelayed(mRunnable, 500);
         Log.i("debug", "Loaded");
     }
