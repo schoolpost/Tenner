@@ -6,20 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/task_adapter_bg"
+    android:background="@drawable/task_adapter_style"
     android:clickable="false"
     android:focusable="false"
     android:orientation="vertical"
-    android:layout_marginTop="8dp"
     android:descendantFocusability="blocksDescendants"
-    android:elevation="3dp">
+    >
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="@dimen/thumbnail_width"
         android:layout_height="@dimen/thumbnail_height"
         android:cropToPadding="false"
-        android:layout_margin="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginBottom="12dp"
         app:srcCompat="@drawable/transport" />
 
     <TextView
@@ -64,12 +66,12 @@
         android:textColor="@color/black"
         android:textSize="24sp" />
 
+
     <View
         android:id="@+id/colored_bar"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="8dp"
+        android:layout_height="6dp"
+        android:layout_alignBottom="@id/imageView"
         android:background="@color/yellow"
         android:visibility="gone" />
 
