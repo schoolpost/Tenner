@@ -12,7 +12,7 @@
     android:orientation="vertical"
     android:layout_marginTop="8dp"
     android:descendantFocusability="blocksDescendants"
-    android:elevation="2dp">
+    android:elevation="1dp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -50,7 +50,7 @@
         android:layout_toStartOf="@+id/bid_amt"
         android:text="$"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
 
     <TextView

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.fragment.TasksFragment"
-    android:background="#bdbdbd">
+    android:background="#dedede">
 
     <cmput301w18t22.com.tenner.ui.widget.TabLayout
         android:id="@+id/tabLayout"
