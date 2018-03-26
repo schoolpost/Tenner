@@ -10,8 +10,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.aspsine.fragmentnavigator.FragmentNavigator;
@@ -42,12 +45,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!isNetworkAvailable()){
+        if (!isNetworkAvailable()) {
             setTheme(R.style.Theme_AppCompat_Light);
         }
         setContentView(R.layout.activity_main);
 
-        if(!SharedPrefUtils.isLogin(this)){
+        if (!SharedPrefUtils.isLogin(this)) {
             this.onDestroy();
         }
 
@@ -84,9 +87,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_exception:
-                startActivity(new Intent(this, ExceptionActivity.class));
-                return true;
             case R.id.action_login:
                 startActivity(new Intent(this, LoginActivity.class));
                 return true;
@@ -121,14 +121,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         }
     }
 
+    private void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_main, popup.getMenu());
+        popup.show();
+    }
 
     private void setToolBar(final int position) {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
         switch (position) {
-            case 1:
+            case 0:
                 getSupportActionBar().setCustomView(R.layout.toolbar_home);
+                break;
+            case 1:
+                getSupportActionBar().setCustomView(R.layout.toolbar_tasks);
+                tasksToolbarActions();
                 break;
             case 4:
                 getSupportActionBar().setCustomView(R.layout.toolbar_profile);
@@ -174,6 +184,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                     finish();
                 }
 
+            }
+        });
+    }
+
+    private void tasksToolbarActions() {
+        ImageButton filter = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPopup(view);
             }
         });
     }
