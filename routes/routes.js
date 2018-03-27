@@ -24,6 +24,46 @@ router.get('/ping', function(request, response){
       }
     });
 });
+
+router.get('/testpost', function(request, response){
+    var testbody = {
+        email : 'h1@gmail.com'
+        
+    }
+    client.search({
+      index: 'tenner',
+      type: 'users'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        for(var dataObj in data){
+            if (data.hasOwnProperty(dataObj)) {
+                if(testbody.email == data[dataObj]._source.email){
+                    console.log('User Exists!');
+                    return response.send({'Error' : 'At /signUpUser User Exists!'});
+                }
+            }
+        }
+        // //TODO : Write data
+        // client.create({
+        //     index: 'tenner',
+        //     type: 'users',
+        //     body : {
+        //         testbody
+        //     }
+        // }).then(function(error, response){
+        //     if(error){
+        //         console.log(error);
+        //     } else {
+        //         console.log(response);
+        //     }
+        // });
+        
+    }, function (err) {
+        console.log(err.message);
+        return response.send({'Error' : 'At /signUp' + err.message});
+    });
+    
+});
     
 //Users-------------------------------------------------------------->
 
