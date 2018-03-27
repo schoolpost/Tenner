@@ -53,8 +53,10 @@ router.get('/testpost', function(request, response){
         }).then(function(error, response){
             if(error){
                 console.log(error);
+                return response.send({'Error' : 'At /signUpUser Upload Error!'});
             } else {
                 console.log(response);
+                return response.send({'Success' : 'User Sign Up Success!'}); 
             }
         });
         
