@@ -48,7 +48,7 @@ router.get('/testpost', function(request, response){
             index: 'tenner',
             type: 'users',
             body : {
-                testbody
+                email : 'newuser1@gmail.com'
             }
         }).then(function(error, response){
             if(error){
