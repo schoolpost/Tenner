@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_filter_bidded"
+        android:orderInCategory="100"
+        android:title="Bidded"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_filter_assigned"
+        android:orderInCategory="100"
+        android:title="Assigned"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_filter_requested"
+        android:orderInCategory="300"
+        android:title="Requested"
+        app:showAsAction="never" />
+</menu>

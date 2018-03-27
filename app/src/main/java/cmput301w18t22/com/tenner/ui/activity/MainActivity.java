@@ -34,10 +34,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
     private BottomNavigatorView bottomNavigatorView;
 
-    private MenuItem mLoginMenu;
-
-    private MenuItem mLogoutMenu;
-
     private TextView pageTitle;
 
 
@@ -65,16 +61,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
         setCurrentTab(mNavigator.getCurrentPosition());
 
-        BroadcastManager.register(this, mLoginStatusChangeReceiver, Action.LOGIN, Action.LOGOUT);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        mLoginMenu = menu.findItem(R.id.action_login);
-//        mLogoutMenu = menu.findItem(R.id.action_logout);
-//        toggleMenu(SharedPrefUtils.isLogin(this));
-        return true;
     }
 
     @Override
@@ -99,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
     @Override
     protected void onDestroy() {
-        BroadcastManager.unregister(this, mLoginStatusChangeReceiver);
         super.onDestroy();
     }
 
@@ -113,21 +98,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         BroadcastManager.sendLogoutBroadcast(this, 1);
     }
 
-    private void onUserLogin(int position) {
-        if (position == -1) {
-            resetAllTabsAndShow(mNavigator.getCurrentPosition());
-        } else {
-            resetAllTabsAndShow(position);
-        }
-    }
-
-    private void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(this, v);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_main, popup.getMenu());
-        popup.show();
-    }
-
     private void setToolBar(final int position) {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -138,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                 break;
             case 1:
                 getSupportActionBar().setCustomView(R.layout.toolbar_tasks);
-                tasksToolbarActions();
                 break;
             case 4:
                 getSupportActionBar().setCustomView(R.layout.toolbar_profile);
@@ -188,45 +157,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         });
     }
 
-    private void tasksToolbarActions() {
-        ImageButton filter = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopup(view);
-            }
-        });
-    }
-
     private void resetAllTabsAndShow(int position) {
         mNavigator.resetFragments(position, true);
         bottomNavigatorView.select(position);
     }
-
-    private void toggleMenu(boolean login) {
-        if (login) {
-            mLoginMenu.setVisible(false);
-            mLogoutMenu.setVisible(true);
-        } else {
-            mLoginMenu.setVisible(true);
-            mLogoutMenu.setVisible(false);
-        }
-    }
-
-    private BroadcastReceiver mLoginStatusChangeReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (!TextUtils.isEmpty(action)) {
-                int position = intent.getIntExtra("EXTRA_POSITION", -1);
-                if (action.equals(Action.LOGIN)) {
-                    onUserLogin(position);
-                } else if (action.equals(Action.LOGOUT)) {
-                }
-            }
-        }
-    };
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -237,6 +171,5 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
     }
 }
