@@ -27,7 +27,7 @@ router.get('/ping', function(request, response){
 
 router.get('/testpost', function(request, response){
     var testbody = {
-        email : 'h2@gmail.com'
+        email : 'newuser1@gmail.com'
         
     }
     client.search({
@@ -44,19 +44,19 @@ router.get('/testpost', function(request, response){
             }
         }
         // //TODO : Write data
-        // client.create({
-        //     index: 'tenner',
-        //     type: 'users',
-        //     body : {
-        //         testbody
-        //     }
-        // }).then(function(error, response){
-        //     if(error){
-        //         console.log(error);
-        //     } else {
-        //         console.log(response);
-        //     }
-        // });
+        client.create({
+            index: 'tenner',
+            type: 'users',
+            body : {
+                testbody
+            }
+        }).then(function(error, response){
+            if(error){
+                console.log(error);
+            } else {
+                console.log(response);
+            }
+        });
         
     }, function (err) {
         console.log(err.message);
