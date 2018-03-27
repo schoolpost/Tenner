@@ -27,7 +27,7 @@ router.get('/ping', function(request, response){
 
 router.get('/testpost', function(request, response){
     var testbody = {
-        email : 'h1@gmail.com'
+        email : 'h2@gmail.com'
         
     }
     client.search({
