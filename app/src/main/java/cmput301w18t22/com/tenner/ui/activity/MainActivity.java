@@ -155,6 +155,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
             }
         });
+
+        TextView edit = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Edit Profile
+                Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
+                if (check) {
+                    // To Edit Profile Activity
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                } else {
+                    finish();
+                }
+
+            }
+        });
     }
 
     private void resetAllTabsAndShow(int position) {

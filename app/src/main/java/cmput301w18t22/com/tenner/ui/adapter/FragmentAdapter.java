@@ -6,6 +6,7 @@ import com.aspsine.fragmentnavigator.FragmentNavigatorAdapter;
 
 import cmput301w18t22.com.tenner.ui.fragment.HomeFragment;
 import cmput301w18t22.com.tenner.ui.fragment.MainFragment;
+import cmput301w18t22.com.tenner.ui.fragment.ProfileFragment;
 import cmput301w18t22.com.tenner.ui.fragment.TasksFragment;
 
 /**
@@ -17,11 +18,20 @@ public class FragmentAdapter implements FragmentNavigatorAdapter {
 
     @Override
     public Fragment onCreateFragment(int position) {
-        if (position == 0){
+        if (position == 0) {
             return HomeFragment.newInstance(TABS[position]);
         }
         if (position == 1) {
             return TasksFragment.newInstance(position);
+        }
+        if (position == 2) {
+            // PostFragment
+        }
+        if (position == 3) {
+            // BidsFragment
+        }
+        if (position == 4) {
+            return ProfileFragment.newInstance(TABS[position]);
         }
         return MainFragment.newInstance(TABS[position]);
     }
