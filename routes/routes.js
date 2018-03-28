@@ -35,6 +35,7 @@ router.get('/testpost', function(request, response){
       type: 'users'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
+        // console.log(data);
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
                 if(testbody.email == data[dataObj]._source.email){
@@ -44,25 +45,47 @@ router.get('/testpost', function(request, response){
             }
         }
         // //TODO : Write data
-        client.create({
-            index: 'tenner',
-            type: 'users',
-            body : {
-                email : 'newuser1@gmail.com'
-            }
-        }).then(function(error, response){
-            if(error){
-                console.log(error);
-                return response.send({'Error' : 'At /signUpUser Upload Error!'});
-            } else {
-                console.log(response);
-                return response.send({'Success' : 'User Sign Up Success!'}); 
-            }
+        // client.create({
+        //     index: 'tenner',
+        //     type: 'users',
+        //     id : '1',
+        //     body : {
+        //         email : 'newuser1@gmail.com'
+        //     }
+        // }).then(function(error, response){
+        //     if(error){
+        //         console.log(error);
+        //         return response.send({'Error' : 'At /signUpUser Upload Error!'});
+        //     } else {
+        //         console.log(response);
+        //         return response.send({'Success' : 'User Sign Up Success!'}); 
+        //     }
+        // });
+        
+        client.deleteByQuery({
+          index: 'tenner',
+          type : 'users',
+          q : {
+              'match_all' : {
+                  'bids' : []
+              }
+          }
+        }, function (error, response2) {
+          // ...
+          
+          if(error){
+              console.log(error);
+              return response.send("lol");
+          } else {
+            return response.send({'Success' : 'User Sign Up Success!'}); 
+          }
         });
         
     }, function (err) {
-        console.log(err.message);
-        return response.send({'Error' : 'At /signUp' + err.message});
+        if(err){
+            console.log(err.message);
+            return response.send({'Error' : 'At /signUp' + err.message});
+        }
     });
     
 });
