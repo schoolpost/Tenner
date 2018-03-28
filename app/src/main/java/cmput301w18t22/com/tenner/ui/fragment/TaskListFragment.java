@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -55,6 +56,7 @@ public class TaskListFragment extends Fragment {
     private String mText;
 
     private ProgressBar progressBar;
+    private ImageButton filter;
 
     private ArrayList<Task> taskList;
     private TaskAdapter myAdapter;
@@ -106,14 +108,13 @@ public class TaskListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         displayList = (SwipeMenuListView) view.findViewById(R.id.tasksList);
-        ImageButton filter = (ImageButton) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
+        filter = (ImageButton) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopup(view);
             }
         });
-
 
     }
 
@@ -181,7 +182,7 @@ public class TaskListFragment extends Fragment {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        Log.i("Delete","now");
+                        Log.i("Delete", "now");
                         break;
                 }
                 return false;
@@ -221,7 +222,7 @@ public class TaskListFragment extends Fragment {
         taskList.add(test);
         taskList.add(test);
 
-        sHandler.postDelayed(mRunnable, 500);
+        sHandler.post(mRunnable);
         Log.i("debug", "Loaded");
     }
 

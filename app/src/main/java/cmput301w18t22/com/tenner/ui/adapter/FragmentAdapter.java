@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.aspsine.fragmentnavigator.FragmentNavigatorAdapter;
 
+import cmput301w18t22.com.tenner.ui.fragment.BidFragment;
 import cmput301w18t22.com.tenner.ui.fragment.HomeFragment;
 import cmput301w18t22.com.tenner.ui.fragment.MainFragment;
 import cmput301w18t22.com.tenner.ui.fragment.ProfileFragment;
@@ -28,7 +29,7 @@ public class FragmentAdapter implements FragmentNavigatorAdapter {
             // PostFragment
         }
         if (position == 3) {
-            // BidsFragment
+            return BidFragment.newInstance(position);
         }
         if (position == 4) {
             return ProfileFragment.newInstance(TABS[position]);
