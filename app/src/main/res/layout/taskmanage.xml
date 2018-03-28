@@ -17,7 +17,8 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="Task Details"
+            android:textAlignment="center" />
 
         <ImageView
             android:id="@+id/imageView5"
@@ -65,12 +66,39 @@
                 android:text="Bid" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/editText2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="248dp"
-            android:ems="10"
-            android:inputType="textMultiLine" />
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/task_owner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Name" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/space"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Description" />
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>
