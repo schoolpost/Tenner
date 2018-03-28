@@ -1,7 +1,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:top="6dp">
+    <item android:left="6dp">
         <shape android:shape="rectangle" >
-            <size android:height="6dp"/>
+            <size android:width="6dp"/>
             <solid android:color="#64dd17" />
             <gradient
                 android:startColor="#8bdd17"
@@ -11,9 +11,9 @@
                 />
         </shape>
     </item>
-    <item android:bottom="6dp">
+    <item android:right="6dp">
         <shape android:shape="rectangle" >
-            <size android:height="6dp"/>
+            <size android:width="6dp"/>
             <solid android:color="#ffffff" />
         </shape>
     </item>

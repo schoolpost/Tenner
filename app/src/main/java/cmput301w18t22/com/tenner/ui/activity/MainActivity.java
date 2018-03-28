@@ -133,9 +133,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     }
 
     private void setCurrentTab(int position) {
-        mNavigator.showFragment(position);
-        bottomNavigatorView.select(position);
-        setToolBar(position);
+        if (position == 2) {
+            Intent intent = new Intent();
+            intent.setClass(this, MapViewActivity.class);
+            startActivity(intent);
+        } else {
+            mNavigator.showFragment(position);
+            bottomNavigatorView.select(position);
+            setToolBar(position);
+        }
 
     }
 
