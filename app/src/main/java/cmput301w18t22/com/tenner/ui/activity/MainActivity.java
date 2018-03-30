@@ -1,6 +1,5 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -8,18 +7,12 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.aspsine.fragmentnavigator.FragmentNavigator;
 
-import cmput301w18t22.com.tenner.Action;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
 import cmput301w18t22.com.tenner.ui.adapter.FragmentAdapter;
@@ -167,15 +160,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             @Override
             public void onClick(View view) {
                 // Edit Profile
-                Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
-                if (check) {
-                    // To Edit Profile Activity
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                    finish();
-                } else {
-                    finish();
-                }
-
             }
         });
     }

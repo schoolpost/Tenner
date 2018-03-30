@@ -1,7 +1,6 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,14 +9,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
-
 import cmput301w18t22.com.tenner.R;
-import cmput301w18t22.com.tenner.ui.activity.MapViewActivity;
-import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +31,6 @@ public class ProfileFragment extends Fragment {
     private TextView name;
     private TextView email;
     private TextView phone;
-
 
 
     public static Fragment newInstance(String text) {
