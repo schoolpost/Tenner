@@ -5,4 +5,5 @@
     <dimen name="row_padding_vertical">10dp</dimen>
     <dimen name="thumbnail_height">100dp</dimen>
     <dimen name="thumbnail_width">100dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

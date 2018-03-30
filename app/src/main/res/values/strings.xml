@@ -38,6 +38,7 @@
 
     <string name="tasks_tab_requested">Requested</string>
     <string name="tasks_tab_providing">Providing</string>
+    <string name="title_activity_edit_profile">EditProfileActivity</string>
 
 
 </resources>
