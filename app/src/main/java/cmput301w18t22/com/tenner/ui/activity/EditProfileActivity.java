@@ -25,10 +25,9 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
 
         // Change ActionBar
-        /*getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
         getSupportActionBar().setCustomView(R.layout.toolbar_edit_profile);
-        */
 
         tvEmail = (TextView) findViewById(R.id.edit_email);
         etFirst = (EditText) findViewById(R.id.edit_firstname);
