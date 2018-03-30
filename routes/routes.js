@@ -109,6 +109,7 @@ router.post('/signUpUser', function(request, response){
 
 router.post('/signInUser', function(request, response){
     var user = JSON.parse(request.body.user);
+    console.log(request.body);
     
     if(typeof(user) != 'undefined'){
         var queryString = 'email:' + user;
