@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.aspsine.fragmentnavigator.FragmentNavigator;
 
+import java.util.function.ToDoubleBiFunction;
+
 import cmput301w18t22.com.tenner.Action;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
@@ -158,24 +160,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                 } else {
                     finish();
                 }
-
             }
         });
+
+        //TODO - Fix the issue, press of the bottom stops the app
 
         TextView edit = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Edit Profile
-                Boolean check = getIntent().getBooleanExtra("EDIT", false);
-                if (check) {
-                    // To Edit Profile Activity
-                    startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
-                    finish();
-                } else {
-                    finish();
-                }
-
+                // To Edit Profile Activity
+                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
+                finish();
             }
         });
     }

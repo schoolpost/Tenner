@@ -20,15 +20,17 @@
     <!--<string name="error_invalid_email">email is empty</string>-->
     <!--<string name="error_invalid_email">email is empty</string>-->
 
+    <!-- Strings related to Home -->
     <string name="home_greeting">Welcome, </string>
 
-
+    <!-- Strings related to Sign Up -->
     <string name="sign_up_prompt_title">Create New Account</string>
     <string name="prompt_first">First Name</string>
     <string name="prompt_last">Last Name</string>
     <string name="prompt_phone">Phone</string>
     <string name="prompt_sign_up">Sign Up</string>
 
+    <!-- Strings related to Bottom Nav Bar -->
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_tasks">Tasks</string>
     <string name="bottom_nav_post">Post</string>
@@ -36,6 +38,15 @@
     <string name="bottom_nav_profile">Profile</string>
     <string name="nav_icon_size">30dp</string>
 
+    <!-- Strings related to Post -->
+    <string name="post_title">Title</string>
+    <string name="post_description">Description</string>
+    <string name="post_location">Location (Optional)</string>
+    <string name="post_address">Address</string>
+    <string name="post_Image">Image (Optional)</string>
+    <string name="post_save">Save</string>
+
+    <!-- Strings related to Toolbar -->
     <string name="tasks_tab_requested">Requested</string>
     <string name="tasks_tab_providing">Providing</string>
     <string name="title_activity_edit_profile">EditProfileActivity</string>
