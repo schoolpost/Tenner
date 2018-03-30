@@ -3,6 +3,7 @@ package cmput301w18t22.com.tenner.classes;
 import java.math.BigDecimal;
 import java.util.Date;
 
+
 /**
  * The Bid class represents a bid on a specific task belonging to a specific user. The user becomes
  * the provider of the task if the bid is accepted.
@@ -19,14 +20,9 @@ public class Bid {
     private BigDecimal value;
     private Date date;
     private Task task;
-    private Status status;
-    
+    private Status.bidStatus status;
 
-    private enum Status {
-        assigned, declined
-    }
-
-    public void Bid(User owner, String amount, Date date, Task task, Status status) {
+    public void Bid(User owner, String amount, Date date, Task task, Status.bidStatus status) {
         this.owner = owner;
         // Convert input string to Big Decimal
         this.value = new BigDecimal(amount);

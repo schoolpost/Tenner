@@ -4,14 +4,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static cmput301w18t22.com.tenner.classes.Task.Status.bidded;
-import static cmput301w18t22.com.tenner.classes.Task.Status.requested;
-
 /**
  * The Task class represents a task that has been requested. Each task has a taskID, status
  * (one of assigned, bidded, requested, or done), title, description, requestedDate, and requester.
  * Optionally, a task may have a location and one or more photos. <br><br>
- *
+ * <p>
  * Once requested, a task can acquire bids, and the requester can select a provider based on the bids.
  *
  * @author Team 22
@@ -26,13 +23,9 @@ public class Task {
      * has bid on a task), assigned (once the requester has accepted a bid on that task), and done
      * (once the requester marks the task complete.
      */
-    public enum Status {
-        assigned, bidded, requested, done
-    }
-
     private String taskID; // How are we using task ID?
 
-    private Status status;
+    private Status.taskStatus status;
     private String title;
     private String description;
     private ArrayList<Bid> bidList;
@@ -43,8 +36,8 @@ public class Task {
     private User requester;
     private User provider;
 
-    public Task(String title, String description, Location location, Date date, User requester){
-        this.status = requested;
+    public Task(String title, String description, Location location, Date date, User requester) {
+        this.status = Status.taskStatus.requested;
         this.title = title;
         this.description = description;
         this.bidList = new ArrayList<Bid>();
@@ -77,9 +70,9 @@ public class Task {
 
     /**
      * @return this task's current status
-     * @see Task#setStatus
+     * @see Task #setStatus
      */
-    public Status getStatus() {
+    public Status.taskStatus getStatus() {
         return this.status;
     }
 
@@ -90,7 +83,7 @@ public class Task {
      *
      * @param status String representing taskID to set
      */
-    public void setStatus(Status status) {
+    public void setStatus(Status.taskStatus status) {
         this.status = status;
     }
 
@@ -161,7 +154,7 @@ public class Task {
      */
     public void addBid(Bid bid) {
         this.bidList.add(bid);
-        this.status = bidded;
+        this.status = Status.taskStatus.bidded;
     }
 
 
@@ -273,14 +266,18 @@ public class Task {
      *
      * @param user User representing requester of this task
      */
-    public void setRequester(User user) {this.requester = user;}
+    public void setRequester(User user) {
+        this.requester = user;
+    }
 
 
     /**
      * @return this task's requester
      * @see Task#setRequester
      */
-    public User getRequester() { return this.requester; }
+    public User getRequester() {
+        return this.requester;
+    }
 
 
     /**
@@ -289,14 +286,18 @@ public class Task {
      *
      * @param user User object whose bid has been accepted to provide this task
      */
-    public void setProvider(User user) {this.provider = user;}
+    public void setProvider(User user) {
+        this.provider = user;
+    }
 
 
     /**
      * @return this task's provider, if one exists
      * @see Task#setProvider
      */
-    public User getProvider() {return this.provider;}
+    public User getProvider() {
+        return this.provider;
+    }
 
 
     /**
