@@ -167,10 +167,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             @Override
             public void onClick(View view) {
                 // Edit Profile
-                Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
+                Boolean check = getIntent().getBooleanExtra("EDIT", false);
                 if (check) {
                     // To Edit Profile Activity
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
                     finish();
                 } else {
                     finish();
