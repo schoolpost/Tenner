@@ -5,6 +5,7 @@ var express       = require('express'),
     
 var client = new elasticsearch.Client({
   host: 'cmput301.softwareprocess.es:8080/',
+  apiVersion : '6.2',
   log: 'trace'
 });
 
@@ -25,141 +26,189 @@ router.get('/ping', function(request, response){
     });
 });
 
-router.get('/testpost', function(request, response){
-    var testbody = {
-        email : 'newuser1@gmail.com'
+router.get('/deleteUsers', function(request, response){
         
-    }
-    client.search({
-      index: 'tenner',
-      type: 'users'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        // console.log(data);
-        for(var dataObj in data){
-            if (data.hasOwnProperty(dataObj)) {
-                if(testbody.email == data[dataObj]._source.email){
-                    console.log('User Exists!');
-                    return response.send({'Error' : 'At /signUpUser User Exists!'});
-                }
-            }
-        }
-        // //TODO : Write data
-        // client.create({
-        //     index: 'tenner',
-        //     type: 'users',
-        //     id : '1',
-        //     body : {
-        //         email : 'newuser1@gmail.com'
-        //     }
-        // }).then(function(error, response){
-        //     if(error){
-        //         console.log(error);
-        //         return response.send({'Error' : 'At /signUpUser Upload Error!'});
-        //     } else {
-        //         console.log(response);
-        //         return response.send({'Success' : 'User Sign Up Success!'}); 
-        //     }
+        
+        // client.delete({
+        //   index: 'tenner',
+          
+        // }, function (error, response2) {
+        //   // ...
+          
+        //   if(error){
+        //       console.log(error);
+        //       return response.send("lol");
+        //   } else {
+        //     return response.send({'Success' : 'User Sign Up Success!'}); 
+        //   }
         // });
         
-        client.deleteByQuery({
-          index: 'tenner',
-          type : 'users',
-          q : {
-              'match_all' : {
-                  'bids' : []
-              }
-          }
-        }, function (error, response2) {
-          // ...
-          
-          if(error){
-              console.log(error);
-              return response.send("lol");
-          } else {
-            return response.send({'Success' : 'User Sign Up Success!'}); 
-          }
-        });
-        
-    }, function (err) {
-        if(err){
-            console.log(err.message);
-            return response.send({'Error' : 'At /signUp' + err.message});
-        }
-    });
     
 });
     
 //Users-------------------------------------------------------------->
 
-router.get('/getAllUsers', function(request, response){
-    client.search({
-      index: 'tenner',
-      type: 'users'
-      /*body: {
-        query: {
-          match: {
-            body: ''
-          }
-        }
-      }*/
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        return response.send(data);
-    }, function (err) {
-        console.log(err.message);
-        return response.send({'Error' : 'At /getAllUsers ' + err.message});
-    });
-});
-
 router.post('/signUpUser', function(request, response){
     var user = JSON.parse(request.body.user);
-    console.log(user.email);
     
-    client.search({
-      index: 'tenner',
-      type: 'users'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        for(var dataObj in data){
-            if (data.hasOwnProperty(dataObj)) {
-                if(user.email == data[dataObj]._source.email){
-                    console.log('User Exists!');
-                    return response.send({'Error' : 'At /signUpUser User Exists!'});
+    if(typeof(user.email) != 'undefined'){
+        var queryString = 'email:' + user.email;
+        console.log(queryString);
+        
+        client.search({
+          index: 'tenner',
+          type: 'users',
+          q : queryString
+        }).then(function (responseBody) {
+            var data = responseBody.hits.hits;
+            console.log(data)
+            for(var dataObj in data){
+                if (data.hasOwnProperty(dataObj)) {
+                    if(user.email == data[dataObj]._source.email){
+                        console.log('User Exists!');
+                        return response.send({'Error' : 'At /signUpUser User Exists!'});
+                    }
                 }
             }
-        }
-        //TODO : Write data
-        return response.send({'Success' : 'User Signed Up!'});
-        
-    }, function (err) {
-        console.log(err.message);
-        return response.send({'Error' : 'At /signUp' + err.message});
-    });
+            
+            //Write
+            client.create({
+                index: 'tenner',
+                type: 'users',
+                id : user.email,
+                body : {
+                    email: user.email, 
+                    firstName : user.firstName,
+                    lastName : user.lastName,
+                    phoneNum : user.phoneNum,
+                    //photo : user.photo,
+                    requestedTasks : user.requestedTasks,
+                    providedTasks : user.providedTasks,
+                    bids : user.bids
+                }
+            }).then(function(error, responseWrite){
+                if(error){
+                    console.log(error);
+                    return response.send({'Error' : 'At /signUpUser Upload Error!'});
+                } else {
+                    console.log(response);
+                    return response.send({'Success' : 'At /signUpUser User Signed Up!'});
+                }
+            });
+            
+        }, function (err) {
+            if(err){
+                console.log(err.message);
+                return response.send({'Error' : 'At /signUpUser' + err.message});
+            }
+        });
+    } else {
+        return response.send({'Error' : 'At /signUpUser No User Email!'});
+    }
 });
 
-router.post('/updateUser', function(request, response){
-    var user = request.body.user;
+router.post('/signInUser', function(request, response){
+    var user = JSON.parse(request.body.user);
     
-    client.search({
-      index: 'tenner',
-      type: 'users'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        console.log(data);
+    if(typeof(user.email) != 'undefined'){
+        var queryString = 'email:' + user.email;
+        console.log(queryString);
         
-        for(var dataObj in data){
-            if(user.email == dataObj._source.email){
-                //TODO : Write data
-                return response.send(JSON.stringify('Success : User Updated!'));
+        client.search({
+          index: 'tenner',
+          type: 'users',
+          q : queryString
+        }).then(function (responseBody) {
+            var data = responseBody.hits.hits;
+            console.log(data)
+            for(var dataObj in data){
+                if (data.hasOwnProperty(dataObj)) {
+                    if(user.email == data[dataObj]._source.email){
+                        console.log('User Exists!');
+                        return response.send({'Success' : 'At /signInUser Log In!'});
+                    }
+                }
             }
-        }
-        return response.send(JSON.stringify('Error at /updateUser : User not found!!'));
+            return response.send({'Error' : 'At /signInUser No User Found!'});
+            
+        }, function (err) {
+            if(err){
+                console.log(err.message);
+                return response.send({'Error' : 'At /signInUser' + err.message});
+            }
+        });
+    } else {
+        return response.send({'Error' : 'At /signInUser No User Email!'});
+    }
+});
+
+router.post('/getUser', function(request, response){
+    var user = JSON.parse(request.body.user);
+    
+    if(typeof(user.email) != 'undefined'){
+        var queryString = 'email:' + user.email;
+        console.log(queryString);
         
-    }, function (err) {
-        console.log(err.message);
-        return response.send('Error at /updateUser : ' + err.message);
-    });
+        client.search({
+          index: 'tenner',
+          type: 'users',
+          q : queryString
+        }).then(function (responseBody) {
+            var data = responseBody.hits.hits;
+            console.log(data)
+            for(var dataObj in data){
+                if (data.hasOwnProperty(dataObj)) {
+                    if(user.email == data[dataObj]._source.email){
+                        console.log('User Exists!');
+                        return response.send(data[dataObj]._source);
+                    }
+                }
+            }
+            return response.send({'Error' : 'At /getUser No User Found!!'});
+            
+        }, function (err) {
+            if(err){
+                console.log(err.message);
+                return response.send({'Error' : 'At /getUser' + err.message});
+            }
+        });
+    } else {
+        return response.send({'Error' : 'At /getUser No User Email!'});
+    }
+});
+
+router.get('/editUser', function(request, response){
+    // var user = JSON.parse(request.body.user);
+    var user = {
+        email : 'lol@gmail.com'
+    }
+    
+    if(typeof(user.email) != 'undefined'){
+        client.index({
+          index: 'tenner',
+          type : 'users',
+          id : user.email,
+          body : {
+            email: user.email, 
+            firstName : user.firstName,
+            lastName : user.lastName,
+            phoneNum : user.phoneNum,
+            //photo : user.photo,
+            requestedTasks : user.requestedTasks,
+            providedTasks : user.providedTasks,
+            bids : user.bids
+          }
+        }, function (err, response2) {
+            if(err){
+                console.log(err.message);
+                return response.send({'Error' : 'At /editUser' + err.message});
+            } else {
+                return response.send({'Success' : 'At /editUser User Updated!'});
+            }
+        });
+    } else {
+        return response.send({'Error' : 'At /editUser No User Email!'});
+    }
 });
 
 //Tasks-------------------------------------------------------------->
