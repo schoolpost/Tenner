@@ -110,8 +110,8 @@ router.post('/signUpUser', function(request, response){
 router.post('/signInUser', function(request, response){
     var user = JSON.parse(request.body.user);
     
-    if(typeof(user.email) != 'undefined'){
-        var queryString = 'email:' + user.email;
+    if(typeof(user) != 'undefined'){
+        var queryString = 'email:' + user;
         console.log(queryString);
         
         client.search({
