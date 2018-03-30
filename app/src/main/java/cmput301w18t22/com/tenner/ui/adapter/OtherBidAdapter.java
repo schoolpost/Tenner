@@ -60,17 +60,17 @@ public class OtherBidAdapter extends BaseAdapter {
         // inflate the layout for each list row
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
-                    inflate(R.layout.mybidadapter_item, parent, false);
+                    inflate(R.layout.otherbidadapter_item, parent, false);
         }
 
         // get current item to be displayed
         Bid currentBid = getItem(position);
 
         // get TextView objects
-        TextView taskTitleTextView = (TextView) convertView.findViewById(R.id.task_title);
-        TextView bidderNameTextView = (TextView) convertView.findViewById(R.id.bidder_name);
-        TextView bidAmtTextView = (TextView) convertView.findViewById(R.id.bid_amt);
-        View coloredBar = (View) convertView.findViewById(R.id.colored_bar);
+        TextView taskTitleTextView = convertView.findViewById(R.id.task_title);
+        TextView bidderNameTextView = convertView.findViewById(R.id.bidder_name);
+        TextView bidAmtTextView = convertView.findViewById(R.id.bid_amt);
+        View coloredBar = convertView.findViewById(R.id.colored_bar);
 
         // get Subscription information and display in textViews
         taskTitleTextView.setText(currentBid.getTask().getTitle());

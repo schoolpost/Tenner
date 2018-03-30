@@ -75,10 +75,10 @@ public class MyBidAdapter extends BaseAdapter {
 
         // get Subscription information and display in textViews
         taskTitleTextView.setText(currentBid.getTask().getTitle());
-        String requesterString = "Requester: " + currentBid.getTask().getRequester().toDisplayName();
+        String requesterString = currentBid.getTask().getRequester().toDisplayName();
         requesterNameTextView.setText(requesterString);
         myBidTextView.setText(currentBid.toString());
-        lowestBidTextView.setText(currentBid.getTask().getLowestBid().toString());
+        lowestBidTextView.setText("$ 99.99");
 
         // Set correct colored bar color based on task status
         Status.taskStatus taskStatus = currentBid.getTask().getStatus();

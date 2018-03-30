@@ -8,16 +8,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -30,15 +26,19 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.Bid;
 import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
-import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
+import cmput301w18t22.com.tenner.ui.adapter.MyBidAdapter;
+import cmput301w18t22.com.tenner.ui.adapter.OtherBidAdapter;
+
+import static cmput301w18t22.com.tenner.classes.Status.bidStatus.assigned;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskListFragment extends Fragment {
+public class BidListFragment extends Fragment {
 
     //public static final String TAG = TaskListFragment.class.getSimpleName();
 
@@ -48,24 +48,27 @@ public class TaskListFragment extends Fragment {
 
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
-    private TaskListFragment.WeakRunnable mRunnable = new TaskListFragment.WeakRunnable(this);
+    private BidListFragment.WeakRunnable mRunnable = new BidListFragment.WeakRunnable(this);
 
     private String mText;
 
     private ProgressBar progressBar;
     private ImageButton filter;
 
-    private ArrayList<Task> taskList;
-    private TaskAdapter myAdapter;
+    private ArrayList<Bid> bidList;
+    private MyBidAdapter myBidAdapter;
+    private OtherBidAdapter oBidAdapter;
     private SwipeMenuListView displayList;
     private int tab;
 
-    public TaskListFragment() {
+    private boolean showMyBids;
+
+    public BidListFragment() {
         // Required empty public constructor
     }
 
     public static Fragment newInstance(int position) {
-        Fragment fragment = new TaskListFragment();
+        Fragment fragment = new BidListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("tab", position);
         fragment.setArguments(bundle);
@@ -76,19 +79,25 @@ public class TaskListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tab = getArguments().getInt("tab");
-        taskList = new ArrayList<Task>();
+        if (tab == 0) {
+            showMyBids = true;
+        } else showMyBids = false;
+
+        bidList = new ArrayList<Bid>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task_list_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_bid_list_fragment, container, false);
     }
 
+    /*
     private void showPopup(View v) {
         PopupMenu popup = new PopupMenu(getContext(), v);
         MenuInflater inflater = popup.getMenuInflater();
+        // TODO: make bid filters menu
         inflater.inflate(R.menu.task_filters, popup.getMenu());
         popup.show();
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -99,19 +108,20 @@ public class TaskListFragment extends Fragment {
             }
         });
     }
+    */
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        displayList = (SwipeMenuListView) view.findViewById(R.id.tasksList);
-        filter = (ImageButton) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
+        displayList = (SwipeMenuListView) view.findViewById(R.id.bidsList);
+        /*filter = (ImageButton) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showPopup(view);
             }
-        });
+        });*/
 
     }
 
@@ -145,8 +155,13 @@ public class TaskListFragment extends Fragment {
     private void bindData() { // Attach to listview
         Log.i("debug", "Binding");
 
-        myAdapter = new TaskAdapter(getContext(), taskList);
-        displayList.setAdapter(myAdapter);
+        if (showMyBids) {
+            myBidAdapter = new MyBidAdapter(getContext(), bidList);
+            displayList.setAdapter(myBidAdapter);
+        } else {
+            oBidAdapter = new OtherBidAdapter(getContext(), bidList);
+            displayList.setAdapter(oBidAdapter);
+        }
 
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
         float dp = 80f;
@@ -195,29 +210,16 @@ public class TaskListFragment extends Fragment {
         Log.i("debug", "Loading");
         showProgressBar(true);
 
-        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
-                new Date(), new User("me@google.com", "John", "Doe", "555-5556"));
+        // Fake Data Here
 
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
+        User testUser = new User("email@example.com", "First", "Last", "780-123-4567");
+        Location testLocation = new Location(0.0f, 0.0f, "123 Main St");
+        Task testTask = new Task("Task Title", "Task Description", testLocation, new Date(), testUser);
+        Bid bid = new Bid(testUser, "1.00", new Date(), testTask, assigned);
+
+        for (int i = 0; i < 20; i++) {
+            bidList.add(bid);
+        }
 
         sHandler.post(mRunnable);
         Log.i("debug", "Loaded");
@@ -225,18 +227,18 @@ public class TaskListFragment extends Fragment {
 
     private static class WeakRunnable implements Runnable {
 
-        WeakReference<TaskListFragment> mTaskListFragmentReference;
+        WeakReference<BidListFragment> mBidListFragmentReference;
 
-        public WeakRunnable(TaskListFragment taskListFragment) {
-            this.mTaskListFragmentReference = new WeakReference<TaskListFragment>(taskListFragment);
+        public WeakRunnable(BidListFragment bidListFragment) {
+            this.mBidListFragmentReference = new WeakReference<BidListFragment>(bidListFragment);
         }
 
         @Override
         public void run() {
-            TaskListFragment taskListFragment = mTaskListFragmentReference.get();
-            if (taskListFragment != null && !taskListFragment.isDetached()) {
-                taskListFragment.showProgressBar(false);
-                taskListFragment.bindData();
+            BidListFragment bidListFragment = mBidListFragmentReference.get();
+            if (bidListFragment != null && !bidListFragment.isDetached()) {
+                bidListFragment.showProgressBar(false);
+                bidListFragment.bindData();
             }
         }
     }

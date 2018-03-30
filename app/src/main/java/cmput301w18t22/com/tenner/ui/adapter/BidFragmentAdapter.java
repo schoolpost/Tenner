@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.aspsine.fragmentnavigator.FragmentNavigatorAdapter;
 
+import cmput301w18t22.com.tenner.ui.fragment.BidListFragment;
 import cmput301w18t22.com.tenner.ui.fragment.MainFragment;
 
 /**
@@ -16,7 +17,7 @@ public class BidFragmentAdapter implements FragmentNavigatorAdapter {
 
     @Override
     public Fragment onCreateFragment(int position) {
-        return MainFragment.newInstance(TABS[position]);
+        return BidListFragment.newInstance(position);
     }
 
     @Override
