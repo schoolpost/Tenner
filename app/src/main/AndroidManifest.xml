@@ -43,8 +43,7 @@
         <activity android:name=".ui.activity.PostTaskActivity" />
         <activity
             android:name=".ui.activity.EditProfileActivity"
-            android:label="@string/title_activity_edit_profile"
-            android:theme="@style/NoActionBar" />
+            android:label="@string/title_activity_edit_profile"/>
         <activity android:name=".ui.activity.TaskDetailActivity"></activity>
     </application>
 

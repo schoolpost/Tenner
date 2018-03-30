@@ -18,6 +18,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText etFirst;
     private EditText etLast;
     private EditText etPhone;
+    private TextView save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +29,20 @@ public class EditProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
         getSupportActionBar().setCustomView(R.layout.toolbar_edit_profile);
+        save = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit_save);
 
         tvEmail = (TextView) findViewById(R.id.edit_email);
         etFirst = (EditText) findViewById(R.id.edit_firstname);
         etLast = (EditText) findViewById(R.id.edit_lastname);
         etPhone = (EditText) findViewById(R.id.edit_phone);
+
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                applyChanges();
+            }
+        });
 
         // Get the value from the server
 

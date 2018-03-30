@@ -13,6 +13,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 
 import cmput301w18t22.com.tenner.R;
 
@@ -21,6 +22,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
     private GoogleMap mGoogleMap;
     private MapView mapView;
     private View mView;
+    private LatLng position;
 
 
     @Override
@@ -52,6 +54,13 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         MapsInitializer.initialize(getApplicationContext());
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        mGoogleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                position = mGoogleMap.getCameraPosition().target;
+            }
+        });
 
     }
 
