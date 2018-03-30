@@ -13,7 +13,7 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
     LocationTest() {
         super(Location.class);
     }
-
+/*
     public void testGetLatitude() {
         Location loc = new Location();
         float lat = 9.92384f;
@@ -67,5 +67,7 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
 
         assertEquals(addy, loc.getAddress());
     }
+*/
+
 
 }

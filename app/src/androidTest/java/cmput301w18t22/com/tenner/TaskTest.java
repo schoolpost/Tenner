@@ -2,13 +2,15 @@ package cmput301w18t22.com.tenner;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import cmput301w18t22.com.tenner.classes.Bid;
 import cmput301w18t22.com.tenner.classes.Location;
-import cmput301w18t22.com.tenner.classes.Photo;
 import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.classes.User;
+
+import static cmput301w18t22.com.tenner.classes.Status.bidStatus.assigned;
 
 /**
  * Created by Schoolpost on 2018-02-26.
@@ -20,6 +22,7 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
         super(Task.class);
     }
 
+/*
     public void testGetTaskID() {
         Task task = new Task();
         String id = "123456";
@@ -235,6 +238,86 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
         Boolean hasNew = false;
         task.setHasNewBids(hasNew);
         assertTrue(task.getHasNewBids() == hasNew);
+    }
+*/
+
+    public void testAddRemoveBid() {
+        Task testTask = createTestTask();
+        assertEquals(testTask.getBidList().size(), 0);
+
+        Bid bid1, bid2;
+
+        bid1 = createTestBid();
+        bid1.setTask(testTask);
+        BigDecimal bidValue = new BigDecimal(1.75f);
+
+        bidValue.setScale(2);
+        bid1.setValue(bidValue); // bid 1 has value 1
+
+        bid2 = createTestBid();
+        bid2.setTask(testTask);
+        bidValue.add(bidValue);
+        bid2.setValue(bidValue); // bid 2 has value 2
+
+        testTask.addBid(bid1);
+        testTask.addBid(bid2);
+
+        assertEquals(testTask.getBidList().size(), 2);
+
+        testTask.removeBid(bid2);
+
+        assertEquals(testTask.getBidList().size(), 1);
+        assertEquals(testTask.getBidList().get(0).toString(), "$ 1.75");
+
+        testTask.removeBid(bid1);
+
+        assertEquals(testTask.getBidList().size(), 0);
+
+    }
+
+    public void testGetLowestBid() {
+        Task testTask = createTestTask();
+
+        Bid bid1, bid2, bid3;
+        BigDecimal bidValue = new BigDecimal (5.25f);
+
+        bid1 = createTestBid();
+        bid1.setValue(bidValue);
+        testTask.addBid(bid1);
+
+        assertEquals(testTask.getLowestBid(), bid1);
+
+        bidValue = new BigDecimal (1.75f);
+        bid2 = createTestBid();
+        bid2.setValue(bidValue);
+        testTask.addBid(bid2);
+
+        assertEquals(testTask.getLowestBid(), bid2);
+
+        bidValue = new BigDecimal(3.50f);
+        bid3 = createTestBid();
+        bid3.setValue(bidValue);
+        testTask.addBid(bid3);
+
+        assertEquals(testTask.getLowestBid(), bid2);
+
+    }
+
+
+    private User createTestUser(){
+        User testUser = new User("email@example.com", "First", "Last", "780-123-4567");
+        return testUser;
+    }
+
+    private Task createTestTask() {
+        Location testLocation = new Location(0.0f, 0.0f, "123 Main St");
+        Task testTask = new Task("Task Title", "Task Description", testLocation, new Date(), createTestUser());
+        return testTask;
+    }
+
+    private Bid createTestBid() {
+        Bid bid = new Bid(createTestUser(), "1.00", new Date(), createTestTask(), assigned);
+        return bid;
     }
 
 }

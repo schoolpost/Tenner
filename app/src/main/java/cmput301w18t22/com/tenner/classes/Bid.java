@@ -22,7 +22,7 @@ public class Bid {
     private Task task;
     private Status.bidStatus status;
 
-    public void Bid(User owner, String amount, Date date, Task task, Status.bidStatus status) {
+    public Bid(User owner, String amount, Date date, Task task, Status.bidStatus status) {
         this.owner = owner;
         // Convert input string to Big Decimal
         this.value = new BigDecimal(amount);
