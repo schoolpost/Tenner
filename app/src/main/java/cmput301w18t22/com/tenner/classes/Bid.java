@@ -11,23 +11,29 @@ import java.util.Date;
  * @version 1.1
  * @see Bid
  */
+
+
 public class Bid {
 
     private User owner;
     private BigDecimal value;
     private Date date;
     private Task task;
+    private Status status;
+    
 
-    public void Bid(User owner, String amount, Date date, Task task) {
+    private enum Status {
+        assigned, declined
+    }
+
+    public void Bid(User owner, String amount, Date date, Task task, Status status) {
         this.owner = owner;
-
         // Convert input string to Big Decimal
         this.value = new BigDecimal(amount);
         this.value.setScale(2);
-
         this.date = date;
-
         this.task = task;
+        this.status = status;
     }
 
 
@@ -93,7 +99,9 @@ public class Bid {
      * @return this bid's task
      * @see Bid#setTask
      */
-    public Task getTask() {return this.task;}
+    public Task getTask() {
+        return this.task;
+    }
 
 
     /**
@@ -101,7 +109,9 @@ public class Bid {
      *
      * @param task Task for this bid
      */
-    public void setTask(Task task) { this.task = task; }
+    public void setTask(Task task) {
+        this.task = task;
+    }
 
 
     /**
@@ -109,5 +119,7 @@ public class Bid {
      *
      * @return String respresenting value of this bid, preceded by dollar sign
      */
-    public String toString() {return "$ " + this.value.toString();}
+    public String toString() {
+        return "$ " + this.value.toString();
+    }
 }
