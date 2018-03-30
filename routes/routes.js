@@ -224,6 +224,7 @@ router.get('/getAllUsers', function(request, response){
       }*/
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
+        console.log(data);
         return response.send(data);
     }, function (err) {
         console.log(err.message);
