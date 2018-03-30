@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Bid;
-import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.classes.Status;
 
 /**
  * Custom Adapter provides the adapter for an array of my bids on others' tasks
@@ -81,15 +81,19 @@ public class OtherBidAdapter extends BaseAdapter {
 
 
         // Set correct colored bar color based on task status
-        Task.Status taskStatus = currentBid.getTask().getStatus();
+        Status.taskStatus taskStatus = currentBid.getTask().getStatus();
         switch (taskStatus) {
-            case requested: coloredBar.setBackgroundResource(R.color.yellow);
+            case requested:
+                coloredBar.setBackgroundResource(R.color.yellow);
                 break;
-            case bidded: coloredBar.setBackgroundResource(R.color.orange);
+            case bidded:
+                coloredBar.setBackgroundResource(R.color.orange);
                 break;
-            case assigned: coloredBar.setBackgroundResource(R.color.green);
+            case assigned:
+                coloredBar.setBackgroundResource(R.color.green);
                 break;
-            case done: coloredBar.setBackgroundResource(R.color.black);
+            case done:
+                coloredBar.setBackgroundResource(R.color.black);
                 break;
         }
 
