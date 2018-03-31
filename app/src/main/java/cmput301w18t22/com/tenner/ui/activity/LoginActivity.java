@@ -27,7 +27,6 @@ import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etEmail;
-    private EditText etPassword;
     private TextView signup;
 
 
@@ -117,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
 
     }
-    
+
     public void postLoginUser(String username) throws JSONException {
 
         RequestParams params = new RequestParams();
