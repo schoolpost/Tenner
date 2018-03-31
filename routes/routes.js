@@ -123,7 +123,7 @@ router.post('/signInUser', function(request, response){
             console.log(data)
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
-                    if(user.email == data[dataObj]._source.email){
+                    if(user == data[dataObj]._source.email){
                         console.log('User Exists!');
                         return response.send({'Success' : 'At /signInUser Log In!'});
                     }
@@ -143,10 +143,10 @@ router.post('/signInUser', function(request, response){
 });
 
 router.post('/getUser', function(request, response){
-    var user = JSON.parse(request.body.user);
+    var user = request.body.user;
     
-    if(typeof(user.email) != 'undefined'){
-        var queryString = 'email:' + user.email;
+    if(typeof(user) != 'undefined'){
+        var queryString = 'email:' + user;
         console.log(queryString);
         
         client.search({
@@ -158,7 +158,7 @@ router.post('/getUser', function(request, response){
             console.log(data)
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
-                    if(user.email == data[dataObj]._source.email){
+                    if(user == data[dataObj]._source.email){
                         console.log('User Exists!');
                         return response.send(data[dataObj]._source);
                     }
@@ -178,10 +178,7 @@ router.post('/getUser', function(request, response){
 });
 
 router.get('/editUser', function(request, response){
-    // var user = JSON.parse(request.body.user);
-    var user = {
-        email : 'lol@gmail.com'
-    }
+    var user = JSON.parse(request.body.user);
     
     if(typeof(user.email) != 'undefined'){
         client.index({
