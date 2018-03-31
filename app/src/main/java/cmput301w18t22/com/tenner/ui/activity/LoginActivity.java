@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText etEmail;
     private TextView signup;
+    private Button login;
 
 
     @Override
@@ -38,9 +40,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         etEmail = (EditText) findViewById(R.id.et_email);
-        Button button = (Button) findViewById(R.id.login_in_button);
+        login = (Button) findViewById(R.id.login_in_button);
         signup = (TextView) findViewById(R.id.sign_up_prompt);
-        button.setOnClickListener(this);
+        login.setOnClickListener(this);
         signup.setOnClickListener(this);
 
     }
@@ -66,6 +68,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.login_in_button) {
+            login.setEnabled(false);
+            login.setClickable(false);
             tryLogin();
         }
         if (v.getId() == R.id.sign_up_prompt) {
@@ -129,12 +133,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         ElasticServer.RestClient.post("signInUser", params, new JsonHttpResponseHandler() {
 
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                login.setEnabled(true);
+                login.setClickable(true);
+            }
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.has("Success")) {
+                        Log.i("response", response.toString());
                         login();
                     }
                     if (response.has("Error")) {
