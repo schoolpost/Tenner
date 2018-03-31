@@ -39,6 +39,17 @@ public class User {
         this.bids = new ArrayList<Bid>();
     }
 
+    public User(String email, String firstName, String lastName, String phoneNum, ArrayList<Task> requestedTasks, ArrayList<Task> providedTasks, ArrayList<Bid> bids) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNum = phoneNum;
+        //this.photo = photo;
+        this.requestedTasks = requestedTasks;
+        this.providedTasks = providedTasks;
+        this.bids = bids;
+    }
+
     /**
      * @return this user's email
      * @see User#setEmail
@@ -216,7 +227,9 @@ public class User {
      *
      * @param newBid Bid to be added to bids list
      */
-    public void addBid(Bid newBid) {this.bids.add(newBid);}
+    public void addBid(Bid newBid) {
+        this.bids.add(newBid);
+    }
 
     /**
      * Sets up and returns the user in display format: FirstName LastInitial. <br>
@@ -225,7 +238,7 @@ public class User {
      * @return The user's name in display format (FirstName LastInitial.)
      */
     public String toDisplayName() {
-        String displayName = this.firstName + ' ' + this.lastName.substring(0,1) + ".";
+        String displayName = this.firstName + ' ' + this.lastName.substring(0, 1) + ".";
         return displayName;
     }
 }

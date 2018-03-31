@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
+import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
 import cmput301w18t22.com.tenner.utils.Authenticator;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText etEmail;
     private EditText etPassword;
     private TextView signup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         checkLoggedIn();
     }
 
-    public void checkLoggedIn(){
+    public void checkLoggedIn() {
         if (SharedPrefUtils.isLogin(this)) {
             startActivity(new Intent(this, MainActivity.class).putExtra("SIGNUP", true));
         }
@@ -69,6 +71,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = String.valueOf(etEmail.getText()).trim();
 
         if (check(email)) {
+
+            ElasticSearchRestClient elasticSearchRestClient = ElasticSearchRestClient.getInstance();
+            try {
+                elasticSearchRestClient.postLoginUser(email);
+            } catch (Exception e) {
+
+            }
+
             markUserLogin();
             notifyUserLogin();
             startActivity(new Intent(this, MainActivity.class));
@@ -77,11 +87,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     boolean check(String email) {
         Authenticator a = new Authenticator();
-        if (TextUtils.isEmpty(email) ) {
+        if (TextUtils.isEmpty(email)) {
             etEmail.setError(getString(R.string.error_invalid_email));
             return false;
         }
-        if (!a.checkEmail(email)){
+        if (!a.checkEmail(email)) {
             etEmail.setError("incorrect email");
             return false;
         }

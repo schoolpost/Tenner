@@ -3,13 +3,20 @@ package cmput301w18t22.com.tenner.ui.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
+import cmput301w18t22.com.tenner.classes.Bid;
+import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
 import cmput301w18t22.com.tenner.utils.Authenticator;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
@@ -38,6 +45,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.sign_up_button) {
             tryLogin();
@@ -51,6 +65,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String phone = String.valueOf(etPhone.getText()).trim();
 
         if (check(email, firstn, lastn, phone)) {
+
+            User user = new User(email, firstn, lastn, phone, new ArrayList<Task>(), new ArrayList<Task>(), new ArrayList<Bid>());
+
+            ElasticSearchRestClient elasticSearchRestClient = ElasticSearchRestClient.getInstance();
+            try {
+                elasticSearchRestClient.postUser(user);
+            } catch (Exception e) {
+
+            }
+
             markUserLogin();
             notifyUserLogin();
             finish();

@@ -45,7 +45,6 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         // Get the value from the server
-
         tvEmail.setText("test@gmail.com");
         etFirst.setText("Csaba");
         etLast.setText("Nagy");
