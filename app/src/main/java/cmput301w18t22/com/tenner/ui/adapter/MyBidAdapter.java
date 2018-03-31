@@ -11,14 +11,14 @@ import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Bid;
-import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.classes.Status;
 
 /**
  * Custom Adapter provides the adapter for an array of my bids on others' tasks
- *
+ * <p>
  * Needs to define all 4 overidden methods to function properly, as well as have layout defined in XML
- *
- *
+ * <p>
+ * <p>
  * Based on https://guides.codepath.com/android/Using-a-BaseAdapter-with-ListView
  * Retrieved 2018-02-05
  */
@@ -50,9 +50,9 @@ public class MyBidAdapter extends BaseAdapter {
     /**
      * Get the view for the listView object.
      *
-     * @param position integer representing position in ListView
+     * @param position    integer representing position in ListView
      * @param convertView current View
-     * @param parent parent ViewGroup
+     * @param parent      parent ViewGroup
      * @return View
      */
     @Override
@@ -75,21 +75,25 @@ public class MyBidAdapter extends BaseAdapter {
 
         // get Subscription information and display in textViews
         taskTitleTextView.setText(currentBid.getTask().getTitle());
-        String requesterString ="Requester: " + currentBid.getTask().getRequester().toDisplayName();
+        String requesterString = "Requester: " + currentBid.getTask().getRequester().toDisplayName();
         requesterNameTextView.setText(requesterString);
         myBidTextView.setText(currentBid.toString());
         lowestBidTextView.setText(currentBid.getTask().getLowestBid().toString());
 
         // Set correct colored bar color based on task status
-        Task.Status taskStatus = currentBid.getTask().getStatus();
+        Status.taskStatus taskStatus = currentBid.getTask().getStatus();
         switch (taskStatus) {
-            case requested: coloredBar.setBackgroundResource(R.color.yellow);
+            case requested:
+                coloredBar.setBackgroundResource(R.color.yellow);
                 break;
-            case bidded: coloredBar.setBackgroundResource(R.color.orange);
+            case bidded:
+                coloredBar.setBackgroundResource(R.color.orange);
                 break;
-            case assigned: coloredBar.setBackgroundResource(R.color.green);
+            case assigned:
+                coloredBar.setBackgroundResource(R.color.green);
                 break;
-            case done: coloredBar.setBackgroundResource(R.color.black);
+            case done:
+                coloredBar.setBackgroundResource(R.color.black);
                 break;
         }
 

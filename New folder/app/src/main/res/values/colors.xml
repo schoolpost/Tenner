@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorWindowBackground">#f0f0f0</color>
+    <color name="colorTabNormal">#cccccc</color>
+    <color name="colorTabSelected">#666666</color>
+    <color name="black">#000000</color>
+    <color name="green">#00FF00</color>
+    <color name="orange">#ffa500</color>
+    <color name="yellow">#ffff00</color>
+</resources>

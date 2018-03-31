@@ -1,18 +1,32 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -42,10 +56,11 @@ public class TaskListFragment extends Fragment {
     private String mText;
 
     private ProgressBar progressBar;
+    private ImageButton filter;
 
     private ArrayList<Task> taskList;
     private TaskAdapter myAdapter;
-    private ListView displayList;
+    private SwipeMenuListView displayList;
     private int tab;
 
     public TaskListFragment() {
@@ -74,21 +89,33 @@ public class TaskListFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_task_list_fragment, container, false);
     }
 
+    private void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.task_filters, popup.getMenu());
+        popup.show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Log.i("YO", "HeLLO");
+                return false;
+            }
+        });
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
-        // Setup list display
-        displayList = (ListView) view.findViewById(R.id.tasksList);
-
-        displayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        displayList = (SwipeMenuListView) view.findViewById(R.id.tasksList);
+        filter = (ImageButton) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
+        filter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Do something
-                Log.i("Clicked Task", String.valueOf(i));
+            public void onClick(View view) {
+                showPopup(view);
             }
         });
+
     }
 
     @Override
@@ -120,10 +147,48 @@ public class TaskListFragment extends Fragment {
 
     private void bindData() { // Attach to listview
         Log.i("debug", "Binding");
+
         myAdapter = new TaskAdapter(getContext(), taskList);
         displayList.setAdapter(myAdapter);
-        myAdapter.notifyDataSetChanged();
-        Log.i("debug", "Bound");
+
+        DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
+        float dp = 80f;
+        float fpixels = metrics.density * dp;
+        final int pixels = (int) (fpixels + 0.5f);
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(pixels);
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_delete_black_24dp);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        displayList.setMenuCreator(creator);
+
+        displayList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0:
+                        Log.i("Delete", "now");
+                        break;
+                }
+                return false;
+            }
+        });
+
     }
 
     /**
@@ -133,7 +198,7 @@ public class TaskListFragment extends Fragment {
         Log.i("debug", "Loading");
         showProgressBar(true);
 
-        Task test = new Task("My Task", "Best Task Ever", new Location(1f,1f,"New York"),
+        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
                 new Date(), new User("me@google.com", "John", "Doe", "555-5556"));
 
         taskList.add(test);
@@ -156,8 +221,8 @@ public class TaskListFragment extends Fragment {
         taskList.add(test);
         taskList.add(test);
         taskList.add(test);
-        
-        sHandler.postDelayed(mRunnable, 500);
+
+        sHandler.post(mRunnable);
         Log.i("debug", "Loaded");
     }
 

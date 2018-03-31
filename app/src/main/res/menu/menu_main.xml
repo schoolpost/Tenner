@@ -9,12 +9,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_exception"
-        android:orderInCategory="200"
-        android:title="@string/action_exception"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_logout"
         android:orderInCategory="300"
         android:title="@string/action_log_out"
