@@ -8,7 +8,7 @@ import com.loopj.android.http.RequestParams;
  * Created by moc on 3/22/18.
  */
 
-class ElasticServer {
+public class ElasticServer {
     private static final ElasticServer.RestClient ourInstance = new ElasticServer.RestClient();
 
     static ElasticServer.RestClient getInstance() {

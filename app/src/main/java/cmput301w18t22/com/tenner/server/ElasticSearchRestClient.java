@@ -1,13 +1,16 @@
 package cmput301w18t22.com.tenner.server;
-import cmput301w18t22.com.tenner.classes.User;
 
 import android.util.Log;
 
-import org.json.*;
-
 import com.google.gson.Gson;
-import com.loopj.android.http.*;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cmput301w18t22.com.tenner.classes.User;
 
 
 /**
@@ -23,7 +26,13 @@ public class ElasticSearchRestClient {
         return ourInstance;
     }
 
+    private Boolean status = false;
+
     private ElasticSearchRestClient() {
+    }
+
+    public Boolean getStatus() {
+        return status;
     }
 
     public void getAllUsers() throws JSONException {
@@ -111,30 +120,20 @@ public class ElasticSearchRestClient {
         }
 
         ElasticServer.RestClient.post("signInUser", params, new JsonHttpResponseHandler() {
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
 
-            @Override
-            public void onFinish() {
-                super.onFinish();
-            }
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    Log.i("lol", response.get("Success").toString());
+                    if (response.has("Success")) {
+                    }
                 } catch (Exception e) {
 
                 }
             }
 
-            @Override
-            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-            }
         });
     }
+
 }

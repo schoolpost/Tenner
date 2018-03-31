@@ -4,15 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
-import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
+import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.Authenticator;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
@@ -35,7 +43,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signup = (TextView) findViewById(R.id.sign_up_prompt);
         button.setOnClickListener(this);
         signup.setOnClickListener(this);
-
 
     }
 
@@ -71,18 +78,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = String.valueOf(etEmail.getText()).trim();
 
         if (check(email)) {
-
-            ElasticSearchRestClient elasticSearchRestClient = ElasticSearchRestClient.getInstance();
             try {
-                elasticSearchRestClient.postLoginUser(email);
+                postLoginUser(email);
             } catch (Exception e) {
 
             }
-
-            markUserLogin();
-            notifyUserLogin();
-            startActivity(new Intent(this, MainActivity.class));
         }
+    }
+
+    void login() {
+        markUserLogin();
+        notifyUserLogin();
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     boolean check(String email) {
@@ -110,5 +117,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
 
     }
+    
+    public void postLoginUser(String username) throws JSONException {
+
+        RequestParams params = new RequestParams();
+
+        try {
+            params.put("user", username);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("signInUser", params, new JsonHttpResponseHandler() {
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.has("Success")) {
+                        login();
+                    }
+                    if (response.has("Error")) {
+                        Toast toast = Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+        });
+    }
+
+
 }
 
