@@ -39,7 +39,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyANEV7NLb8Hfmqt6fLGLYTxyfREadIOvhk" />
 
-        <activity android:name=".ui.activity.MapViewActivity" />
+        <activity android:name=".ui.activity.SetLocationActivity" />
         <activity android:name=".ui.activity.PostTaskActivity" />
         <activity
             android:name=".ui.activity.EditProfileActivity"

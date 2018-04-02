@@ -1,7 +1,6 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -18,7 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import cmput301w18t22.com.tenner.R;
 
-public class MapViewActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class SetLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private MapView mapView;
@@ -34,8 +33,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         getSupportActionBar().setElevation(3);
         getSupportActionBar().setCustomView(R.layout.toolbar_home);
 
-        Intent intent = getIntent();
-        String pageTitle = intent.getStringExtra("LOC");
+        String pageTitle = "Set Task Location";
 
         TextView title = getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title);
         title.setText(pageTitle);

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import cmput301w18t22.com.tenner.R;
-import cmput301w18t22.com.tenner.ui.activity.MapViewActivity;
+import cmput301w18t22.com.tenner.ui.activity.SetLocationActivity;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 /**
@@ -73,7 +73,7 @@ public class MainFragment extends Fragment {
         tvText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), MapViewActivity.class));
+                startActivity(new Intent(getContext(), SetLocationActivity.class));
             }
         });
     }
