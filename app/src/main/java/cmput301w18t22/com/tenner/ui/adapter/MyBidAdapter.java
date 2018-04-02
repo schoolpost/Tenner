@@ -78,7 +78,7 @@ public class MyBidAdapter extends BaseAdapter {
         String requesterString = currentBid.getTask().getRequester().toDisplayName();
         requesterNameTextView.setText(requesterString);
         myBidTextView.setText(currentBid.toString());
-        lowestBidTextView.setText("$ 99.99");
+        lowestBidTextView.setText("99.99");
 
         // Set correct colored bar color based on task status
         Status.taskStatus taskStatus = currentBid.getTask().getStatus();

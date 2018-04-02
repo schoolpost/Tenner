@@ -116,6 +116,6 @@ public class Bid {
      * @return String respresenting value of this bid, preceded by dollar sign
      */
     public String toString() {
-        return "$ " + this.value.toString();
+        return this.value.toString();
     }
 }
