@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     private void setCurrentTab(int position) {
         if (position == 2) {
             Intent intent = new Intent();
-            intent.setClass(this, SetLocationActivity.class);
+            intent.setClass(this, PostTaskActivity.class);
             startActivity(intent);
         } else {
             mNavigator.showFragment(position);
