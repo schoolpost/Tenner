@@ -59,7 +59,6 @@ public class TaskListFragment extends Fragment {
     private TaskAdapter myAdapter;
     private SwipeMenuListView displayList;
     private int tab;
-    private boolean isActive;
 
     public TaskListFragment() {
         // Required empty public constructor
