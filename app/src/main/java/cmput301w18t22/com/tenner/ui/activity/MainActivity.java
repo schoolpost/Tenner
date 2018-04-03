@@ -117,12 +117,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         final int pos = position;
         pageTitle = ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title));
         pageTitle.setText(new FragmentAdapter().getName(position));
-        pageTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mNavigator.resetFragments(pos, true);
-            }
-        });
     }
 
     private void setCurrentTab(int position) {
@@ -131,7 +125,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             intent.setClass(this, PostTaskActivity.class);
             startActivity(intent);
         } else {
-            mNavigator.showFragment(position);
+
+            if (position != mNavigator.getCurrentPosition()) {
+                mNavigator.showFragment(position);
+            } else {
+                mNavigator.showFragment(position, true);
+            }
+
             bottomNavigatorView.select(position);
             setToolBar(position);
         }
