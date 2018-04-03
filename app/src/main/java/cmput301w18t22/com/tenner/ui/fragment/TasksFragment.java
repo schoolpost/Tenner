@@ -35,12 +35,7 @@ public class TasksFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden) {
-            //do when hidden
-            Log.i("hidden", "true" + TAG);
-        } else {
-            //do when show
-            Log.i("hidden", "false" + TAG);
+        if (!hidden) {
             mNavigator.getFragment(mNavigator.getCurrentPosition()).onHiddenChanged(true);
             setCurrentTab(mNavigator.getCurrentPosition());
         }
