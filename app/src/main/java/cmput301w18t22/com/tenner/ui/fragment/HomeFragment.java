@@ -125,7 +125,6 @@ public class HomeFragment extends Fragment {
 
     private void bindData() {
         boolean isLogin = SharedPrefUtils.isLogin(getActivity());
-//        tvText.setText(mText + "\n" + "Login:" + isLogin);
     }
 
     /**

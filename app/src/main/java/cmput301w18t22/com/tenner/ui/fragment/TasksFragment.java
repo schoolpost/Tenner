@@ -4,6 +4,7 @@ package cmput301w18t22.com.tenner.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,20 @@ public class TasksFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            //do when hidden
+            Log.i("hidden", "true" + TAG);
+        } else {
+            //do when show
+            Log.i("hidden", "false" + TAG);
+            mNavigator.getFragment(mNavigator.getCurrentPosition()).onHiddenChanged(true);
+            setCurrentTab(mNavigator.getCurrentPosition());
+        }
+    }
+
     public static Fragment newInstance(int position) {
         Fragment fragment = new TasksFragment();
         return fragment;
@@ -41,7 +56,7 @@ public class TasksFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNavigator = new FragmentNavigator(getChildFragmentManager(), new TasksFragmentAdapter(), R.id.childContainer);
-        mNavigator.setDefaultPosition(0);
+        mNavigator.showFragment(0);
         mNavigator.onCreate(savedInstanceState);
     }
 

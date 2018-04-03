@@ -59,9 +59,18 @@ public class TaskListFragment extends Fragment {
     private TaskAdapter myAdapter;
     private SwipeMenuListView displayList;
     private int tab;
+    private boolean isActive;
 
     public TaskListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            setFilter();
+        }
     }
 
     public static Fragment newInstance(int position) {
@@ -100,11 +109,7 @@ public class TaskListFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        displayList = (SwipeMenuListView) view.findViewById(R.id.tasksList);
+    public void setFilter() {
         filter = (ImageButton) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +117,14 @@ public class TaskListFragment extends Fragment {
                 showPopup(view);
             }
         });
+    }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        displayList = (SwipeMenuListView) view.findViewById(R.id.tasksList);
+        setFilter();
     }
 
     @Override
