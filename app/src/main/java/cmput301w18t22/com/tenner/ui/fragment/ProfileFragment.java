@@ -9,9 +9,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
+
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,12 +29,14 @@ public class ProfileFragment extends Fragment {
     private static final int MOCK_LOAD_DATA_DELAYED_TIME = 500;
 
     private static Handler sHandler = new Handler(Looper.getMainLooper());
+    private ProfileFragment.WeakRunnable mRunnable = new ProfileFragment.WeakRunnable(this);
 
     private String mText;
 
     private TextView name;
     private TextView email;
     private TextView phone;
+    private ProgressBar progressBar;
 
 
     public static Fragment newInstance(String text) {
@@ -61,15 +67,11 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
         name = (TextView) view.findViewById(R.id.profile_name);
         email = (TextView) view.findViewById(R.id.profile_email);
         phone = (TextView) view.findViewById(R.id.profile_phone);
-
-        // Change to user value
-        name.setText("Csaba"); // First + Last Name
-        email.setText("test@gmail.com");
-        phone.setText("XXX-XXX-XXXX");
 
     }
 
@@ -77,8 +79,9 @@ public class ProfileFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState == null) {
-
+            loadData();
         } else {
+            bindData();
         }
     }
 
@@ -96,6 +99,40 @@ public class ProfileFragment extends Fragment {
         phone = null;
 
         super.onDestroyView();
+    }
+
+    private void showProgressBar(boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    private void bindData() {
+        // Change to user value
+        name.setText("Csaba"); // First + Last Name
+        email.setText("test@gmail.com");
+        phone.setText("XXX-XXX-XXXX");
+    }
+
+    private void loadData() {
+        showProgressBar(true);
+        sHandler.post(mRunnable);
+    }
+
+    private static class WeakRunnable implements Runnable {
+
+        WeakReference<ProfileFragment> mProfileFragmentReference;
+
+        public WeakRunnable(ProfileFragment profileFragment) {
+            this.mProfileFragmentReference = new WeakReference<ProfileFragment>(profileFragment);
+        }
+
+        @Override
+        public void run() {
+            ProfileFragment profileFragment = mProfileFragmentReference.get();
+            if (profileFragment != null && !profileFragment.isDetached()) {
+                profileFragment.showProgressBar(false);
+                profileFragment.bindData();
+            }
+        }
     }
 
 

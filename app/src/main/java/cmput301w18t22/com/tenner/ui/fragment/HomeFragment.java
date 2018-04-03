@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // TODO do something
-                    Log.i("yolo","bro");
+                    Log.i("yolo", "bro");
                     handled = true;
                 }
                 return handled;
@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment {
      */
     private void loadData() {
         showProgressBar(true);
-        sHandler.postDelayed(mRunnable, MOCK_LOAD_DATA_DELAYED_TIME);
+        sHandler.post(mRunnable);
     }
 
     private static class WeakRunnable implements Runnable {
