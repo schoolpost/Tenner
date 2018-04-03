@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.utils.TaskChecker;
@@ -21,13 +26,36 @@ public class PostTaskActivity extends AppCompatActivity {
     private EditText etLocation;
     private TextView save;
     private Button setLocationButton;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LatLng currentloc;
 
     static final int GET_LOCATION = 1;
+
+    public void getcurrloc() throws SecurityException {
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<android.location.Location>() {
+            @Override
+            public void onSuccess(android.location.Location location) {
+
+                if (location != null) {
+
+                    currentloc = new LatLng(location.getLatitude(), location.getLongitude());
+                    setLocationButton.setEnabled(true);
+
+                }
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_task);
+
+        setLocationButton = (Button) findViewById(R.id.location_button);
+        setLocationButton.setEnabled(false);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getcurrloc();
 
         // Change ActionBar
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -39,7 +67,6 @@ public class PostTaskActivity extends AppCompatActivity {
         etDescription = (EditText) findViewById(R.id.editDescription);
         etLocation = (EditText) findViewById(R.id.editLocation);
 
-        setLocationButton = (Button) findViewById(R.id.location_button);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +79,8 @@ public class PostTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent mapIntent = new Intent();
+                mapIntent.putExtra("lat", currentloc.latitude);
+                mapIntent.putExtra("lng", currentloc.longitude);
                 mapIntent.setClass(PostTaskActivity.this, SetLocationActivity.class);
                 //TODO: Get result of this activity
                 startActivityForResult(mapIntent, GET_LOCATION);

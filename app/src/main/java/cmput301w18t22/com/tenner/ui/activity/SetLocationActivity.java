@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,7 +20,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.io.Serializable;
 
 import cmput301w18t22.com.tenner.R;
 
@@ -29,27 +29,6 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
     private MapView mapView;
     private View mView;
     private LatLng position;
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LatLng currentloc;
-
-
-    public void getcurrloc() throws SecurityException {
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-
-                if (location != null) {
-
-                    currentloc = new LatLng(location.getLatitude(), location.getLongitude());
-                    if (mapView != null) {
-                        mapView.onCreate(null);
-                        mapView.onResume();
-                    }
-
-                }
-            }
-        });
-    }
 
 
     @Override
@@ -68,10 +47,16 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         setContentView(R.layout.fragment_map_view);
         mapView = (MapView) findViewById(R.id.map);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getcurrloc();
+        Intent intent = getIntent();
+        Double lat = intent.getDoubleExtra("lat", 53.5444);
+        Double lng = intent.getDoubleExtra("lng", -113.4909);
+
+        position = new LatLng(lat, lng);
+
 
         if (mapView != null) {
+            mapView.onCreate(null);
+            mapView.onResume();
             mapView.getMapAsync(this);
         }
 
@@ -82,12 +67,9 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         MapsInitializer.initialize(getApplicationContext());
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        LatLng yeg = new LatLng(53.5444, -113.4909);
-        if (currentloc != null) {
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentloc, 15.5f));
-        } else {
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(yeg, 15.5f));
-        }
+//        LatLng yeg = new LatLng(53.5444, -113.4909);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.5f));
+
 
         mGoogleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
