@@ -44,7 +44,8 @@
         <activity
             android:name=".ui.activity.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"/>
-        <activity android:name=".ui.activity.TaskDetailActivity"></activity>
+        <activity android:name=".ui.activity.TaskDetailActivity" />
+        <activity android:name=".ui.activity.TaskBidsActivity" />
     </application>
 
 </manifest>
