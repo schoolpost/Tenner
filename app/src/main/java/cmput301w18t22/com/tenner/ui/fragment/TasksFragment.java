@@ -37,7 +37,6 @@ public class TasksFragment extends Fragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             mNavigator.getFragment(mNavigator.getCurrentPosition()).onHiddenChanged(true);
-            setCurrentTab(mNavigator.getCurrentPosition());
         }
     }
 
@@ -51,7 +50,7 @@ public class TasksFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNavigator = new FragmentNavigator(getChildFragmentManager(), new TasksFragmentAdapter(), R.id.childContainer);
-        mNavigator.showFragment(0);
+        mNavigator.setDefaultPosition(0);
         mNavigator.onCreate(savedInstanceState);
     }
 

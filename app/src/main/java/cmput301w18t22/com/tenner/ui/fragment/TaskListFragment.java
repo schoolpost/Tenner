@@ -191,7 +191,8 @@ public class TaskListFragment extends Fragment {
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0:
-                        Log.i("Delete", "now");
+                        taskList.remove(position);
+                        myAdapter.notifyDataSetChanged();
                         break;
                 }
                 return false;
