@@ -107,40 +107,40 @@ router.post('/signUpUser', function(request, response){
     }
 });
 
-router.post('/signInUser', function(request, response){
-    var user = request.body.user;
+// router.post('/signInUser', function(request, response){
+//     var user = request.body.user;
     
-    if(typeof(user) != 'undefined'){
-        var queryString = 'email:' + user;
-        console.log(queryString);
+//     if(typeof(user) != 'undefined'){
+//         var queryString = 'email:' + user;
+//         console.log(queryString);
         
-        client.search({
-          index: 'tenner',
-          type: 'users',
-          q : queryString
-        }).then(function (responseBody) {
-            var data = responseBody.hits.hits;
-            console.log(data)
-            for(var dataObj in data){
-                if (data.hasOwnProperty(dataObj)) {
-                    if(user == data[dataObj]._source.email){
-                        console.log('User Exists!');
-                        return response.send({'Success' : 'At /signInUser Log In!'});
-                    }
-                }
-            }
-            return response.send({'Error' : 'At /signInUser No User Found!'});
+//         client.search({
+//           index: 'tenner',
+//           type: 'users',
+//           q : queryString
+//         }).then(function (responseBody) {
+//             var data = responseBody.hits.hits;
+//             console.log(data)
+//             for(var dataObj in data){
+//                 if (data.hasOwnProperty(dataObj)) {
+//                     if(user == data[dataObj]._source.email){
+//                         console.log('User Exists!');
+//                         return response.send({'Success' : 'At /signInUser Log In!'});
+//                     }
+//                 }
+//             }
+//             return response.send({'Error' : 'At /signInUser No User Found!'});
             
-        }, function (err) {
-            if(err){
-                console.log(err.message);
-                return response.send({'Error' : 'At /signInUser' + err.message});
-            }
-        });
-    } else {
-        return response.send({'Error' : 'At /signInUser No User Email!'});
-    }
-});
+//         }, function (err) {
+//             if(err){
+//                 console.log(err.message);
+//                 return response.send({'Error' : 'At /signInUser' + err.message});
+//             }
+//         });
+//     } else {
+//         return response.send({'Error' : 'At /signInUser No User Email!'});
+//     }
+// });
 
 router.post('/getUser', function(request, response){
     var user = request.body.user;
@@ -276,6 +276,38 @@ router.post('/getRequestedTasks', function(request, response){
         console.log(err.message);
         return response.send('Error at /getRequestedTasks : ' + err.message);
     });
+});
+
+router.post('/addTask', function(request, response){
+    var task = JSON.parse(request.body.task);
+    
+    if(typeof(task.requester) != 'undefined'){
+        client.index({
+          index: 'tenner',
+          type : 'tasks',
+          id : task.email,
+          body : {
+            status: task.email, 
+            title : task.title,
+            description : task['description'],
+            bidList : task.bidList,
+            location : task['location'],
+            photos : task.photos,
+            requestedDate : task.requestedDate,
+            hasNewBids : task.hasNewBids,
+            requester : task.requester
+          }
+        }, function (err, response2) {
+            if(err){
+                console.log(err.message);
+                return response.send({'Error' : 'At /addTask' + err.message});
+            } else {
+                return response.send({'Success' : 'At /addTask User Updated!'});
+            }
+        });
+    } else {
+        return response.send({'Error' : 'At /addTask No Requester!'});
+    }
 });
 
 //Bids-------------------------------------------------------------->
