@@ -12,9 +12,20 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.utils.Constants;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 /**
@@ -23,27 +34,17 @@ import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 public class ProfileFragment extends Fragment {
 
     public static final String TAG = ProfileFragment.class.getSimpleName();
-
-    public static final String EXTRA_TEXT = "extra_text";
-
-    private static final int MOCK_LOAD_DATA_DELAYED_TIME = 500;
-
     private static Handler sHandler = new Handler(Looper.getMainLooper());
     private ProfileFragment.WeakRunnable mRunnable = new ProfileFragment.WeakRunnable(this);
-
-    private String mText;
-
     private TextView name;
     private TextView email;
     private TextView phone;
     private ProgressBar progressBar;
+    private User user;
 
 
     public static Fragment newInstance(String text) {
         ProfileFragment fragment = new ProfileFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_TEXT, text);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -54,7 +55,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mText = getArguments().getString(EXTRA_TEXT);
     }
 
     @Override
@@ -68,7 +68,6 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-
         name = (TextView) view.findViewById(R.id.profile_name);
         email = (TextView) view.findViewById(R.id.profile_email);
         phone = (TextView) view.findViewById(R.id.profile_phone);
@@ -88,7 +87,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(EXTRA_TEXT, mText);
     }
 
     @Override
@@ -107,13 +105,14 @@ public class ProfileFragment extends Fragment {
 
     private void bindData() {
         // Change to user value
-        name.setText("Csaba"); // First + Last Name
-        email.setText("test@gmail.com");
-        phone.setText("XXX-XXX-XXXX");
+        name.setText(user.getFirstName()); // First + Last Name
+        email.setText(user.getEmail());
+        phone.setText(user.getPhoneNum());
     }
 
     private void loadData() {
         showProgressBar(true);
+        loadFromFile();
         sHandler.post(mRunnable);
     }
 
@@ -133,6 +132,29 @@ public class ProfileFragment extends Fragment {
                 profileFragment.bindData();
             }
         }
+    }
+
+    private void loadFromFile() {
+
+        try {
+            FileInputStream fis = getActivity().openFileInput(Constants.FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+
+            Gson gson = new Gson();
+
+            Type fileType = new TypeToken<User>() {
+            }.getType();
+            user = gson.fromJson(in, fileType);
+
+        } catch (FileNotFoundException e) {
+            user = new User("", "", "", "");
+        } catch (IOException e) {
+            throw new RuntimeException();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
     }
 
 

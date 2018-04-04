@@ -13,22 +13,24 @@ import android.widget.TextView;
 
 import com.aspsine.fragmentnavigator.FragmentNavigator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
+import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.ui.adapter.FragmentAdapter;
 import cmput301w18t22.com.tenner.ui.widget.BottomNavigatorView;
+import cmput301w18t22.com.tenner.utils.Constants;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigatorView.OnBottomNavigatorViewItemClickListener {
 
     private static final int DEFAULT_POSITION = 0;
-
     private FragmentNavigator mNavigator;
-
     private BottomNavigatorView bottomNavigatorView;
-
     private TextView pageTitle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,25 +65,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_login:
-                startActivity(new Intent(this, LoginActivity.class));
-                return true;
-            case R.id.action_logout:
-                logout();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onBottomNavigatorViewItemClick(int position, View view) {
         setCurrentTab(position);
     }
@@ -89,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     private void logout() {
         SharedPrefUtils.logout(this);
         BroadcastManager.sendLogoutBroadcast(this, 1);
+        clearUserCache();
     }
 
     private void setToolBar(final int position) {
@@ -165,11 +149,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         });
     }
 
-    private void resetAllTabsAndShow(int position) {
-        mNavigator.resetFragments(position, true);
-        bottomNavigatorView.select(position);
-    }
-
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -180,4 +159,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     @Override
     public void onBackPressed() {
     }
+
+    public void clearUserCache() {
+        try {
+            File cache = new File(getFilesDir(), Constants.FILENAME);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+
 }

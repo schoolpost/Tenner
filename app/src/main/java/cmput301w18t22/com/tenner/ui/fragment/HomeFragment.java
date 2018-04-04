@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -17,10 +18,23 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.utils.Constants;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 /**
@@ -124,21 +138,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void bindData() {
-        String user = SharedPrefUtils.getUser(getActivity());
 
-        if (user != null || user != "") {
-            greeting.setText("Welcome, " + user);
-        } else {
-            greeting.setText("Welcome, user");
-        }
+        greeting.setText("Welcome, " + user.getFirstName() + " " + user.getLastName());
 
     }
 
-    /**
-     * mock load data
-     */
     private void loadData() {
         showProgressBar(true);
+        loadFromFile();
         sHandler.post(mRunnable);
     }
 
@@ -159,5 +166,30 @@ public class HomeFragment extends Fragment {
             }
         }
     }
+
+
+    private void loadFromFile() {
+
+        try {
+            FileInputStream fis = getActivity().openFileInput(Constants.FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+
+            Gson gson = new Gson();
+
+            Type fileType = new TypeToken<User>() {
+            }.getType();
+            user = gson.fromJson(in, fileType);
+
+        } catch (FileNotFoundException e) {
+            user = new User("", "", "", "");
+        } catch (IOException e) {
+            throw new RuntimeException();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
+    }
+
 
 }

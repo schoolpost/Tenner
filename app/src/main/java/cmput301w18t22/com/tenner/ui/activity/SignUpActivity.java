@@ -1,5 +1,6 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -9,6 +10,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
@@ -18,6 +26,7 @@ import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
 import cmput301w18t22.com.tenner.utils.Authenticator;
+import cmput301w18t22.com.tenner.utils.Constants;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,13 +49,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         etPhone = (EditText) findViewById(R.id.et_phone);
         Button button = (Button) findViewById(R.id.sign_up_button);
         button.setOnClickListener(this);
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
 
     }
@@ -75,8 +77,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             }
 
-            markUserLogin();
-            notifyUserLogin();
+            SharedPrefUtils.login(this, "");
+            BroadcastManager.sendLoginBroadcast(this, 1);
+            saveInFile(user);
             finish();
         }
     }
@@ -128,13 +131,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         return false;
     }
 
-    private void markUserLogin() {
-        SharedPrefUtils.login(this,"");
+
+    private void saveInFile(User user) {
+        try {
+            FileOutputStream fos = openFileOutput(Constants.FILENAME,
+                    Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+            Gson gson = new Gson();
+            gson.toJson(user, out);
+            out.flush();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
-    private void notifyUserLogin() {
-        BroadcastManager.sendLoginBroadcast(this, 1);
-    }
 }
 
 
