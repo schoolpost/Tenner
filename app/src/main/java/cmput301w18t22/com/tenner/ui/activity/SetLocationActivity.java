@@ -2,12 +2,16 @@ package cmput301w18t22.com.tenner.ui.activity;
 
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -21,6 +25,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
+import java.util.List;
+import java.util.Locale;
+
 import cmput301w18t22.com.tenner.R;
 
 public class SetLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -29,6 +36,14 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
     private MapView mapView;
     private View mView;
     private LatLng position;
+    private Geocoder geo = new Geocoder(this, Locale.getDefault());
+    private List<Address> addresses;
+
+    public String getAddress(Double lat, Double lng) throws Exception {
+        addresses = geo.getFromLocation(lat, lng, 5);
+        return addresses.get(0).getAddressLine(0);
+
+    }
 
 
     @Override
@@ -37,12 +52,20 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
-        getSupportActionBar().setCustomView(R.layout.toolbar_home);
+        getSupportActionBar().setCustomView(R.layout.toolbar_map);
 
         String pageTitle = "Set Task Location";
 
         TextView title = getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title);
         title.setText(pageTitle);
+
+        TextView done = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_done);
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         setContentView(R.layout.fragment_map_view);
         mapView = (MapView) findViewById(R.id.map);
@@ -50,6 +73,14 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         Intent intent = getIntent();
         Double lat = intent.getDoubleExtra("lat", 53.5444);
         Double lng = intent.getDoubleExtra("lng", -113.4909);
+
+
+        try {
+            Log.i("Address", getAddress(lat, lng));
+        } catch (Exception e) {
+
+        }
+
 
         position = new LatLng(lat, lng);
 
@@ -87,7 +118,6 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+
     }
 }
