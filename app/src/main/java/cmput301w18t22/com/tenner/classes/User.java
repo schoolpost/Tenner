@@ -2,6 +2,8 @@ package cmput301w18t22.com.tenner.classes;
 
 import java.util.ArrayList;
 
+import cmput301w18t22.com.tenner.utils.StringSlice;
+
 /**
  * The User class represents a Tenner user, who could be either a requester, or provider, or both.
  * It contains their first and last name, contact info (phone and email), and keeps track of
@@ -240,5 +242,20 @@ public class User {
     public String toDisplayName() {
         String displayName = this.firstName + ' ' + this.lastName.substring(0, 1) + ".";
         return displayName;
+    }
+
+    public String toDisplayPhone() {
+        StringSlice slicer = new StringSlice();
+        String areaCode = slicer.slice_range(this.phoneNum, 0, 3);
+        String phone1 = slicer.slice_range(this.phoneNum, 3, 6);
+        String phone2 = slicer.slice_start(this.phoneNum, 6);
+        String displayPhone = "(" + areaCode + ")" + "-" + phone1 + "-" + phone2;
+        return displayPhone;
+    }
+
+    public String toProfileName() {
+        String firstName = this.firstName.substring(0, 1).toUpperCase() + this.firstName.substring(1);
+        String lastName = this.lastName.substring(0, 1).toUpperCase() + this.lastName.substring(1);
+        return firstName + " " + lastName;
     }
 }

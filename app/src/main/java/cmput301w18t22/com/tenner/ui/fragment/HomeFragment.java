@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
 
     private void bindData() {
 
-        greeting.setText("Welcome, " + user.getFirstName() + " " + user.getLastName());
+        greeting.setText("Welcome, " + user.toDisplayName());
 
     }
 

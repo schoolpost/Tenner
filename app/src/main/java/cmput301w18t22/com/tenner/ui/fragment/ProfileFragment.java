@@ -97,9 +97,9 @@ public class ProfileFragment extends Fragment {
 
     private void bindData() {
         // Change to user value
-        name.setText(user.getFirstName()); // First + Last Name
+        name.setText(user.toProfileName()); // First + Last Name
         email.setText(user.getEmail());
-        phone.setText(user.getPhoneNum());
+        phone.setText(user.toDisplayPhone());
     }
 
     private void loadData() {
