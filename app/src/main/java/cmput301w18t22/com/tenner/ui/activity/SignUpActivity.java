@@ -129,7 +129,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void markUserLogin() {
-        SharedPrefUtils.login(this);
+        SharedPrefUtils.login(this,"");
     }
 
     private void notifyUserLogin() {

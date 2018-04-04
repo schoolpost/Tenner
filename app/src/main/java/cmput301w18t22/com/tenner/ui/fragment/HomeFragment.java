@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -77,7 +78,6 @@ public class HomeFragment extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         searchBar = (EditText) view.findViewById(R.id.home_search);
 
-        greeting.setText("Welcome, Csaba");
 
         // your text box
         searchBar.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -124,7 +124,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void bindData() {
-        boolean isLogin = SharedPrefUtils.isLogin(getActivity());
+        String user = SharedPrefUtils.getUser(getActivity());
+
+        if (user != null || user != "") {
+            greeting.setText("Welcome, " + user);
+        } else {
+            greeting.setText("Welcome, user");
+        }
+
     }
 
     /**

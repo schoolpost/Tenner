@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
+import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.Authenticator;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
@@ -89,8 +92,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    void login() {
-        markUserLogin();
+    void login(String username) {
+        SharedPrefUtils.login(this, username);
         notifyUserLogin();
         startActivity(new Intent(this, MainActivity.class));
     }
@@ -109,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void markUserLogin() {
-        SharedPrefUtils.login(this);
+
     }
 
     private void notifyUserLogin() {
@@ -131,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
 
-        ElasticServer.RestClient.post("signInUser", params, new JsonHttpResponseHandler() {
+        ElasticServer.RestClient.post("getUser", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onFinish() {
@@ -144,11 +147,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    if (response.has("Success")) {
-                        Log.i("response", response.toString());
-                        login();
-                    }
-                    if (response.has("Error")) {
+                    if (response.has("email")) {
+                        Gson gson = new GsonBuilder().create();
+                        User user = gson.fromJson(response.toString(), User.class);
+                        login(user.getEmail());
+                    } else if (response.has("Error")) {
                         Toast toast = Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
