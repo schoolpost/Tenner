@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +15,20 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Date;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
+import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.TaskChecker;
 
 public class PostTaskActivity extends AppCompatActivity {
@@ -95,17 +107,16 @@ public class PostTaskActivity extends AppCompatActivity {
 
         if (check(title, description, address)) {
             //TODO: Current User and Elastic Search
-            //User currentUser = ...
+            User currentUser = new User("yo@gmail.com", "hello", "guy", "785948609");
             Location newLocation = new Location(0.0f, 0.0f, address);
-            //Task task = new Task(title, description, newLocation, new Date(), currentUser);
+            Task task = new Task(title, description, newLocation, new Date(), currentUser);
 
-            // Send task to elastic search
+            try {
+                postTask(task);
+            } catch (Exception e) {
 
-            // View task details activity
-            Intent intent = new Intent();
-            intent.setClass(PostTaskActivity.this, TaskDetailActivity.class);
-            startActivity(intent);
-            finish();
+            }
+
         }
 
     }
@@ -142,5 +153,52 @@ public class PostTaskActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void postTask(Task task) throws JSONException {
+
+
+        RequestParams params = new RequestParams();
+        //https://github.com/google/gson
+        Gson gson = new Gson();
+        String json = gson.toJson(task);
+
+        try {
+            params.put("task", json);
+        } catch (Exception e) {
+
+        }
+
+
+        ElasticServer.RestClient.post("addTask", params, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.has("Success")) {
+
+                        Intent intent = new Intent();
+                        intent.setClass(PostTaskActivity.this, TaskDetailActivity.class);
+                        startActivity(intent);
+                        finish();
+
+
+                    } else if (response.has("Error")) {
+
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+
+        });
+
+
     }
 }
