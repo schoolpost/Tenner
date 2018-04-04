@@ -9,8 +9,8 @@
         style="?android:progressBarStyleLargeInverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +19,14 @@
         android:layout_marginEnd="35dp"
         android:layout_marginStart="35dp"
         android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            android:src="@drawable/user_pic"
+            android:layout_marginBottom="16dp" />
 
         <TextView
             android:id="@+id/profile_name"
