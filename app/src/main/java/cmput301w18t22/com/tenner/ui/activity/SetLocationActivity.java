@@ -65,7 +65,11 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
             public void onClick(View view) {
 
                 try {
-                    Log.i("Address", getAddress(position.latitude, position.longitude));
+
+                    Intent intent = new Intent();
+                    intent.putExtra("location", getAddress(position.latitude, position.longitude));
+                    setResult(20, intent);
+
                 } catch (Exception e) {
 
                 }

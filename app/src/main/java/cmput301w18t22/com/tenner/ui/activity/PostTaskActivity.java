@@ -78,7 +78,7 @@ public class PostTaskActivity extends AppCompatActivity {
         etTitle = (EditText) findViewById(R.id.editTitle);
         etDescription = (EditText) findViewById(R.id.editDescription);
         etLocation = (EditText) findViewById(R.id.editLocation);
-
+        etLocation.setEnabled(false);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +199,15 @@ public class PostTaskActivity extends AppCompatActivity {
 
         });
 
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 20) {
+            etLocation.setText(data.getStringExtra("location"));
+        }
 
     }
 }
