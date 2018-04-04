@@ -240,15 +240,14 @@ public class User {
      * @return The user's name in display format (FirstName LastInitial.)
      */
     public String toDisplayName() {
-        String displayName = this.firstName + ' ' + this.lastName.substring(0, 1) + ".";
+        String displayName = this.firstName.substring(0, 1).toUpperCase() + this.firstName.substring(1) + ' ' + this.lastName.substring(0, 1) + ".";
         return displayName;
     }
 
     public String toDisplayPhone() {
-        StringSlice slicer = new StringSlice();
-        String areaCode = slicer.slice_range(this.phoneNum, 0, 3);
-        String phone1 = slicer.slice_range(this.phoneNum, 3, 6);
-        String phone2 = slicer.slice_start(this.phoneNum, 6);
+        String areaCode = this.phoneNum.substring(0, 3);
+        String phone1 = this.phoneNum.substring(3, 6);
+        String phone2 = this.phoneNum.substring(6);
         String displayPhone = "(" + areaCode + ")" + "-" + phone1 + "-" + phone2;
         return displayPhone;
     }
