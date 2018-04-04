@@ -7,19 +7,15 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.aspsine.fragmentnavigator.FragmentNavigator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
-import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.ui.adapter.FragmentAdapter;
 import cmput301w18t22.com.tenner.ui.widget.BottomNavigatorView;
 import cmput301w18t22.com.tenner.utils.Constants;
@@ -72,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     private void logout() {
         SharedPrefUtils.logout(this);
         BroadcastManager.sendLogoutBroadcast(this, 1);
-        clearUserCache();
+        clearUserData();
     }
 
     private void setToolBar(final int position) {
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     public void onBackPressed() {
     }
 
-    public void clearUserCache() {
+    public void clearUserData() {
         try {
             File cache = new File(getFilesDir(), Constants.FILENAME);
         } catch (Exception e) {

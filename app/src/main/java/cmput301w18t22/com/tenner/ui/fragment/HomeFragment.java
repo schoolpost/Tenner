@@ -1,13 +1,11 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -18,24 +16,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
-import cmput301w18t22.com.tenner.utils.Constants;
-import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
+import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +44,7 @@ public class HomeFragment extends Fragment {
     private TextView greeting;
     private EditText searchBar;
     private ProgressBar progressBar;
+    private LocalDataHandler localDataHandler;
 
     public static Fragment newInstance(String text) {
         HomeFragment fragment = new HomeFragment();
@@ -75,6 +61,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        localDataHandler = new LocalDataHandler(getActivity());
     }
 
     @Override
@@ -145,7 +132,7 @@ public class HomeFragment extends Fragment {
 
     private void loadData() {
         showProgressBar(true);
-        loadFromFile();
+        user = localDataHandler.loadUserFromFile();
         sHandler.post(mRunnable);
     }
 
@@ -166,30 +153,5 @@ public class HomeFragment extends Fragment {
             }
         }
     }
-
-
-    private void loadFromFile() {
-
-        try {
-            FileInputStream fis = getActivity().openFileInput(Constants.FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-
-
-            Gson gson = new Gson();
-
-            Type fileType = new TypeToken<User>() {
-            }.getType();
-            user = gson.fromJson(in, fileType);
-
-        } catch (FileNotFoundException e) {
-            user = new User("", "", "", "");
-        } catch (IOException e) {
-            throw new RuntimeException();
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
-
-    }
-
 
 }

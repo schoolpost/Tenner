@@ -1,22 +1,13 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
-
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
@@ -26,7 +17,7 @@ import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
 import cmput301w18t22.com.tenner.utils.Authenticator;
-import cmput301w18t22.com.tenner.utils.Constants;
+import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText etFirst;
     private EditText etLast;
     private EditText etPhone;
+    private LocalDataHandler localDataHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
+        localDataHandler = new LocalDataHandler(this);
         etEmail = (EditText) findViewById(R.id.et_email);
         etFirst = (EditText) findViewById(R.id.et_first);
         etLast = (EditText) findViewById(R.id.et_last);
@@ -79,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             SharedPrefUtils.login(this, "");
             BroadcastManager.sendLoginBroadcast(this, 1);
-            saveInFile(user);
+            localDataHandler.saveUserInFile(user);
             finish();
         }
     }
@@ -129,24 +122,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private boolean checkUserExist(String email) {
         return false;
-    }
-
-
-    private void saveInFile(User user) {
-        try {
-            FileOutputStream fos = openFileOutput(Constants.FILENAME,
-                    Context.MODE_PRIVATE);
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-
-            Gson gson = new Gson();
-            gson.toJson(user, out);
-            out.flush();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
     }
 
 }

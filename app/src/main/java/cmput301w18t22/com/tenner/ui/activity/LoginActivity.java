@@ -1,11 +1,9 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,18 +20,12 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.Authenticator;
-import cmput301w18t22.com.tenner.utils.Constants;
+import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -41,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText etEmail;
     private TextView signup;
     private Button login;
+    private LocalDataHandler localDataHandler;
 
 
     @Override
@@ -49,6 +42,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+
+        localDataHandler = new LocalDataHandler(this);
 
         etEmail = (EditText) findViewById(R.id.et_email);
         login = (Button) findViewById(R.id.login_in_button);
@@ -149,7 +144,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (response.has("email")) {
                         Gson gson = new GsonBuilder().create();
                         User user = gson.fromJson(response.toString(), User.class);
-                        saveInFile(user);
+                        localDataHandler.saveUserInFile(user);
                         login(user.getEmail());
                     } else if (response.has("Error")) {
                         Toast toast = Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG);
@@ -163,24 +158,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         });
     }
-
-    private void saveInFile(User user) {
-        try {
-            FileOutputStream fos = openFileOutput(Constants.FILENAME,
-                    Context.MODE_PRIVATE);
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-
-            Gson gson = new Gson();
-            gson.toJson(user, out);
-            out.flush();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-    }
-
 
 }
 
