@@ -54,7 +54,7 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         getSupportActionBar().setElevation(3);
         getSupportActionBar().setCustomView(R.layout.toolbar_map);
 
-        String pageTitle = "Set Task Location";
+        final String pageTitle = "Set Task Location";
 
         TextView title = getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title);
         title.setText(pageTitle);
@@ -63,6 +63,13 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                try {
+                    Log.i("Address", getAddress(position.latitude, position.longitude));
+                } catch (Exception e) {
+
+                }
+
                 finish();
             }
         });
@@ -73,14 +80,6 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         Intent intent = getIntent();
         Double lat = intent.getDoubleExtra("lat", 53.5444);
         Double lng = intent.getDoubleExtra("lng", -113.4909);
-
-
-        try {
-            Log.i("Address", getAddress(lat, lng));
-        } catch (Exception e) {
-
-        }
-
 
         position = new LatLng(lat, lng);
 
