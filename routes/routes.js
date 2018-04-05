@@ -122,9 +122,9 @@ router.post('/getUser', function(request, response){
     }
 });
 
-router.get('/editUser', function(request, response){
+router.post('/editUser', function(request, response){
     var user = JSON.parse(request.body.user);
-    
+    console.log('good');
     if(typeof(user) != 'undefined'){
         var queryString = 'email:' + user.email;
         console.log(queryString);
