@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -165,7 +166,11 @@ public class EditProfileActivity extends AppCompatActivity {
                 Log.i("Error", "File Image Creation Error!");
             }
             if (photoFile != null) {
-                galleryAddPic();
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE );
             }
         }
