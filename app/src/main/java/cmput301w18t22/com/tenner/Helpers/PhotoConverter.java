@@ -1,5 +1,12 @@
 package cmput301w18t22.com.tenner.Helpers;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
+
 public class PhotoConverter {
 
     private static final PhotoConverter ourInstance = new PhotoConverter();
@@ -11,11 +18,31 @@ public class PhotoConverter {
     public PhotoConverter() {
     }
 
+    public String convertBMToString(Bitmap bitmap){
+        //TODO
+//        bitmap = Bitmap.createScaledBitmap(bitmap,mImageView.getWidth(),mImageView.getHeight(),true);
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        Log.i("imagesize",String.valueOf(stream.size()));
+        String imgString = Base64.encodeToString(stream.toByteArray(),
+                Base64.DEFAULT);
+
+        return imgString;
+    }
+
+    public Bitmap convertStringToBM(String b64){
+        byte[] decodedString = Base64.decode(b64, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        return decodedByte;
+    }
+
     //https://developer.android.com/training/camera/photobasics.html#TaskScalePhoto
     //https://stackoverflow.com/questions/10513976/how-to-convert-image-into-byte-array-and-byte-array-to-base64-string-in-android
     //https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
     //https://stackoverflow.com/questions/4837110/how-to-convert-a-base64-string-into-a-bitmap-image-to-show-it-in-a-imageview
-
+    //https://stackoverflow.com/questions/16804404/create-a-bitmap-drawable-from-file-path
 
 //    private void setPic() {
 //        // Get the dimensions of the View
