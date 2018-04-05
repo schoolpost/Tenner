@@ -169,6 +169,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 Log.i("Error", "File Image Creation Error!");
             }
             if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE );
             }
         }
