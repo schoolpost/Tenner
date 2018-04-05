@@ -2,7 +2,6 @@ package cmput301w18t22.com.tenner.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,7 +10,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -25,7 +23,6 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -154,8 +151,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    Uri photoURI;
-
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -171,9 +166,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
-                this.photoURI = photoURI;
-//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                takePictureIntent.putExtra("photo", photoURI);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                takePictureIntent.putExtra("photo", photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE );
             }
         }
@@ -218,24 +212,28 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
-//            Bundle extras = getIntent().getExtras();
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("photo");
+            Bundle extras = getIntent().getExtras();
             Bitmap imageBitmap = null;
+
             try {
-                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
+                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(extras.getString("photo")));
+                mImageView.setImageBitmap(imageBitmap);
             } catch (Exception e){
 
             }
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
-            Log.i("imagesize",String.valueOf(stream.size()));
-            String imgString = Base64.encodeToString(stream.toByteArray(),
-                    Base64.DEFAULT);
-
-            byte[] decodedString = Base64.decode(imgString, Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-            mImageView.setImageBitmap(decodedByte);
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+//            Log.i("imagesize",String.valueOf(stream.size()));
+//            String imgString = Base64.encodeToString(stream.toByteArray(),
+//                    Base64.DEFAULT);
+//
+//            byte[] decodedString = Base64.decode(imgString, Base64.DEFAULT);
+//            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//
+//            mImageView.setImageBitmap(decodedByte);
         } else if(requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
             Bitmap bitmap = null;
