@@ -154,6 +154,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    Uri photoURI;
+
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -169,8 +171,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
+                this.photoURI = photoURI;
 //                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                takePictureIntent.putExtra("photo", photoURI);
+//                takePictureIntent.putExtra("photo", photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE );
             }
         }
@@ -215,10 +218,10 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
-            Bundle extras = getIntent().getExtras();
+//            Bundle extras = getIntent().getExtras();
             Bitmap imageBitmap = null;
             try {
-                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(extras.getString("photo")));
+                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoURI);
             } catch (Exception e){
 
             }
