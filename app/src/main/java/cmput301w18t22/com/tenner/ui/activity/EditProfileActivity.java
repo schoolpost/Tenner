@@ -73,7 +73,7 @@ public class EditProfileActivity extends AppCompatActivity {
         etPhone = (EditText) findViewById(R.id.edit_phone);
 
         //Photo
-        mImageView = findViewById(R.id.editProfileImage);
+        mImageView = (ImageView) findViewById(R.id.editProfileImage);
 
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,13 +209,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mImageView = findViewById(R.id.imageView);
         if (requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+            Log.i("imagesize",String.valueOf(stream.size()));
             String imgString = Base64.encodeToString(stream.toByteArray(),
                     Base64.DEFAULT);
 

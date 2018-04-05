@@ -142,11 +142,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.has("email")) {
+
                         Gson gson = new GsonBuilder().create();
                         User user = gson.fromJson(response.toString(), User.class);
                         localDataHandler.saveUserInFile(user);
                         login(user.getEmail());
+
                     } else if (response.has("Error")) {
+
                         Toast toast = Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
