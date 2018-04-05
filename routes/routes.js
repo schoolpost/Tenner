@@ -138,7 +138,7 @@ router.post('/editUser', function(request, response){
             console.log(data)
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
-                    if(user == data[dataObj]._source.email){
+                    if(user.email == data[dataObj]._source.email){
                         console.log('User Exists!');
                         client.index({
                             index: 'tenner',
