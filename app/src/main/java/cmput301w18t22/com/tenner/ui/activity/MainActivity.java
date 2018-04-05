@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                 // Edit Profile
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), EditProfileActivity.class);
-                startActivityForResult(intent, );
+                startActivityForResult(intent, Constants.EDIT_PROFILE_REQUEST);
 
             }
         });
@@ -168,4 +169,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (Constants.EDIT_PROFILE_REQUEST == requestCode) {
+            mNavigator.showFragment(mNavigator.getCurrentPosition(), true);
+        }
+    }
 }

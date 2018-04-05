@@ -23,6 +23,7 @@ import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.Authenticator;
+import cmput301w18t22.com.tenner.utils.Constants;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
 
