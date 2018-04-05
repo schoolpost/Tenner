@@ -115,12 +115,13 @@ public class EditProfileActivity extends AppCompatActivity {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setPhoneNum(phone);
-        }
 
-        // post the edited user
-        try {
-            postEditUser(user);
-        } catch (Exception e) {
+            // post the edited user
+            try {
+                postEditUser(user);
+            } catch (Exception e) {
+
+            }
 
         }
 
