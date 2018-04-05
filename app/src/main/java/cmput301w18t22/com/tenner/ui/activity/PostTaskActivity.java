@@ -107,7 +107,7 @@ public class PostTaskActivity extends AppCompatActivity {
 
         if (check(title, description, address)) {
             //TODO: Current User and Elastic Search
-            User currentUser = new User("yo@gmail.com", "hello", "guy", "785948609");
+            User currentUser = new User("yo@gmail.com", "hello", "guy", "785948609", "");
             Location newLocation = new Location(0.0f, 0.0f, address);
             Task task = new Task(title, description, newLocation, new Date(), currentUser);
 

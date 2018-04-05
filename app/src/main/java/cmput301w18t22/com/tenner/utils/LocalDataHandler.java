@@ -63,7 +63,7 @@ public class LocalDataHandler {
             return user;
 
         } catch (FileNotFoundException e) {
-            User user = new User("", "", "", "");
+            User user = new User("", "", "", "", "");
             return user;
         } catch (IOException e) {
             throw new RuntimeException();

@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,11 +10,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
+import cmput301w18t22.com.tenner.Helpers.PhotoConverter;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
@@ -32,6 +35,8 @@ public class ProfileFragment extends Fragment {
     private ProgressBar progressBar;
     private User user;
     private LocalDataHandler localDataHandler;
+    private ImageView profilePic;
+    private Bitmap image;
 
 
     public static Fragment newInstance(String text) {
@@ -63,6 +68,8 @@ public class ProfileFragment extends Fragment {
         name = (TextView) view.findViewById(R.id.profile_name);
         email = (TextView) view.findViewById(R.id.profile_email);
         phone = (TextView) view.findViewById(R.id.profile_phone);
+        profilePic = (ImageView) view.findViewById(R.id.profile_picture);
+
 
     }
 
@@ -87,6 +94,7 @@ public class ProfileFragment extends Fragment {
         name = null;
         email = null;
         phone = null;
+        profilePic = null;
 
         super.onDestroyView();
     }
@@ -97,15 +105,26 @@ public class ProfileFragment extends Fragment {
 
     private void bindData() {
         // Change to user value
+
+
         name.setText(user.toProfileName()); // First + Last Name
         email.setText(user.getEmail());
         phone.setText(user.toDisplayPhone());
+        if (image != null) {
+            profilePic.setImageBitmap(image);
+        } else {
+            profilePic.setImageResource(R.drawable.user_pic);
+        }
+
+
     }
 
     private void loadData() {
         showProgressBar(true);
+        PhotoConverter photoConverter = new PhotoConverter();
         user = localDataHandler.loadUserFromFile();
-        sHandler.post(mRunnable);
+        image = photoConverter.convertStringToBM(user.getPhoto());
+        sHandler.postDelayed(mRunnable, 500);
     }
 
     private static class WeakRunnable implements Runnable {

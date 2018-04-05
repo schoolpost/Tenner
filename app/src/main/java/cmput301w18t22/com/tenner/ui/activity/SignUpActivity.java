@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         if (check(email, firstn, lastn, phone)) {
 
-            User user = new User(email, firstn, lastn, phone, new ArrayList<Task>(), new ArrayList<Task>(), new ArrayList<Bid>());
+            User user = new User(email, firstn, lastn, phone,"", new ArrayList<Task>(), new ArrayList<Task>(), new ArrayList<Bid>());
 
             ElasticSearchRestClient elasticSearchRestClient = ElasticSearchRestClient.getInstance();
             try {

@@ -50,7 +50,7 @@ public class EditProfileActivity extends AppCompatActivity {
     //Photo
     ImageView mImageView;
     String mCurrentPhotoPath;
-    static final int REQUEST_IMAGE_CAPTURE  = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int GET_FROM_GALLERY = 3;
     String b64;
 
@@ -101,6 +101,15 @@ public class EditProfileActivity extends AppCompatActivity {
         etLast.setText(user.getLastName());
         tvEmail.setText(user.getEmail());
         etPhone.setText(user.getPhoneNum());
+
+        //check if user has a profile picture
+
+        if (user.getPhoto().equals("") || user.getPhoto() == null) {
+            mImageView.setImageResource(R.drawable.user_pic);
+        } else {
+            mImageView.setImageBitmap(new PhotoConverter().convertStringToBM(user.getPhoto()));
+        }
+
     }
 
     boolean check(String first, String last, String phone) {
@@ -171,7 +180,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE );
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
     }
@@ -192,23 +201,23 @@ public class EditProfileActivity extends AppCompatActivity {
         return image;
     }
 
-    public void takePic(){
+    public void takePic() {
         dispatchTakePictureIntent();
     }
 
-    public void addPic(){
+    public void addPic() {
         addPicFromGallery();
     }
 
-    private void addPicFromGallery(){
+    private void addPicFromGallery() {
         startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath,bmOptions);
+            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 
             PhotoConverter photoConverter = new PhotoConverter();
             b64 = photoConverter.convertBMToString(bitmap);
