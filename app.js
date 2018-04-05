@@ -5,7 +5,7 @@ var express      = require('express'),
     
 //Configurations-------------------------------------------------------------->
 
-app.use(bodyParser({limit: '500kb'}));
+app.use(bodyParser({limit: '0.5mb'}));
 app.use(bodyParser.urlencoded({extended : true}));
 
 app.use(session({
