@@ -25,26 +25,6 @@ router.get('/ping', function(request, response){
       }
     });
 });
-
-router.get('/deleteUsers', function(request, response){
-        
-        
-        // client.delete({
-        //   index: 'tenner',
-          
-        // }, function (error, response2) {
-        //   // ...
-          
-        //   if(error){
-        //       console.log(error);
-        //       return response.send("lol");
-        //   } else {
-        //     return response.send({'Success' : 'User Sign Up Success!'}); 
-        //   }
-        // });
-        
-    
-});
     
 //Users-------------------------------------------------------------->
 
@@ -107,41 +87,6 @@ router.post('/signUpUser', function(request, response){
     }
 });
 
-// router.post('/signInUser', function(request, response){
-//     var user = request.body.user;
-    
-//     if(typeof(user) != 'undefined'){
-//         var queryString = 'email:' + user;
-//         console.log(queryString);
-        
-//         client.search({
-//           index: 'tenner',
-//           type: 'users',
-//           q : queryString
-//         }).then(function (responseBody) {
-//             var data = responseBody.hits.hits;
-//             console.log(data)
-//             for(var dataObj in data){
-//                 if (data.hasOwnProperty(dataObj)) {
-//                     if(user == data[dataObj]._source.email){
-//                         console.log('User Exists!');
-//                         return response.send({'Success' : 'At /signInUser Log In!'});
-//                     }
-//                 }
-//             }
-//             return response.send({'Error' : 'At /signInUser No User Found!'});
-            
-//         }, function (err) {
-//             if(err){
-//                 console.log(err.message);
-//                 return response.send({'Error' : 'At /signInUser' + err.message});
-//             }
-//         });
-//     } else {
-//         return response.send({'Error' : 'At /signInUser No User Email!'});
-//     }
-// });
-
 router.post('/getUser', function(request, response){
     var user = request.body.user;
     
@@ -180,27 +125,48 @@ router.post('/getUser', function(request, response){
 router.get('/editUser', function(request, response){
     var user = JSON.parse(request.body.user);
     
-    if(typeof(user.email) != 'undefined'){
-        client.index({
+    if(typeof(user) != 'undefined'){
+        var queryString = 'email:' + user.email;
+        console.log(queryString);
+        
+        client.search({
           index: 'tenner',
-          type : 'users',
-          id : user.email,
-          body : {
-            email: user.email, 
-            firstName : user.firstName,
-            lastName : user.lastName,
-            phoneNum : user.phoneNum,
-            //photo : user.photo,
-            requestedTasks : user.requestedTasks,
-            providedTasks : user.providedTasks,
-            bids : user.bids
-          }
-        }, function (err, response2) {
+          type: 'users',
+          q : queryString
+        }).then(function (responseBody) {
+            var data = responseBody.hits.hits;
+            console.log(data)
+            for(var dataObj in data){
+                if (data.hasOwnProperty(dataObj)) {
+                    if(user == data[dataObj]._source.email){
+                        console.log('User Exists!');
+                        // return response.send({'Success' : 'At /editUser Updated!'});
+                    }
+                }
+            }
+            return response.send({'Error' : 'At /editUser No User Found!'});
+            
+        }, function (err) {
             if(err){
-                console.log(err.message);
+                client.index({
+                    index: 'tenner',
+                    type : 'users',
+                    id : user.email,
+                    body : { 
+                        firstName : user.firstName,
+                        lastName : user.lastName,
+                        phoneNum : user.phoneNum,
+                        //photo : user.photo
+                    }
+                }, function (err, response2) {
+                    if(err){
+                        console.log(err.message);
+                        return response.send({'Error' : 'At /editUser' + err.message});
+                    } else {
+                        return response.send({'Success' : 'At /editUser User Updated!'});
+                    }
+                });
                 return response.send({'Error' : 'At /editUser' + err.message});
-            } else {
-                return response.send({'Success' : 'At /editUser User Updated!'});
             }
         });
     } else {
@@ -227,6 +193,22 @@ router.get('/getAllUsers', function(request, response){
         console.log(err.message);
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
+});
+
+router.get('/deleteUsers', function(request, response){
+        // client.delete({
+        //   index: 'tenner',
+          
+        // }, function (error, response2) {
+        //   // ...
+          
+        //   if(error){
+        //       console.log(error);
+        //       return response.send("lol");
+        //   } else {
+        //     return response.send({'Success' : 'User Sign Up Success!'}); 
+        //   }
+        // });
 });
 
 //Tasks-------------------------------------------------------------->
@@ -358,6 +340,26 @@ router.get('/getOtherBids', function(request, response){
     }, function (err) {
         console.log(err.message);
         response.send('Error!');
+    });
+});
+
+router.get('/getAllTasks', function(request, response){
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+      /*body: {
+        query: {
+          match: {
+            body:  ''
+          }
+        }
+      }*/
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        return response.send(data);
+    }, function (err) {
+        console.log(err.message);
+        return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
 });
 
