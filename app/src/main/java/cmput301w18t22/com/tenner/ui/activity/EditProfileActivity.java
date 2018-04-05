@@ -169,7 +169,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                takePictureIntent.putExtra("photo", photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE );
             }
         }
@@ -214,10 +215,10 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE  && resultCode == RESULT_OK) {
-            Uri imageURI = data.getData();
+            Bundle extras = getIntent().getExtras();
             Bitmap imageBitmap = null;
             try {
-                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageURI);
+                imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(extras.getString("photo")));
             } catch (Exception e){
 
             }
