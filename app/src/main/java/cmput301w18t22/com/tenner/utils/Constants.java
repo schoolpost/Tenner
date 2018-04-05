@@ -6,4 +6,6 @@ package cmput301w18t22.com.tenner.utils;
 
 public class Constants {
     public static final String FILENAME = "user.sav";
+    public static final int EDIT_PROFILE_REQUEST = 45;
+    public static final int EDIT_PROFILE_RESULT = 46;
 }

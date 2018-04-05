@@ -5,14 +5,23 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
+import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.Authenticator;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
@@ -64,7 +73,7 @@ public class EditProfileActivity extends AppCompatActivity {
         etFirst.setText(user.getFirstName());
         etLast.setText(user.getLastName());
         tvEmail.setText(user.getEmail());
-        etPhone.setText(user.toDisplayPhone());
+        etPhone.setText(user.getPhoneNum());
     }
 
     boolean check(String first, String last, String phone) {
@@ -107,17 +116,44 @@ public class EditProfileActivity extends AppCompatActivity {
             user.setPhoneNum(phone);
         }
 
-        ElasticSearchRestClient elasticSearchRestClient = ElasticSearchRestClient.getInstance();
+        // post the edited user
         try {
-            elasticSearchRestClient.postUser(user);
+            postEditUser(user);
         } catch (Exception e) {
 
         }
 
-        SharedPrefUtils.login(this, "");
-        BroadcastManager.sendLoginBroadcast(this, 1);
-        localDataHandler.saveUserInFile(user);
-        finish(); // Back to profile fragment with updated values
+    }
+
+    public void postEditUser(final User postUser) throws JSONException {
+
+        RequestParams params = new RequestParams();
+        Gson gson = new Gson();
+        String json = gson.toJson(postUser);
+
+        try {
+            params.put("user", json);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("editUser", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    localDataHandler.saveUserInFile(postUser);
+                    finish();
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
 }

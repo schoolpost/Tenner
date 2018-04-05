@@ -32,7 +32,7 @@ public class ElasticSearchRestClient {
 
     private Boolean status = false;
 
-    private ElasticSearchRestClient() {
+    public ElasticSearchRestClient() {
     }
 
     public Boolean getStatus() {
@@ -208,7 +208,6 @@ public class ElasticSearchRestClient {
                     if (response.has("Success")) {
 
 
-
                     } else if (response.has("Error")) {
 
                     }
@@ -220,6 +219,46 @@ public class ElasticSearchRestClient {
         });
 
 
+    }
+
+    public void postEditUser(User user) throws JSONException {
+
+        RequestParams params = new RequestParams();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+
+        try {
+            params.put("user", json);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("editUser", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    Log.i("lol", response.get("Success").toString());
+                } catch (Exception e) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
 }

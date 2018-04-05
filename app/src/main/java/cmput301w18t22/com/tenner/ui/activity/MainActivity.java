@@ -140,7 +140,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             @Override
             public void onClick(View view) {
                 // Edit Profile
-                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), EditProfileActivity.class);
+                startActivityForResult(intent, );
+
             }
         });
     }
