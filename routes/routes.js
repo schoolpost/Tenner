@@ -61,7 +61,7 @@ router.post('/signUpUser', function(request, response){
                     firstName : user.firstName,
                     lastName : user.lastName,
                     phoneNum : user.phoneNum,
-                    //photo : user.photo,
+                    photo : user.photo,
                     requestedTasks : user.requestedTasks,
                     providedTasks : user.providedTasks,
                     bids : user.bids
@@ -148,7 +148,7 @@ router.post('/editUser', function(request, response){
                                 firstName : user.firstName,
                                 lastName : user.lastName,
                                 phoneNum : user.phoneNum,
-                                //photo : user.photo
+                                photo : user.photo
                             }
                         }, function (err, response2) {
                             if(err){
