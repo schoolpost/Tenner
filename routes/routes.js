@@ -140,7 +140,24 @@ router.get('/editUser', function(request, response){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user == data[dataObj]._source.email){
                         console.log('User Exists!');
-                        // return response.send({'Success' : 'At /editUser Updated!'});
+                        client.index({
+                            index: 'tenner',
+                            type : 'users',
+                            id : user.email,
+                            body : { 
+                                firstName : user.firstName,
+                                lastName : user.lastName,
+                                phoneNum : user.phoneNum,
+                                //photo : user.photo
+                            }
+                        }, function (err, response2) {
+                            if(err){
+                                console.log(err.message);
+                                return response.send({'Error' : 'At /editUser' + err.message});
+                            } else {
+                                return response.send({'Success' : 'At /editUser User Updated!'});
+                            }
+                        });
                     }
                 }
             }
@@ -148,24 +165,6 @@ router.get('/editUser', function(request, response){
             
         }, function (err) {
             if(err){
-                client.index({
-                    index: 'tenner',
-                    type : 'users',
-                    id : user.email,
-                    body : { 
-                        firstName : user.firstName,
-                        lastName : user.lastName,
-                        phoneNum : user.phoneNum,
-                        //photo : user.photo
-                    }
-                }, function (err, response2) {
-                    if(err){
-                        console.log(err.message);
-                        return response.send({'Error' : 'At /editUser' + err.message});
-                    } else {
-                        return response.send({'Success' : 'At /editUser User Updated!'});
-                    }
-                });
                 return response.send({'Error' : 'At /editUser' + err.message});
             }
         });
