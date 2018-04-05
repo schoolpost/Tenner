@@ -33,7 +33,7 @@ import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.ui.adapter.MyBidAdapter;
 import cmput301w18t22.com.tenner.ui.adapter.OtherBidAdapter;
 
-import static cmput301w18t22.com.tenner.classes.Status.bidStatus.assigned;
+import static cmput301w18t22.com.tenner.Helpers.Status.bidStatus.assigned;
 
 /**
  * A simple {@link Fragment} subclass.

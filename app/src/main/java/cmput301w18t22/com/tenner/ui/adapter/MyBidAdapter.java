@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Bid;
-import cmput301w18t22.com.tenner.classes.Status;
+import cmput301w18t22.com.tenner.Helpers.Status;
 
 /**
  * Custom Adapter provides the adapter for an array of my bids on others' tasks

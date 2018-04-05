@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-class InternetStatus {
+class InternetStatusHelper {
 
     //https://developer.android.com/training/monitoring-device-state/connectivity-monitoring.html#DetermineType
 

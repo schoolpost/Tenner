@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cmput301w18t22.com.tenner.Helpers.Status;
+
 /**
  * The Task class represents a task that has been requested. Each task has a taskID, status
  * (one of assigned, bidded, requested, or done), title, description, requestedDate, and requester.

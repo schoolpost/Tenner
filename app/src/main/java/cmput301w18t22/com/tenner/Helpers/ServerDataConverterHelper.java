@@ -1,12 +1,12 @@
 package cmput301w18t22.com.tenner.Helpers;
 
-public class ServerDataConverter {
-    private static final ServerDataConverter ourInstance = new ServerDataConverter();
+public class ServerDataConverterHelper {
+    private static final ServerDataConverterHelper ourInstance = new ServerDataConverterHelper();
 
-    static ServerDataConverter getInstance() {
+    static ServerDataConverterHelper getInstance() {
         return ourInstance;
     }
 
-    public ServerDataConverter() {
+    public ServerDataConverterHelper() {
     }
 }

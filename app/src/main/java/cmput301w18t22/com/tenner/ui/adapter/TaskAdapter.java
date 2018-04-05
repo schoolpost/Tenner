@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
-import cmput301w18t22.com.tenner.classes.Status;
+import cmput301w18t22.com.tenner.Helpers.Status;
 import cmput301w18t22.com.tenner.classes.Task;
 
 /**
