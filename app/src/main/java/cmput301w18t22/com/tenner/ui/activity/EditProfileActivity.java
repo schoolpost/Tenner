@@ -11,7 +11,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -25,11 +24,8 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -130,6 +126,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String firstName = String.valueOf(etFirst.getText()).trim();
         String lastName = String.valueOf(etLast.getText()).trim();
         String phone = String.valueOf(etPhone.getText()).trim();
+        String photo = b64;
 
         if (check(firstName, lastName, phone)) {
             if (TextUtils.isEmpty(firstName)) {
@@ -145,6 +142,7 @@ public class EditProfileActivity extends AppCompatActivity {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setPhoneNum(phone);
+            user.setPhoto(photo);
 
             // post the edited user
             try {
@@ -214,8 +212,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
             PhotoConverter photoConverter = new PhotoConverter();
             b64 = photoConverter.convertBMToString(bitmap);
-
-            //TODO Upload
 
             Bitmap bm = photoConverter.convertStringToBM(b64);
 

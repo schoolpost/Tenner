@@ -2,8 +2,6 @@ package cmput301w18t22.com.tenner.classes;
 
 import java.util.ArrayList;
 
-import cmput301w18t22.com.tenner.utils.StringSlice;
-
 /**
  * The User class represents a Tenner user, who could be either a requester, or provider, or both.
  * It contains their first and last name, contact info (phone and email), and keeps track of
@@ -25,28 +23,28 @@ public class User {
     private String firstName;
     private String lastName;
     private String phoneNum;
-    private Photo photo;
+    private String photo;
     private ArrayList<Task> requestedTasks;
     private ArrayList<Task> providedTasks;
     private ArrayList<Bid> bids;
 
-    public User(String email, String firstName, String lastName, String phoneNum) {
+    public User(String email, String firstName, String lastName, String phoneNum, String photo) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNum = phoneNum;
-        //this.photo = photo;
+        this.photo = photo;
         this.requestedTasks = new ArrayList<Task>();
         this.providedTasks = new ArrayList<Task>();
         this.bids = new ArrayList<Bid>();
     }
 
-    public User(String email, String firstName, String lastName, String phoneNum, ArrayList<Task> requestedTasks, ArrayList<Task> providedTasks, ArrayList<Bid> bids) {
+    public User(String email, String firstName, String lastName, String phoneNum, String photo, ArrayList<Task> requestedTasks, ArrayList<Task> providedTasks, ArrayList<Bid> bids) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNum = phoneNum;
-        //this.photo = photo;
+        this.photo = photo;
         this.requestedTasks = requestedTasks;
         this.providedTasks = providedTasks;
         this.bids = bids;
@@ -127,7 +125,7 @@ public class User {
      * @return this user's photo
      * @see User#setPhoto
      */
-    public Photo getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
@@ -137,7 +135,7 @@ public class User {
      *
      * @param photo Photo object to be set for this user
      */
-    public void setPhoto(Photo photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
