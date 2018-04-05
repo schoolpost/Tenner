@@ -124,7 +124,7 @@ router.post('/getUser', function(request, response){
 
 router.post('/editUser', function(request, response){
     var user = JSON.parse(request.body.user);
-    console.log('good');
+    
     if(typeof(user) != 'undefined'){
         var queryString = 'email:' + user.email;
         console.log(queryString);
@@ -135,11 +135,13 @@ router.post('/editUser', function(request, response){
           q : queryString
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
-            console.log(data)
+            // console.log(data);
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
+                    console.log('good2');
                     if(user.email == data[dataObj]._source.email){
                         console.log('User Exists!');
+                        console.log(user.photo);
                         client.index({
                             index: 'tenner',
                             type : 'users',
