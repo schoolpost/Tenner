@@ -29,6 +29,7 @@ import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.server.ElasticServer;
+import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 import cmput301w18t22.com.tenner.utils.TaskChecker;
 
 public class PostTaskActivity extends AppCompatActivity {
@@ -40,6 +41,7 @@ public class PostTaskActivity extends AppCompatActivity {
     private Button setLocationButton;
     private FusedLocationProviderClient mFusedLocationClient;
     private LatLng currentloc;
+    private LocalDataHandler localDataHandler;
 
     static final int GET_LOCATION = 1;
 
@@ -61,6 +63,9 @@ public class PostTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        localDataHandler = new LocalDataHandler(this);
+
         setContentView(R.layout.activity_post_task);
 
         setLocationButton = (Button) findViewById(R.id.location_button);
@@ -107,7 +112,8 @@ public class PostTaskActivity extends AppCompatActivity {
 
         if (check(title, description, address)) {
             //TODO: Current User and Elastic Search
-            User currentUser = new User("yo@gmail.com", "hello", "guy", "785948609", "");
+
+            User currentUser = localDataHandler.loadUserFromFile();
             Location newLocation = new Location(0.0f, 0.0f, address);
             Task task = new Task(title, description, newLocation, new Date(), currentUser);
 
