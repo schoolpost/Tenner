@@ -216,7 +216,7 @@ router.get('/getAllTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data._source);
+        console.log(data);
         return response.send(data._source);
     }, function (err) {
         console.log(err.message);
