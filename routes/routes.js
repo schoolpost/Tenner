@@ -325,7 +325,7 @@ router.post('/addTask', function(request, response){
           type : 'tasks',
           id : task.email,
           body : {
-            status: task.email, 
+            status: task['status'], 
             title : task.title,
             description : task['description'],
             bidList : task.bidList,
