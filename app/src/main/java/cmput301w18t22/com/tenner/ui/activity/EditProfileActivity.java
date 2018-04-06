@@ -225,32 +225,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             mImageView.setImageBitmap(bm);
         }
-        //TODO - Scale Test
-//        else if(requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
-//            Uri selectedImage = data.getData();
-//            Bitmap bitmap = null;
-//
-//            try {
-//                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-//                mImageView.setImageBitmap(bitmap);
-//            } catch (FileNotFoundException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
     }
-
-    //TODO - Fix???
-//    private void galleryAddPic() {
-//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//        File f = new File(mCurrentPhotoPath);
-//        Uri contentUri = Uri.fromFile(f);
-//        mediaScanIntent.setData(contentUri);
-//        this.sendBroadcast(mediaScanIntent);
-//    }
 
     public void postEditUser(final User postUser) throws JSONException {
 

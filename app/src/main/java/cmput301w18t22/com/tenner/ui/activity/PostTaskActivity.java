@@ -2,10 +2,17 @@ package cmput301w18t22.com.tenner.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,9 +30,13 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.User;
@@ -34,7 +45,7 @@ import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 import cmput301w18t22.com.tenner.utils.TaskChecker;
 
-public class PostTaskActivity extends AppCompatActivity {
+public class PostTaskActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etTitle;
     private EditText etDescription;
@@ -44,10 +55,18 @@ public class PostTaskActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private LatLng currentloc;
     private LocalDataHandler localDataHandler;
+
+    //Photo
+    ImageView mImageView;
+    String mCurrentPhotoPath;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int GET_FROM_GALLERY = 3;
+    String b64;
     private ImageView imageView1;
     private ImageView imageView2;
     private ImageView imageView3;
     private ArrayList<String> b64photos;
+
 
     static final int GET_LOCATION = 1;
 
@@ -100,6 +119,20 @@ public class PostTaskActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.addTaskImage1) {
+            dispatchTakePictureIntent(0);
+        }
+        if (v.getId() == R.id.addTaskImage3) {
+            dispatchTakePictureIntent(1);
+        }
+        if (v.getId() == R.id.addTaskImage3) {
+            dispatchTakePictureIntent(2);
+        }
+    }
+
 
     private void tryPost() {
         String title = String.valueOf(etTitle.getText()).trim();
@@ -210,12 +243,84 @@ public class PostTaskActivity extends AppCompatActivity {
         });
     }
 
+    private void dispatchTakePictureIntent(int imagePos) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                Log.i("Error", "File Image Creation Error!");
+            }
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                takePictureIntent.putExtra("imagepos", String.valueOf(imagePos));
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+//    public void takePic() {
+//        dispatchTakePictureIntent();
+//    }
+
+//    public void addPic() {
+//        addPicFromGallery();
+//    }
+
+    private void addPicFromGallery() {
+        startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+
+            PhotoConverterHelper photoConverter = new PhotoConverterHelper();
+
+            int index = data.getIntExtra("imagepos", -1);
+            b64photos.add(index, photoConverter.convertBMToString(bitmap));
+
+            Bitmap bm = photoConverter.convertStringToBM(b64photos.get(index));
+
+            switch (index) {
+                case 0:
+                    imageView1.setImageBitmap(bm);
+                    break;
+                case 1:
+                    imageView2.setImageBitmap(bm);
+                    break;
+                case 2:
+                    imageView3.setImageBitmap(bm);
+                    break;
+            }
+        }
         if (resultCode == 20) {
             etLocation.setText(data.getStringExtra("location"));
         }
-
     }
+
 }

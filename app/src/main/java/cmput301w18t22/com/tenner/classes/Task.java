@@ -32,7 +32,7 @@ public class Task {
     private String description;
     private ArrayList<Bid> bidList;
     private Location location;
-    private ArrayList<Photo> photos;
+    private ArrayList<String> photos;
     private Date requestedDate;
     private Boolean hasNewBids;
     private User requester;
@@ -44,7 +44,7 @@ public class Task {
         this.description = description;
         this.bidList = new ArrayList<Bid>();
         this.location = location;
-        this.photos = new ArrayList<Photo>();
+        this.photos = new ArrayList<String>();
         this.requestedDate = date;
         this.hasNewBids = false;
         this.requester = requester;
@@ -208,7 +208,7 @@ public class Task {
      * @see Task@setPhotos
      * @see Task#addPhoto
      */
-    public ArrayList<Photo> getPhotos() {
+    public ArrayList<String> getPhotos() {
         return photos;
     }
 
@@ -219,7 +219,7 @@ public class Task {
      *
      * @param photos ArrayList of photos to add.
      */
-    public void setPhotos(ArrayList<Photo> photos) {
+    public void setPhotos(ArrayList<String> photos) {
         this.photos = photos;
     }
 
@@ -229,7 +229,7 @@ public class Task {
      *
      * @param photo Photo to be added to task
      */
-    public void addPhoto(Photo photo) {
+    public void addPhoto(String photo) {
         this.photos.add(photo);
     }
 
