@@ -341,8 +341,6 @@ router.get('/getAllTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log('lol');
-        console.log(data);
         var arr = [];
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
