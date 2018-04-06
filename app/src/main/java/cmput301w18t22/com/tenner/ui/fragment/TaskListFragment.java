@@ -216,8 +216,8 @@ public class TaskListFragment extends Fragment {
     /**
      * mock load data
      */
-    private void loadData() { // Server Call
-//        Log.i("debug", "Loading");
+    private void loadData() {
+        // Server Call
         showProgressBar(true);
         user = localDataHandler.loadUserFromFile();
         String url;
@@ -232,22 +232,11 @@ public class TaskListFragment extends Fragment {
                 url = "";
         }
 
-        Log.i("tab", String.valueOf(tab));
-        Log.i("url", url);
-
         try {
             getTasks(url);
         } catch (JSONException e) {
 
         }
-
-//        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
-//                new Date(), new User("me@google.com", "John", "Doe", "555-5556", ""));
-
-//        taskList.add(test);
-
-
-//        Log.i("debug", "Loaded");
     }
 
     public void getTasks(String url) throws JSONException {
