@@ -280,7 +280,7 @@ router.post('/getRequestedTasks', function(request, response){
 router.post('/addTask', function(request, response){
     var task = JSON.parse(request.body.task);
     
-    var date = new Date(task.requestedDate)  ;
+    var date = new Date(task.requestedDate);
     
     if(typeof(task.requester) != 'undefined'){
         client.index({
