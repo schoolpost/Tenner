@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         }
 
         setCurrentTab(mNavigator.getCurrentPosition());
-
     }
 
     @Override
@@ -108,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             intent.setClass(this, PostTaskActivity.class);
             startActivity(intent);
         } else {
-
             if (position != mNavigator.getCurrentPosition()) {
                 mNavigator.showFragment(position);
             } else {
@@ -118,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             bottomNavigatorView.select(position);
             setToolBar(position);
         }
-
     }
 
     private void profileToolbarActions() {
@@ -134,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                 } else {
                     finish();
                 }
-
             }
         });
 
@@ -162,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             throw new RuntimeException();
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
