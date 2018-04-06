@@ -320,7 +320,7 @@ router.post('/getRequestedTasks', function(request, response){
         var data = responseBody.hits.hits;
         var assignedTaskArray = [];
         for(var dataObj in data){
-            if(dataObj._source.provider == userID){
+            if(dataObj._source.requester == userID){
                 for(var dataObj in data){
                     if (data.hasOwnProperty(dataObj)) {
                         assignedTaskArray.push(data[dataObj]._source);
