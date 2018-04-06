@@ -232,7 +232,7 @@ router.get('/deleteUsers', function(request, response){
     client.delete({
       index: 'tenner',
       type : 'users',
-      id : "1"
+      id : "tester@gmail.com"
     }, function (error, response2) {
       // ...
       
@@ -311,6 +311,8 @@ router.post('/getAssignedTasks', function(request, response){
 router.post('/getRequestedTasks', function(request, response){
     var userID = request.body.user;
     
+    console.log(userID);
+    
     client.search({
       index: 'tenner',
       type: 'tasks'
@@ -355,20 +357,34 @@ router.get('/getAllTasks', function(request, response){
 });
 
 router.get('/deleteTask', function(request, response){
-    client.delete({
+    client.search({
       index: 'tenner',
-      type : 'tasks',
-      id : "AWKY3-BaCyOgu9RGQT1o"
-    }, function (error, response2) {
-      // ...
-      
-      if(error){
-          console.log(error);
-          return response.send("lol");
-      } else {
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        var arr = [];
+        for(var dataObj in data){
+            if (data.hasOwnProperty(dataObj)) {
+                client.delete({
+                  index: 'tenner',
+                  type : 'tasks',
+                  id : data[dataObj]._id
+                }, function (error, response2) {
+                  if(error){
+                      console.log(error);
+                      return response.send("lol");
+                  } else {
+                    
+                  }
+                });
+            }
+        }
         return response.send({'Success' : 'User Sign Up Success!'}); 
-      }
+    }, function (err) {
+        console.log(err.message);
+        return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
+    
 });
 
 //Bids-------------------------------------------------------------->
