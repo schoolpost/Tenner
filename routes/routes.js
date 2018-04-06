@@ -221,6 +221,7 @@ router.get('/getAllTasks', function(request, response){
             arr.push(dataObj);
             console.log(dataObj);
         }
+        response.send(JSON.stringify(arr));
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
