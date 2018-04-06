@@ -216,8 +216,11 @@ router.get('/getAllTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
-        return response.send(data._source);
+        var arr = [];
+        for(var dataObj in data){
+            arr.push(dataObj);
+            console.log(dataObj);
+        }
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
