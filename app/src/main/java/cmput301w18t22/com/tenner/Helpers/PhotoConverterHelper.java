@@ -6,6 +6,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 public class PhotoConverterHelper {
 
@@ -18,20 +19,32 @@ public class PhotoConverterHelper {
     public PhotoConverterHelper() {
     }
 
-    public String convertBMToString(Bitmap bitmap){
+    public String convertBMToString(Bitmap bitmap) {
         //TODO
         //bitmap = Bitmap.createScaledBitmap(bitmap,mImageView.getWidth(),mImageView.getHeight(),true);
 
+        int MAX_IMAGE_SIZE = 65 * 1024;
+        int streamLength = MAX_IMAGE_SIZE;
+        int compressQuality = 95;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 5, stream);
-        Log.i("imagesize",String.valueOf(stream.size()));
+        while (streamLength >= MAX_IMAGE_SIZE && compressQuality > 5) {
+            try {
+                stream.flush();//to avoid out of memory error
+                stream.reset();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            compressQuality -= 5;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, stream);
+            streamLength = stream.toByteArray().length;
+        }
         String imgString = Base64.encodeToString(stream.toByteArray(),
                 Base64.DEFAULT);
 
         return imgString;
     }
 
-    public Bitmap convertStringToBM(String b64){
+    public Bitmap convertStringToBM(String b64) {
         byte[] decodedString = Base64.decode(b64, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
