@@ -238,7 +238,10 @@ public class User {
      * @return The user's name in display format (FirstName LastInitial.)
      */
     public String toDisplayName() {
-        String displayName = this.firstName.substring(0, 1).toUpperCase() + this.firstName.substring(1) + ' ' + this.lastName.substring(0, 1) + ".";
+        String displayName = "";
+        if (firstName != null && lastName != null) {
+            displayName = this.firstName.substring(0, 1).toUpperCase() + this.firstName.substring(1) + ' ' + this.lastName.substring(0, 1) + ".";
+        }
         return displayName;
     }
 
