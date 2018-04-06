@@ -216,7 +216,7 @@ router.get('/getAllTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        return response.send(data);
+        return response.send(JSON.stringify(data));
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
@@ -227,7 +227,7 @@ router.get('/deleteTasks', function(request, response){
         client.delete({
           index: 'tenner',
           type : 'tasks',
-          id : "AWI67hKM8xIOsHi0bs77"
+          id : "AWKYrLEOCyOgu9RGQTwB"
         }, function (error, response2) {
           // ...
           
