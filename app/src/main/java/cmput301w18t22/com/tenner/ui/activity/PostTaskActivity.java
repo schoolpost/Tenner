@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -22,6 +23,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import cmput301w18t22.com.tenner.R;
@@ -42,6 +44,10 @@ public class PostTaskActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private LatLng currentloc;
     private LocalDataHandler localDataHandler;
+    private ImageView imageView1;
+    private ImageView imageView2;
+    private ImageView imageView3;
+    private ArrayList<String> b64photos;
 
     static final int GET_LOCATION = 1;
 
@@ -50,6 +56,11 @@ public class PostTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         localDataHandler = new LocalDataHandler(this);
+        b64photos = new ArrayList<>();
+        imageView1 = (ImageView) findViewById(R.id.addTaskImage1);
+        imageView2 = (ImageView) findViewById(R.id.addTaskImage2);
+        imageView3 = (ImageView) findViewById(R.id.addTaskImage3);
+
 
         setContentView(R.layout.activity_post_task);
 
