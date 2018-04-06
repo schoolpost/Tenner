@@ -279,14 +279,9 @@ router.post('/getRequestedTasks', function(request, response){
 
 router.post('/addTask', function(request, response){
     var task = JSON.parse(request.body.task);
-    console.log(task.title);
-    console.log(task['description']);
-    console.log(task['status']);
-    console.log(task.bidList);
-    console.log(task['location']);
-    console.log(task.requestedDate);
-    console.log(task.hasNewBids);
-    console.log(task.requester);
+    
+    var date = new Date(task.requestedDate)  ;
+    
     if(typeof(task.requester) != 'undefined'){
         client.index({
           index: 'tenner',
@@ -299,7 +294,7 @@ router.post('/addTask', function(request, response){
             bidList : task.bidList,
             location : task['location'],
             photos : task.photos,
-            requestedDate : task.requestedDate,
+            requestedDate : date,
             hasNewBids : task.hasNewBids,
             requester : task.requester
           }
