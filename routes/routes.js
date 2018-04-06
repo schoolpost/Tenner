@@ -319,7 +319,9 @@ router.post('/getRequestedTasks', function(request, response){
         var assignedTaskArray = [];
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
-                assignedTaskArray.push(data[dataObj]._source.requester.email);
+                if(data[dataObj]._source.requester.email == userID){
+                    assignedTaskArray.push(data[dataObj]._source);
+                }
             }
         }
         return response.send(JSON.stringify(assignedTaskArray));
