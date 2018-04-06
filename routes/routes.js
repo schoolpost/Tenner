@@ -282,31 +282,7 @@ router.post('/addTask', function(request, response){
 });
 
 router.post('/getAssignedTasks', function(request, response){
-    var userID = request.body.user;
-    client.search({
-      index: 'tenner',
-      type: 'tasks'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        var assignedTaskArray = [];
-        for(var dataObj in data){
-            if(dataObj._source.provider == userID){
-                for(var dataObj in data){
-                    if (data.hasOwnProperty(dataObj)) {
-                        assignedTaskArray.push(data[dataObj]._source);
-                    }
-                }
-            }
-        }
-        return response.send(assignedTaskArray);
-    }, function (err) {
-        console.log(err.message);
-        return response.send('Error at /getAssignedTasks : ' + err.message);
-    });
-});
-
-router.post('/getRequestedTasks', function(request, response){
-    var userID = request.body.email;
+     var userID = request.body.email;
     console.log(userID);
     
     client.search({
@@ -326,6 +302,31 @@ router.post('/getRequestedTasks', function(request, response){
     }, function (err) {
         console.log(err.message);
         return response.send('Error at /getRequestedTasks : ' + err.message);
+    });
+});
+
+router.post('/getRequestedTasks', function(request, response){
+    var userID = request.body.user;
+    
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        var assignedTaskArray = [];
+        for(var dataObj in data){
+            if(dataObj._source.provider == userID){
+                for(var dataObj in data){
+                    if (data.hasOwnProperty(dataObj)) {
+                        assignedTaskArray.push(data[dataObj]._source);
+                    }
+                }
+            }
+        }
+        return response.send(assignedTaskArray);
+    }, function (err) {
+        console.log(err.message);
+        return response.send('Error at /getAssignedTasks : ' + err.message);
     });
 });
 
