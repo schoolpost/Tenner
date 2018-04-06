@@ -1,8 +1,8 @@
 var express      = require('express'),
     app          = express(),
     session      = require('express-session'),
-    bodyParser   = require("body-parser"),
-    admin        = require("firebase-admin");
+    bodyParser   = require("body-parser");
+    // admin        = require("firebase-admin");
     
 //Configurations-------------------------------------------------------------->
 
@@ -19,18 +19,18 @@ app.use(session({
     secure : true
 }));
 
-var serviceAccount = require("./private/cmput301-firebase-adminsdk-eadch-7722678525");
+// var serviceAccount = require("./private/cmput301-firebase-adminsdk-eadch-7722678525");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://cmput301.firebaseio.com"
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://cmput301.firebaseio.com"
+// });
 
 var routes = require('./routes/routes');
 
 app.use(routes);
 
-var notify       = require("./routes/routes");
+// var notify       = require("./routes/routes");
 
 // (function(){
 //     notify(); 

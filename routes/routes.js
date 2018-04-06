@@ -1,10 +1,10 @@
 var express       = require('express'),
     router        = express.Router(),
     geocoder      = require('geocoder'),
-    elasticsearch = require('elasticsearch'),
-    admin         = require("firebase-admin");
+    elasticsearch = require('elasticsearch');
+    // admin         = require("firebase-admin");
     
-var db = admin.database();
+// var db = admin.database();
     
 function notify(){
 
