@@ -308,10 +308,8 @@ router.post('/getAssignedTasks', function(request, response){
     });
 });
 
-router.get('/getRequestedTasks', function(request, response){
-    // var userID = request.body.user;
-    var userID = 'hello@gmail.com'
-    console.log(userID);
+router.post('/getRequestedTasks', function(request, response){
+    var userID = request.body.user;
     
     client.search({
       index: 'tenner',
