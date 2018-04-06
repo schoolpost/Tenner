@@ -163,7 +163,6 @@ public class PostTaskActivity extends AppCompatActivity {
 
     public void postTask(Task task) throws JSONException {
 
-
         RequestParams params = new RequestParams();
         //https://github.com/google/gson
         Gson gson = new Gson();
@@ -175,13 +174,7 @@ public class PostTaskActivity extends AppCompatActivity {
 
         }
 
-
         ElasticServer.RestClient.post("addTask", params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
-            }
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
@@ -202,10 +195,7 @@ public class PostTaskActivity extends AppCompatActivity {
 
                 }
             }
-
         });
-
-
     }
 
     @Override

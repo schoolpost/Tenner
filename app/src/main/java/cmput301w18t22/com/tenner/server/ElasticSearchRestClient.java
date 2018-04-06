@@ -58,7 +58,6 @@ public class ElasticSearchRestClient {
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    Log.i("yo11", response.get(0).toString());
                 } catch (Exception e) {
 
                 }

@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,6 +25,14 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,6 +42,9 @@ import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.server.ElasticServer;
+import cmput301w18t22.com.tenner.ui.activity.PostTaskActivity;
+import cmput301w18t22.com.tenner.ui.activity.TaskDetailActivity;
 import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
 
 /**
@@ -207,32 +219,60 @@ public class TaskListFragment extends Fragment {
         Log.i("debug", "Loading");
         showProgressBar(true);
 
+        sHandler.post(mRunnable);
+        try {
+            getTasks();
+        } catch(JSONException e){
+
+        }
+
         Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
                 new Date(), new User("me@google.com", "John", "Doe", "555-5556", ""));
 
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
-        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
+//        taskList.add(test);
 
-        sHandler.post(mRunnable);
         Log.i("debug", "Loaded");
+    }
+
+    public void getTasks() throws JSONException {
+
+        ElasticServer.RestClient.get("getaAllTasks", new RequestParams(), new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    taskList = new ArrayList<Task>();
+                    Gson gson = new GsonBuilder().create();
+                    for(int i = 0; i < response.length(); i++){
+                        Task task = gson.fromJson(response.get(i).toString(), Task.class);
+                        taskList.add(task);
+                    }
+                    bindData();
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 
     private static class WeakRunnable implements Runnable {
