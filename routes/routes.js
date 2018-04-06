@@ -41,7 +41,6 @@ router.post('/signUpUser', function(request, response){
           q : queryString
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
-            console.log(data)
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user.email == data[dataObj]._source.email){
@@ -100,7 +99,6 @@ router.post('/getUser', function(request, response){
           q : queryString
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
-            console.log(data)
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user == data[dataObj]._source.email){
@@ -135,10 +133,8 @@ router.post('/editUser', function(request, response){
           q : queryString
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
-            // console.log(data);
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
-                    console.log('good2');
                     if(user.email == data[dataObj]._source.email){
                         console.log('User Exists!');
                         console.log(user.photo);
@@ -188,7 +184,6 @@ router.get('/getAllUsers', function(request, response){
       }*/
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
         return response.send(data);
     }, function (err) {
         console.log(err.message);
@@ -196,7 +191,7 @@ router.get('/getAllUsers', function(request, response){
     });
 });
 
-router.get('/deleteUsers', function(request, response){
+// router.get('/deleteUsers', function(request, response){
         // client.delete({
         //   index: 'tenner',
           
@@ -210,9 +205,31 @@ router.get('/deleteUsers', function(request, response){
         //     return response.send({'Success' : 'User Sign Up Success!'}); 
         //   }
         // });
-});
+// });
 
 //Tasks-------------------------------------------------------------->
+
+router.post('/getAllTasks', function(request, response){
+    var userID = request.body.email;
+    
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        
+        var assignedTaskArray = [];
+        for(var dataObj in data){
+            if(dataObj._source.provider == userID){
+                assignedTaskArray.push(dataObj);
+            }
+        }
+        return response.send(assignedTaskArray);
+    }, function (err) {
+        console.log(err.message);
+        return response.send('Error at /getAssignedTasks : ' + err.message);
+    });
+});
 
 router.post('/getAssignedTasks', function(request, response){
     var userID = request.body.email;
@@ -222,7 +239,6 @@ router.post('/getAssignedTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
         
         var assignedTaskArray = [];
         for(var dataObj in data){
@@ -263,31 +279,31 @@ router.post('/getRequestedTasks', function(request, response){
 
 router.post('/addTask', function(request, response){
     var task = JSON.parse(request.body.task);
-    
+    console.log(task);
     if(typeof(task.requester) != 'undefined'){
-        client.index({
-          index: 'tenner',
-          type : 'tasks',
-          id : task.email,
-          body : {
-            status: task.email, 
-            title : task.title,
-            description : task['description'],
-            bidList : task.bidList,
-            location : task['location'],
-            photos : task.photos,
-            requestedDate : task.requestedDate,
-            hasNewBids : task.hasNewBids,
-            requester : task.requester
-          }
-        }, function (err, response2) {
-            if(err){
-                console.log(err.message);
-                return response.send({'Error' : 'At /addTask' + err.message});
-            } else {
-                return response.send({'Success' : 'At /addTask User Updated!'});
-            }
-        });
+        // client.index({
+        //   index: 'tenner',
+        //   type : 'tasks',
+        //   id : task.email,
+        //   body : {
+        //     status: task.email, 
+        //     title : task.title,
+        //     description : task['description'],
+        //     bidList : task.bidList,
+        //     location : task['location'],
+        //     photos : task.photos,
+        //     // requestedDate : task.requestedDate,
+        //     hasNewBids : task.hasNewBids,
+        //     requester : task.requester
+        //   }
+        // }, function (err, response2) {
+        //     if(err){
+        //         console.log(err.message);
+        //         return response.send({'Error' : 'At /addTask' + err.message});
+        //     } else {
+        //         return response.send({'Success' : 'At /addTask User Updated!'});
+        //     }
+        // });
     } else {
         return response.send({'Error' : 'At /addTask No Requester!'});
     }
