@@ -217,12 +217,26 @@ public class TaskListFragment extends Fragment {
      * mock load data
      */
     private void loadData() { // Server Call
-        Log.i("debug", "Loading");
+//        Log.i("debug", "Loading");
         showProgressBar(true);
         user = localDataHandler.loadUserFromFile();
+        String url;
+        switch (tab) {
+            case 0:
+                url = "getRequestedTasks";
+                break;
+            case 1:
+                url = "getAssignedTasks";
+                break;
+            default:
+                url = "";
+        }
+
+        Log.i("tab", String.valueOf(tab));
+        Log.i("url", url);
 
         try {
-            getTasks();
+            getTasks(url);
         } catch (JSONException e) {
 
         }
@@ -233,10 +247,10 @@ public class TaskListFragment extends Fragment {
 //        taskList.add(test);
 
 
-        Log.i("debug", "Loaded");
+//        Log.i("debug", "Loaded");
     }
 
-    public void getTasks() throws JSONException {
+    public void getTasks(String url) throws JSONException {
 
         RequestParams params = new RequestParams();
 
@@ -246,7 +260,7 @@ public class TaskListFragment extends Fragment {
 
         }
 
-        ElasticServer.RestClient.post("getRequestedTasks", params, new JsonHttpResponseHandler() {
+        ElasticServer.RestClient.post(url, params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {

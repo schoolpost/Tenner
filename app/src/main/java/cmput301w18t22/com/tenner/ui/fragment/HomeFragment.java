@@ -1,11 +1,13 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -103,6 +105,7 @@ public class HomeFragment extends Fragment {
 
                     }
                     handled = true;
+
                 }
                 return handled;
             }
