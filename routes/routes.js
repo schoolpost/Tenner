@@ -308,9 +308,9 @@ router.post('/getAssignedTasks', function(request, response){
     });
 });
 
-router.post('/getRequestedTasks', function(request, response){
-    var userID = request.body.user;
-    
+router.get('/getRequestedTasks', function(request, response){
+    // var userID = request.body.user;
+    var userID = 'hello@gmail.com'
     console.log(userID);
     
     client.search({
@@ -320,12 +320,8 @@ router.post('/getRequestedTasks', function(request, response){
         var data = responseBody.hits.hits;
         var assignedTaskArray = [];
         for(var dataObj in data){
-            if(dataObj._source.requester == userID){
-                for(var dataObj in data){
-                    if (data.hasOwnProperty(dataObj)) {
-                        assignedTaskArray.push(data[dataObj]._source);
-                    }
-                }
+            if (data.hasOwnProperty(dataObj)) {
+                assignedTaskArray.push(data[dataObj]._source.requester.email);
             }
         }
         return response.send(assignedTaskArray);
