@@ -221,7 +221,7 @@ router.get('/getAllTasks', function(request, response){
         var arr = [];
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
-                arr.push(data[dataObj]);
+                arr.push(data[dataObj]._source);
             }
         }
         response.send(JSON.stringify(arr));
