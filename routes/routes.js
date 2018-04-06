@@ -290,12 +290,15 @@ router.post('/getAssignedTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
-        
         var assignedTaskArray = [];
+        
         for(var dataObj in data){
-            if(dataObj._source.provider != userID){
-                assignedTaskArray.push(dataObj);
+            if(dataObj._source.provider == userID){
+                for(var dataObj in data){
+                    if (data.hasOwnProperty(dataObj)) {
+                        assignedTaskArray.push(data[dataObj]._source);
+                    }
+                }
             }
         }
         return response.send(assignedTaskArray);
