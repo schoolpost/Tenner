@@ -288,29 +288,29 @@ router.post('/addTask', function(request, response){
     console.log(task.hasNewBids);
     console.log(task.requester);
     if(typeof(task.requester) != 'undefined'){
-        // client.index({
-        //   index: 'tenner',
-        //   type : 'tasks',
-        //   id : task.email,
-        //   body : {
-        //     status: task.email, 
-        //     title : task.title,
-        //     description : task['description'],
-        //     bidList : task.bidList,
-        //     location : task['location'],
-        //     photos : task.photos,
-        //     // requestedDate : task.requestedDate,
-        //     hasNewBids : task.hasNewBids,
-        //     requester : task.requester
-        //   }
-        // }, function (err, response2) {
-        //     if(err){
-        //         console.log(err.message);
-        //         return response.send({'Error' : 'At /addTask' + err.message});
-        //     } else {
-        //         return response.send({'Success' : 'At /addTask User Updated!'});
-        //     }
-        // });
+        client.index({
+          index: 'tenner',
+          type : 'tasks',
+          id : task.email,
+          body : {
+            status: task.email, 
+            title : task.title,
+            description : task['description'],
+            bidList : task.bidList,
+            location : task['location'],
+            photos : task.photos,
+            requestedDate : task.requestedDate,
+            hasNewBids : task.hasNewBids,
+            requester : task.requester
+          }
+        }, function (err, response2) {
+            if(err){
+                console.log(err.message);
+                return response.send({'Error' : 'At /addTask' + err.message});
+            } else {
+                return response.send({'Success' : 'At /addTask User Updated!'});
+            }
+        });
     } else {
         return response.send({'Error' : 'At /addTask No Requester!'});
     }
