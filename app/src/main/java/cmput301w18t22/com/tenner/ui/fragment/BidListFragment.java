@@ -33,7 +33,6 @@ import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.ui.adapter.MyBidAdapter;
 import cmput301w18t22.com.tenner.ui.adapter.OtherBidAdapter;
 
-import static cmput301w18t22.com.tenner.classes.Status.bidStatus.assigned;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -215,7 +214,7 @@ public class BidListFragment extends Fragment {
         User testUser = new User("email@example.com", "First", "Last", "780-123-4567", "");
         Location testLocation = new Location(0.0f, 0.0f, "123 Main St");
         Task testTask = new Task("Task Title", "Task Description", testLocation, new Date(), testUser);
-        Bid bid = new Bid(testUser, "1.00", new Date(), testTask, assigned);
+        Bid bid = new Bid(testUser, "1.00", new Date(), testTask);
 
         for (int i = 0; i < 20; i++) {
             bidList.add(bid);

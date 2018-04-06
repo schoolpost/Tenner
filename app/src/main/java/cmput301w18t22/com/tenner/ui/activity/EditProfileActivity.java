@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cmput301w18t22.com.tenner.Helpers.PhotoConverter;
+import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
@@ -107,7 +107,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user.getPhoto().equals("") || user.getPhoto() == null) {
             mImageView.setImageResource(R.drawable.user_pic);
         } else {
-            mImageView.setImageBitmap(new PhotoConverter().convertStringToBM(user.getPhoto()));
+            mImageView.setImageBitmap(new PhotoConverterHelper().convertStringToBM(user.getPhoto()));
         }
 
     }
@@ -219,7 +219,7 @@ public class EditProfileActivity extends AppCompatActivity {
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
             Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 
-            PhotoConverter photoConverter = new PhotoConverter();
+            PhotoConverterHelper photoConverter = new PhotoConverterHelper();
             b64 = photoConverter.convertBMToString(bitmap);
 
             Bitmap bm = photoConverter.convertStringToBM(b64);

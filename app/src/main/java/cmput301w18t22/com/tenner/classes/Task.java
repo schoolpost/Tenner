@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cmput301w18t22.com.tenner.Helpers.StatusHelper;
+
 /**
  * The Task class represents a task that has been requested. Each task has a taskID, status
  * (one of assigned, bidded, requested, or done), title, description, requestedDate, and requester.
@@ -25,7 +27,7 @@ public class Task {
      */
     private String taskID; // How are we using task ID?
 
-    private Status.taskStatus status;
+    private String status;
     private String title;
     private String description;
     private ArrayList<Bid> bidList;
@@ -37,7 +39,7 @@ public class Task {
     private User provider;
 
     public Task(String title, String description, Location location, Date date, User requester) {
-        this.status = Status.taskStatus.requested;
+        this.status = "requested";
         this.title = title;
         this.description = description;
         this.bidList = new ArrayList<Bid>();
@@ -72,7 +74,7 @@ public class Task {
      * @return this task's current status
      * @see Task #setStatus
      */
-    public Status.taskStatus getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
@@ -83,8 +85,11 @@ public class Task {
      *
      * @param status String representing taskID to set
      */
-    public void setStatus(Status.taskStatus status) {
-        this.status = status;
+    public void setStatus(String status) {
+
+        StatusHelper statusHelper = new StatusHelper();
+        String newStatus = statusHelper.getTaskStatus(status);
+        this.status = newStatus;
     }
 
 
@@ -154,7 +159,8 @@ public class Task {
      */
     public void addBid(Bid bid) {
         this.bidList.add(bid);
-        this.status = Status.taskStatus.bidded;
+        setStatus("bidded");
+
     }
 
 
@@ -165,7 +171,13 @@ public class Task {
      * @param bid bid to be removed
      */
     public void removeBid(Bid bid) {
-        this.bidList.remove(bid);
+
+        if (bidList.size() != 0) {
+            this.bidList.remove(bid);
+        } else {
+            setStatus("requested");
+        }
+
     }
 
 

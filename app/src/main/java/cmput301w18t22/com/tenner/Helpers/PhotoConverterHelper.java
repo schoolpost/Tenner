@@ -7,20 +7,20 @@ import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 
-public class PhotoConverter {
+public class PhotoConverterHelper {
 
-    private static final PhotoConverter ourInstance = new PhotoConverter();
+    private static final PhotoConverterHelper ourInstance = new PhotoConverterHelper();
 
-    static PhotoConverter getInstance() {
+    static PhotoConverterHelper getInstance() {
         return ourInstance;
     }
 
-    public PhotoConverter() {
+    public PhotoConverterHelper() {
     }
 
     public String convertBMToString(Bitmap bitmap){
         //TODO
-//        bitmap = Bitmap.createScaledBitmap(bitmap,mImageView.getWidth(),mImageView.getHeight(),true);
+        //bitmap = Bitmap.createScaledBitmap(bitmap,mImageView.getWidth(),mImageView.getHeight(),true);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);

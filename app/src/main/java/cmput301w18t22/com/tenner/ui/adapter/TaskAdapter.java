@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
-import cmput301w18t22.com.tenner.classes.Status;
 import cmput301w18t22.com.tenner.classes.Task;
 
 /**
@@ -78,18 +77,18 @@ public class TaskAdapter extends BaseAdapter {
         lowestBidTextView.setText("5.00");
 
         // Set correct colored bar color based on task status
-        Status.taskStatus taskStatus = currentTask.getStatus();
+        String taskStatus = currentTask.getStatus();
         switch (taskStatus) {
-            case requested:
+            case "requested":
                 coloredBar.setBackgroundResource(R.color.yellow);
                 break;
-            case bidded:
+            case "bidded":
                 coloredBar.setBackgroundResource(R.color.orange);
                 break;
-            case assigned:
+            case "assigned":
                 coloredBar.setBackgroundResource(R.color.green);
                 break;
-            case done:
+            case "done":
                 coloredBar.setBackgroundResource(R.color.black);
                 break;
         }

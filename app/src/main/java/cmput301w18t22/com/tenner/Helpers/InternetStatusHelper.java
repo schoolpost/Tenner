@@ -4,17 +4,17 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-class InternetStatus {
+class InternetStatusHelper {
 
     //https://developer.android.com/training/monitoring-device-state/connectivity-monitoring.html#DetermineType
 
-    private static final InternetStatus ourInstance = new InternetStatus();
+    private static final InternetStatusHelper ourInstance = new InternetStatusHelper();
 
-    static InternetStatus getInstance() {
+    static InternetStatusHelper getInstance() {
         return ourInstance;
     }
 
-    public InternetStatus() {
+    public InternetStatusHelper() {
     }
 
     public boolean isConnected(Context ct) {

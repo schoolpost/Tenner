@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
-import cmput301w18t22.com.tenner.Helpers.PhotoConverter;
+import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
@@ -121,7 +121,7 @@ public class ProfileFragment extends Fragment {
 
     private void loadData() {
         showProgressBar(true);
-        PhotoConverter photoConverter = new PhotoConverter();
+        PhotoConverterHelper photoConverter = new PhotoConverterHelper();
         user = localDataHandler.loadUserFromFile();
         image = photoConverter.convertStringToBM(user.getPhoto());
         sHandler.postDelayed(mRunnable, 500);
