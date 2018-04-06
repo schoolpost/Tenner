@@ -40,8 +40,8 @@ function notify(){
     
 var client = new elasticsearch.Client({
   host: 'cmput301.softwareprocess.es:8080/',
-  apiVersion : '6.2',
-  log: 'trace'
+  apiVersion : '6.2'
+//   log: 'trace'
 });
 
 router.get('/', function(request, response){
@@ -121,7 +121,7 @@ router.post('/signUpUser', function(request, response){
     }
 });
 
-router.post('/getUser', function(request, response){
+router.get('/getUser', function(request, response){
     var user = request.body.user;
     
     if(typeof(user) != 'undefined'){
