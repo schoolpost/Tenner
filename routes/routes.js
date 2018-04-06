@@ -191,45 +191,74 @@ router.get('/getAllUsers', function(request, response){
     });
 });
 
-// router.get('/deleteUsers', function(request, response){
-        // client.delete({
-        //   index: 'tenner',
-          
-        // }, function (error, response2) {
-        //   // ...
-          
-        //   if(error){
-        //       console.log(error);
-        //       return response.send("lol");
-        //   } else {
-        //     return response.send({'Success' : 'User Sign Up Success!'}); 
-        //   }
-        // });
-// });
+router.get('/deleteUsers', function(request, response){
+    client.delete({
+      index: 'tenner',
+      type : 'users',
+      id : "1"
+    }, function (error, response2) {
+      // ...
+      
+      if(error){
+          console.log(error);
+          return response.send("lol");
+      } else {
+        return response.send({'Success' : 'User Sign Up Success!'}); 
+      }
+    });
+});
 
 //Tasks-------------------------------------------------------------->
 
-router.post('/getAllTasks', function(request, response){
-    var userID = request.body.email;
-    
+router.get('/getAllTasks', function(request, response){
     client.search({
       index: 'tenner',
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
-        var assignedTaskArray = [];
-        for(var dataObj in data){
-            if(dataObj._source.provider == userID){
-                assignedTaskArray.push(dataObj);
-            }
-        }
-        return response.send(assignedTaskArray);
+        return response.send(data);
     }, function (err) {
         console.log(err.message);
-        return response.send('Error at /getAssignedTasks : ' + err.message);
+        return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
 });
+
+router.get('/deleteTasks', function(request, response){
+        client.delete({
+          index: 'tenner',
+          type : 'tasks',
+          id : "AWI67hKM8xIOsHi0bs77"
+        }, function (error, response2) {
+          // ...
+          
+          if(error){
+              console.log(error);
+              return response.send("lol");
+          } else {
+            return response.send({'Success' : 'User Sign Up Success!'}); 
+          }
+        });
+});
+
+// router.post('/getAllTasks', function(request, response){
+//     client.search({
+//       index: 'tenner',
+//       type: 'tasks'
+//     }).then(function (responseBody) {
+//         var data = responseBody.hits.hits;
+//         console.log(data);
+//         var assignedTaskArray = [];
+//         for(var dataObj in data){
+//             if(dataObj._source.provider == userID){
+//                 assignedTaskArray.push(dataObj);
+//             }
+//         }
+//         return response.send(assignedTaskArray);
+//     }, function (err) {
+//         console.log(err.message);
+//         return response.send('Error at /getAssignedTasks : ' + err.message);
+//     });
+// });
 
 router.post('/getAssignedTasks', function(request, response){
     var userID = request.body.email;
@@ -359,26 +388,6 @@ router.get('/getOtherBids', function(request, response){
     }, function (err) {
         console.log(err.message);
         response.send('Error!');
-    });
-});
-
-router.get('/getAllTasks', function(request, response){
-    client.search({
-      index: 'tenner',
-      type: 'tasks'
-      /*body: {
-        query: {
-          match: {
-            body:  ''
-          }
-        }
-      }*/
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        return response.send(data);
-    }, function (err) {
-        console.log(err.message);
-        return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
 });
 
