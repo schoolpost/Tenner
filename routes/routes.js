@@ -220,8 +220,9 @@ router.get('/getAllTasks', function(request, response){
         console.log(data);
         var arr = [];
         for(var dataObj in data){
-            arr.push(dataObj);
-            
+            if (data.hasOwnProperty(dataObj)) {
+                arr.push(data[dataObj]);
+            }
         }
         response.send(JSON.stringify(arr));
     }, function (err) {
