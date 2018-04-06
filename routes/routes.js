@@ -322,7 +322,7 @@ router.post('/getRequestedTasks', function(request, response){
                 assignedTaskArray.push(data[dataObj]._source.requester.email);
             }
         }
-        return response.send(assignedTaskArray);
+        return response.send(JSON.stringify(assignedTaskArray));
     }, function (err) {
         console.log(err.message);
         return response.send('Error at /getAssignedTasks : ' + err.message);
