@@ -231,22 +231,22 @@ router.get('/getAllTasks', function(request, response){
     });
 });
 
-router.get('/deleteTasks', function(request, response){
-        client.delete({
-          index: 'tenner',
-          type : 'tasks',
-          id : "AWKYrLEOCyOgu9RGQTwB"
-        }, function (error, response2) {
-          // ...
+// router.get('/deleteTasks', function(request, response){
+//         client.delete({
+//           index: 'tenner',
+//           type : 'tasks',
+//           id : "AWKY3-BaCyOgu9RGQT1o"
+//         }, function (error, response2) {
+//           // ...
           
-          if(error){
-              console.log(error);
-              return response.send("lol");
-          } else {
-            return response.send({'Success' : 'User Sign Up Success!'}); 
-          }
-        });
-});
+//           if(error){
+//               console.log(error);
+//               return response.send("lol");
+//           } else {
+//             return response.send({'Success' : 'User Sign Up Success!'}); 
+//           }
+//         });
+// });
 
 // router.post('/getAllTasks', function(request, response){
 //     client.search({
