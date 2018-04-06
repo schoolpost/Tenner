@@ -121,7 +121,7 @@ router.post('/signUpUser', function(request, response){
     }
 });
 
-router.get('/getUser', function(request, response){
+router.post('/getUser', function(request, response){
     var user = request.body.user;
     
     if(typeof(user) != 'undefined'){
