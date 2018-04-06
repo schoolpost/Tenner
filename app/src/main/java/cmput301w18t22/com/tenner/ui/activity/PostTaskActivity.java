@@ -45,7 +45,7 @@ import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 import cmput301w18t22.com.tenner.utils.TaskChecker;
 
-public class PostTaskActivity extends AppCompatActivity implements View.OnClickListener {
+public class PostTaskActivity extends AppCompatActivity {
 
     private EditText etTitle;
     private EditText etDescription;
@@ -57,15 +57,14 @@ public class PostTaskActivity extends AppCompatActivity implements View.OnClickL
     private LocalDataHandler localDataHandler;
 
     //Photo
-    ImageView mImageView;
     String mCurrentPhotoPath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int GET_FROM_GALLERY = 3;
-    String b64;
-    private ImageView imageView1;
-    private ImageView imageView2;
-    private ImageView imageView3;
-    private ArrayList<String> b64photos;
+    int imagepos;
+    ImageView imageView1;
+    ImageView imageView2;
+    ImageView imageView3;
+    ArrayList<String> b64photos;
 
 
     static final int GET_LOCATION = 1;
@@ -73,15 +72,39 @@ public class PostTaskActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_post_task);
+
 
         localDataHandler = new LocalDataHandler(this);
         b64photos = new ArrayList<>();
+
         imageView1 = (ImageView) findViewById(R.id.addTaskImage1);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent(0);
+                imagepos = 0;
+                Log.i("clicked", "one");
+            }
+        });
         imageView2 = (ImageView) findViewById(R.id.addTaskImage2);
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent(1);
+                imagepos = 1;
+                Log.i("clicked", "one");
+            }
+        });
         imageView3 = (ImageView) findViewById(R.id.addTaskImage3);
-
-
-        setContentView(R.layout.activity_post_task);
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent(2);
+                imagepos = 2;
+                Log.i("clicked", "one");
+            }
+        });
 
         setLocationButton = (Button) findViewById(R.id.location_button);
         setLocationButton.setEnabled(false);
@@ -120,19 +143,6 @@ public class PostTaskActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.addTaskImage1) {
-            dispatchTakePictureIntent(0);
-        }
-        if (v.getId() == R.id.addTaskImage3) {
-            dispatchTakePictureIntent(1);
-        }
-        if (v.getId() == R.id.addTaskImage3) {
-            dispatchTakePictureIntent(2);
-        }
-    }
-
 
     private void tryPost() {
         String title = String.valueOf(etTitle.getText()).trim();
@@ -146,6 +156,7 @@ public class PostTaskActivity extends AppCompatActivity implements View.OnClickL
             User currentUser = user;
             Location newLocation = new Location(0.0f, 0.0f, address);
             Task task = new Task(title, description, newLocation, new Date(), currentUser);
+            task.setPhotos(b64photos);
 
             try {
                 postTask(task);
@@ -259,7 +270,7 @@ public class PostTaskActivity extends AppCompatActivity implements View.OnClickL
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                takePictureIntent.putExtra("imagepos", String.valueOf(imagePos));
+//                takePictureIntent.putExtra("imagepos", String.valueOf(imagePos));
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
@@ -301,7 +312,8 @@ public class PostTaskActivity extends AppCompatActivity implements View.OnClickL
 
             PhotoConverterHelper photoConverter = new PhotoConverterHelper();
 
-            int index = data.getIntExtra("imagepos", -1);
+            int index = imagepos;
+
             b64photos.add(index, photoConverter.convertBMToString(bitmap));
 
             Bitmap bm = photoConverter.convertStringToBM(b64photos.get(index));

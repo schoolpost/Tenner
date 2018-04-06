@@ -106,8 +106,8 @@
 
         <ImageView
             android:id="@+id/addTaskImage1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:srcCompat="@mipmap/ic_image_round" />
@@ -115,16 +115,16 @@
 
         <ImageView
             android:id="@+id/addTaskImage2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:srcCompat="@mipmap/ic_image_round" />
 
         <ImageView
             android:id="@+id/addTaskImage3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:srcCompat="@mipmap/ic_image_round" />
