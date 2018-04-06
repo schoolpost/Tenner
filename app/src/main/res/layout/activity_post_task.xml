@@ -24,8 +24,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="@string/post_title"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/post_title" />
@@ -67,8 +67,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:ems="10"
-        android:inputType="textMultiLine"
         android:hint="@string/post_description"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/post_decription" />
@@ -79,8 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="@string/post_address"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/location_button"
         app:layout_constraintTop_toBottomOf="@+id/post_location" />
@@ -95,15 +95,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_button" />
 
-    <ImageView
-        android:id="@+id/addTaskImage1"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/post_image"
-        app:srcCompat="@mipmap/ic_image_round" />
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/addTaskImage1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@mipmap/ic_image_round" />
+
+
+        <ImageView
+            android:id="@+id/addTaskImage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@mipmap/ic_image_round" />
+
+        <ImageView
+            android:id="@+id/addTaskImage3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@mipmap/ic_image_round" />
+
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>
