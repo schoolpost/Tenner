@@ -27,6 +27,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -35,8 +36,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
@@ -219,15 +222,17 @@ public class TaskListFragment extends Fragment {
         Log.i("debug", "Loading");
         showProgressBar(true);
 
-        sHandler.post(mRunnable);
+
         try {
             getTasks();
-        } catch(JSONException e){
+        } catch (JSONException e) {
 
         }
 
-        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
-                new Date(), new User("me@google.com", "John", "Doe", "555-5556", ""));
+//        sHandler.post(mRunnable);
+
+//        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
+//                new Date(), new User("me@google.com", "John", "Doe", "555-5556", ""));
 
 //        taskList.add(test);
 //        taskList.add(test);
@@ -255,22 +260,31 @@ public class TaskListFragment extends Fragment {
 
     public void getTasks() throws JSONException {
 
-        ElasticServer.RestClient.get("getaAllTasks", new RequestParams(), new JsonHttpResponseHandler() {
+        ElasticServer.RestClient.get("getAllTasks", new RequestParams(), new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    taskList = new ArrayList<Task>();
+
                     Gson gson = new GsonBuilder().create();
-                    for(int i = 0; i < response.length(); i++){
-                        Task task = gson.fromJson(response.get(i).toString(), Task.class);
-                        taskList.add(task);
+                    taskList = new ArrayList<Task>();
+
+                    for (int i = 0; i < response.length(); i++) {
+                        taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
                     }
-                    bindData();
+                    int index = 0;
+                    for(Task t : taskList){
+                        index++;
+                        Log.i("item" + index, t.getTitle());
+                    }
+                    Log.i("finsuhed", response.toString());
+
                 } catch (Exception e) {
+                    Log.i("somebullshit", e.getMessage());
 
                 }
+                sHandler.postDelayed(mRunnable, 500);
             }
         });
     }
