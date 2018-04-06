@@ -199,7 +199,7 @@ router.post('/addTask', function(request, response){
         client.search({
           index: 'tenner',
           type: 'tasks',
-          id: task.title + task.email,
+          id: task.title + task.requester.email,
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
             if(data.length != 0){
@@ -248,7 +248,7 @@ router.post('/editTask', function(request, response){
         client.index({
           index: 'tenner',
           type : 'tasks',
-          id : task.title + task.email,
+          id : task.title + task.requester.email,
           body : {
             status: task['status'], 
             title : task.title,
