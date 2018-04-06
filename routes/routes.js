@@ -172,7 +172,74 @@ router.post('/editUser', function(request, response){
 
 //Tasks-------------------------------------------------------------->
 
+router.post('/searchTasks', function(request, response){
+    var query = request.body.query;
+    
+    if(typeof(query) != 'undefined'){
+        client.search({
+          index: 'tenner',
+          type: 'tasks',
+          q : query
+        }).then(function (responseBody) {
+            var data = responseBody.hits.hits;
+            return response.send(data);
+        }, function (err) {
+            console.log(err.message);
+            return response.send('Error at /searchTasks : ' + err.message);
+        });
+    }
+});
+
 router.post('/addTask', function(request, response){
+    var task = JSON.parse(request.body.task);
+    
+    var date = new Date(task.requestedDate);
+    
+    if(typeof(task.requester) != 'undefined'){
+        client.search({
+          index: 'tenner',
+          type: 'tasks',
+          id: task.title + task.email,
+        }).then(function (responseBody) {
+            var data = responseBody.hits.hits;
+            if(data.length != 0){
+                return response.send('Error at /addTask : Task Exists!');
+            } else {
+                client.index({
+                  index: 'tenner',
+                  type : 'tasks',
+                  id : task.title + task.email,
+                  body : {
+                    status: task['status'], 
+                    title : task.title,
+                    description : task['description'],
+                    bidList : task.bidList,
+                    location : task['location'],
+                    photos : task.photos,
+                    requestedDate : date,
+                    hasNewBids : task.hasNewBids,
+                    requester : task.requester
+                  }
+                }, function (err, response2) {
+                    if(err){
+                        console.log(err.message);
+                        return response.send({'Error' : 'At /addTask' + err.message});
+                    } else {
+                        return response.send({'Success' : 'At /addTask Task Added!'});
+                    }
+                });
+            }
+            return response.send(data);
+        }, function (err) {
+            console.log(err.message);
+            return response.send('Error at /searchTasks : ' + err.message);
+        });
+    } else {
+        return response.send({'Error' : 'At /addTask No Requester!'});
+    }
+});
+
+router.post('/editTask', function(request, response){
     var task = JSON.parse(request.body.task);
     
     var date = new Date(task.requestedDate);
@@ -181,7 +248,7 @@ router.post('/addTask', function(request, response){
         client.index({
           index: 'tenner',
           type : 'tasks',
-          id : task.email,
+          id : task.title + task.email,
           body : {
             status: task['status'], 
             title : task.title,
@@ -204,6 +271,29 @@ router.post('/addTask', function(request, response){
     } else {
         return response.send({'Error' : 'At /addTask No Requester!'});
     }
+});
+
+router.post('/getRequestedTasks', function(request, response){
+    var userID = request.body.user;
+    
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        var requestedTaskArray = [];
+        for(var dataObj in data){
+            if (data.hasOwnProperty(dataObj)) {
+                if(data[dataObj]._source.requester.email == userID){
+                    requestedTaskArray.push(data[dataObj]._source);
+                }
+            }
+        }
+        return response.send(JSON.stringify(requestedTaskArray));
+    }, function (err) {
+        console.log(err.message);
+        return response.send('Error at /getAssignedTasks : ' + err.message);
+    });
 });
 
 router.post('/getAssignedTasks', function(request, response){
@@ -230,47 +320,6 @@ router.post('/getAssignedTasks', function(request, response){
         console.log(err.message);
         return response.send('Error at /getRequestedTasks : ' + err.message);
     });
-});
-
-router.post('/getRequestedTasks', function(request, response){
-    var userID = request.body.user;
-    
-    client.search({
-      index: 'tenner',
-      type: 'tasks'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        var requestedTaskArray = [];
-        for(var dataObj in data){
-            if (data.hasOwnProperty(dataObj)) {
-                if(data[dataObj]._source.requester.email == userID){
-                    requestedTaskArray.push(data[dataObj]._source);
-                }
-            }
-        }
-        return response.send(JSON.stringify(requestedTaskArray));
-    }, function (err) {
-        console.log(err.message);
-        return response.send('Error at /getAssignedTasks : ' + err.message);
-    });
-});
-
-router.post('/searchTasks', function(request, response){
-    var query = request.body.query;
-    
-    if(typeof(query) != 'undefined'){
-        client.search({
-          index: 'tenner',
-          type: 'tasks',
-          q : query
-        }).then(function (responseBody) {
-            var data = responseBody.hits.hits;
-            return response.send(data);
-        }, function (err) {
-            console.log(err.message);
-            return response.send('Error at /searchTasks : ' + err.message);
-        });
-    }
 });
 
 //Bids-------------------------------------------------------------->
@@ -325,56 +374,56 @@ router.get('/getOtherBids', function(request, response){
 
 //Get All and Delete-------------------------------------------------------------->
 
-router.get('/getAllUsers', function(request, response){
-    client.search({
-      index: 'tenner',
-      type: 'users'
-      /*body: {
-        query: {
-          match: {
-            body:  ''
-          }
-        }
-      }*/
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        return response.send(data);
-    }, function (err) {
-        console.log(err.message);
-        return response.send({'Error' : 'At /getAllUsers ' + err.message});
-    });
-});
+// router.get('/getAllUsers', function(request, response){
+//     client.search({
+//       index: 'tenner',
+//       type: 'users'
+//       /*body: {
+//         query: {
+//           match: {
+//             body:  ''
+//           }
+//         }
+//       }*/
+//     }).then(function (responseBody) {
+//         var data = responseBody.hits.hits;
+//         return response.send(data);
+//     }, function (err) {
+//         console.log(err.message);
+//         return response.send({'Error' : 'At /getAllUsers ' + err.message});
+//     });
+// });
 
-router.get('/deleteUsers', function(request, response){
-    client.search({
-      index: 'tenner',
-      type : 'users',
-      id : "tester@gmail.com"
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        var arr = [];
-        for(var dataObj in data){
-            if (data.hasOwnProperty(dataObj)) {
-                client.delete({
-                  index: 'tenner',
-                  type : 'users',
-                  id : data[dataObj]._id
-                }, function (error, response2) {
-                  if(error){
-                      console.log(error);
-                      return response.send("Error at delete users!");
-                  } else {
+// router.get('/deleteUsers', function(request, response){
+//     client.search({
+//       index: 'tenner',
+//       type : 'users',
+//       id : "tester@gmail.com"
+//     }).then(function (responseBody) {
+//         var data = responseBody.hits.hits;
+//         var arr = [];
+//         for(var dataObj in data){
+//             if (data.hasOwnProperty(dataObj)) {
+//                 client.delete({
+//                   index: 'tenner',
+//                   type : 'users',
+//                   id : data[dataObj]._id
+//                 }, function (error, response2) {
+//                   if(error){
+//                       console.log(error);
+//                       return response.send("Error at delete users!");
+//                   } else {
                     
-                  }
-                });
-            }
-        }
-        return response.send({'Success' : 'At /deleteUsers!'}); 
-    }, function (err) {
-        console.log(err.message);
-        return response.send({'Error' : 'At /getAllUsers ' + err.message});
-    });
-});
+//                   }
+//                 });
+//             }
+//         }
+//         return response.send({'Success' : 'At /deleteUsers!'}); 
+//     }, function (err) {
+//         console.log(err.message);
+//         return response.send({'Error' : 'At /getAllUsers ' + err.message});
+//     });
+// });
 
 router.get('/getAllTasks', function(request, response){
     client.search({
@@ -382,6 +431,7 @@ router.get('/getAllTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
+        console.log(data);
         var arr = [];
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
@@ -395,34 +445,34 @@ router.get('/getAllTasks', function(request, response){
     });
 });
 
-router.get('/deleteTasks', function(request, response){
-    client.search({
-      index: 'tenner',
-      type: 'tasks'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        var arr = [];
-        for(var dataObj in data){
-            if (data.hasOwnProperty(dataObj)) {
-                client.delete({
-                  index: 'tenner',
-                  type : 'tasks',
-                  id : data[dataObj]._id
-                }, function (error, response2) {
-                  if(error){
-                      console.log(error);
-                      return response.send("lol");
-                  } else {
+// router.get('/deleteTasks', function(request, response){
+//     client.search({
+//       index: 'tenner',
+//       type: 'tasks'
+//     }).then(function (responseBody) {
+//         var data = responseBody.hits.hits;
+//         var arr = [];
+//         for(var dataObj in data){
+//             if (data.hasOwnProperty(dataObj)) {
+//                 client.delete({
+//                   index: 'tenner',
+//                   type : 'tasks',
+//                   id : data[dataObj]._id
+//                 }, function (error, response2) {
+//                   if(error){
+//                       console.log(error);
+//                       return response.send("lol");
+//                   } else {
                     
-                  }
-                });
-            }
-        }
-        return response.send({'Success' : 'User Sign Up Success!'}); 
-    }, function (err) {
-        console.log(err.message);
-        return response.send({'Error' : 'At /getAllUsers ' + err.message});
-    });
-});
+//                   }
+//                 });
+//             }
+//         }
+//         return response.send({'Success' : 'User Sign Up Success!'}); 
+//     }, function (err) {
+//         console.log(err.message);
+//         return response.send({'Error' : 'At /getAllUsers ' + err.message});
+//     });
+// });
 
 module.exports = router;
