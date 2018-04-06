@@ -103,8 +103,7 @@ public class EditProfileActivity extends AppCompatActivity {
         etPhone.setText(user.getPhoneNum());
 
         //check if user has a profile picture
-
-        if (user.getPhoto().equals("") || user.getPhoto() == null) {
+        if (user.getPhoto() == null) {
             mImageView.setImageResource(R.drawable.user_pic);
         } else {
             mImageView.setImageBitmap(new PhotoConverterHelper().convertStringToBM(user.getPhoto()));

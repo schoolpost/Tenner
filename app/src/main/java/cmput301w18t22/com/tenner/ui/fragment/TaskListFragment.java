@@ -221,38 +221,17 @@ public class TaskListFragment extends Fragment {
         showProgressBar(true);
         user = localDataHandler.loadUserFromFile();
 
-
         try {
             getTasks();
         } catch (JSONException e) {
 
         }
 
-//        sHandler.post(mRunnable);
-
 //        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
 //                new Date(), new User("me@google.com", "John", "Doe", "555-5556", ""));
 
 //        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
-//        taskList.add(test);
+
 
         Log.i("debug", "Loaded");
     }
@@ -267,7 +246,7 @@ public class TaskListFragment extends Fragment {
 
         }
 
-        ElasticServer.RestClient.post("getUserTasks", params, new JsonHttpResponseHandler() {
+        ElasticServer.RestClient.post("getRequestedTasks", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
