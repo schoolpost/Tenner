@@ -217,7 +217,7 @@ router.post('/getAllTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        
+        console.log(data);
         var assignedTaskArray = [];
         for(var dataObj in data){
             if(dataObj._source.provider == userID){
@@ -279,7 +279,14 @@ router.post('/getRequestedTasks', function(request, response){
 
 router.post('/addTask', function(request, response){
     var task = JSON.parse(request.body.task);
-    console.log(task);
+    console.log(task.title);
+    console.log(task['description']);
+    console.log(task['status']);
+    console.log(task.bidList);
+    console.log(task['location']);
+    console.log(task.requestedDate);
+    console.log(task.hasNewBids);
+    console.log(task.requester);
     if(typeof(task.requester) != 'undefined'){
         // client.index({
         //   index: 'tenner',
