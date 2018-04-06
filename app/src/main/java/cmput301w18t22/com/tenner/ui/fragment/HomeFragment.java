@@ -87,7 +87,8 @@ public class HomeFragment extends Fragment {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // TODO do something
-                    Log.i("yolo", "bro");
+                    String query = searchBar.getText().toString();
+                
                     handled = true;
                 }
                 return handled;
@@ -125,7 +126,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void bindData() {
-
         greeting.setText("Welcome, " + user.toDisplayName());
 
     }

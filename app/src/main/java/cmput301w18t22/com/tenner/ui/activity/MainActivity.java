@@ -123,14 +123,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logout();
-                Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
-                if (check) {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                    finish();
-                } else {
-                    finish();
-                }
+            logout();
+            Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
+            if (check) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+            } else {
+                finish();
+            }
             }
         });
 
@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), EditProfileActivity.class);
                 startActivityForResult(intent, Constants.EDIT_PROFILE_REQUEST);
-
             }
         });
     }
