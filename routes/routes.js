@@ -216,7 +216,7 @@ router.get('/getAllTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        return response.send(JSON.stringify(data));
+        return response.send(data);
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
