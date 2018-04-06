@@ -16,10 +16,19 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 
 /**
@@ -88,13 +97,42 @@ public class HomeFragment extends Fragment {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // TODO do something
                     String query = searchBar.getText().toString();
-                
+                    try {
+                        postEditUser(query);
+                    } catch (Exception e){
+
+                    }
                     handled = true;
                 }
                 return handled;
             }
         });
 
+    }
+
+    public void postEditUser(String query) throws JSONException {
+
+        RequestParams params = new RequestParams();
+        Gson gson = new Gson();
+        String json = gson.toJson(query);
+
+        try {
+            params.put("query", json);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("taskSearch", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 
     @Override

@@ -247,7 +247,7 @@ public class ElasticSearchRestClient {
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    Log.i("lol", response.get("Success").toString());
+
                 } catch (Exception e) {
 
                 }
