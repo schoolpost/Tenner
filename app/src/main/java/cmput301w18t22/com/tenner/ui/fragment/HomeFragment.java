@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    
+
                 } catch (Exception e) {
 
                 }

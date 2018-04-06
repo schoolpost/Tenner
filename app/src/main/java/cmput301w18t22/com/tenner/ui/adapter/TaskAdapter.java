@@ -1,14 +1,17 @@
 package cmput301w18t22.com.tenner.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Task;
 
@@ -66,6 +69,7 @@ public class TaskAdapter extends BaseAdapter {
         Task currentTask = getItem(position);
 
         // get TextView objects
+        ImageView imgView = (ImageView) convertView.findViewById(R.id.imageView);
         TextView nameTextView = (TextView) convertView.findViewById(R.id.task_title);
         TextView requesterNameTextView = (TextView) convertView.findViewById(R.id.requester_name);
         TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.bid_amt);
@@ -91,6 +95,16 @@ public class TaskAdapter extends BaseAdapter {
             case "done":
                 coloredBar.setBackgroundResource(R.color.black);
                 break;
+        }
+
+        //Add photo
+        PhotoConverterHelper photoConverterHelper = new PhotoConverterHelper();
+        Bitmap bitmap = null;
+        if(currentTask.getPhotos().size() == 0){
+            imgView.setImageResource(R.drawable.user_pic);
+        } else {
+            bitmap = photoConverterHelper.convertStringToBM(currentTask.getPhotos().get(0));
+            imgView.setImageBitmap(bitmap);
         }
 
         // returns the view for the current row
