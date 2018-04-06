@@ -217,9 +217,9 @@ router.post('/getAssignedTasks', function(request, response){
         var assignedTaskArray = [];
         
         for(var dataObj in data){
-            if(dataObj._source.provider == userID){
-                for(var dataObj in data){
-                    if (data.hasOwnProperty(dataObj)) {
+            if (data.hasOwnProperty(dataObj)) {
+                if(typeof(data[dataObj]._source.provider) != 'undefined'){
+                    if(data[dataObj]._source.provider.email == userID){
                         assignedTaskArray.push(data[dataObj]._source);
                     }
                 }
@@ -240,15 +240,15 @@ router.post('/getRequestedTasks', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        var assignedTaskArray = [];
+        var requestedTaskArray = [];
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
                 if(data[dataObj]._source.requester.email == userID){
-                    assignedTaskArray.push(data[dataObj]._source);
+                    requestedTaskArray.push(data[dataObj]._source);
                 }
             }
         }
-        return response.send(JSON.stringify(assignedTaskArray));
+        return response.send(JSON.stringify(requestedTaskArray));
     }, function (err) {
         console.log(err.message);
         return response.send('Error at /getAssignedTasks : ' + err.message);
