@@ -19,6 +19,7 @@ import java.lang.ref.WeakReference;
 import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.ui.activity.EditProfileActivity;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 
 /**
@@ -123,8 +124,12 @@ public class ProfileFragment extends Fragment {
         showProgressBar(true);
         PhotoConverterHelper photoConverter = new PhotoConverterHelper();
         user = localDataHandler.loadUserFromFile();
-        image = photoConverter.convertStringToBM(user.getPhoto());
-        sHandler.postDelayed(mRunnable, 500);
+        try{
+            image = photoConverter.convertStringToBM(user.getPhoto());
+        } catch (Exception e){
+
+        }
+        sHandler.post(mRunnable);
     }
 
     private static class WeakRunnable implements Runnable {

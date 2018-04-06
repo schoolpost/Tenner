@@ -99,7 +99,7 @@ public class PostTaskActivity extends AppCompatActivity {
             //TODO: Current User and Elastic Search
 
             User user = localDataHandler.loadUserFromFile();
-            String currentUser = user.getEmail();
+            User currentUser = user;
             Location newLocation = new Location(0.0f, 0.0f, address);
             Task task = new Task(title, description, newLocation, new Date(), currentUser);
 

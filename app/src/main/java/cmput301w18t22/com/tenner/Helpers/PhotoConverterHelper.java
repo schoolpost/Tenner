@@ -2,6 +2,7 @@ package cmput301w18t22.com.tenner.Helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.util.Base64;
 import android.util.Log;
 
@@ -21,7 +22,9 @@ public class PhotoConverterHelper {
 
     public String convertBMToString(Bitmap bitmap) {
         //TODO
-        //bitmap = Bitmap.createScaledBitmap(bitmap,mImageView.getWidth(),mImageView.getHeight(),true);
+//        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.25), (int) (bitmap.getHeight() * 0.25), true);
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, 512, 512);
+
 
         int MAX_IMAGE_SIZE = 65 * 1024;
         int streamLength = MAX_IMAGE_SIZE;
@@ -29,7 +32,7 @@ public class PhotoConverterHelper {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         while (streamLength >= MAX_IMAGE_SIZE && compressQuality > 5) {
             try {
-                stream.flush();//to avoid out of memory error
+                stream.flush();
                 stream.reset();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -37,6 +40,8 @@ public class PhotoConverterHelper {
             compressQuality -= 5;
             bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, stream);
             streamLength = stream.toByteArray().length;
+            Log.i("compressQuality", String.valueOf(compressQuality));
+            Log.i("Filezie", String.valueOf(streamLength));
         }
         String imgString = Base64.encodeToString(stream.toByteArray(),
                 Base64.DEFAULT);

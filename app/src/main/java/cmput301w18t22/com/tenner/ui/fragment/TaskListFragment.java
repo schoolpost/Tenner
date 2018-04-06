@@ -49,6 +49,7 @@ import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.activity.PostTaskActivity;
 import cmput301w18t22.com.tenner.ui.activity.TaskDetailActivity;
 import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
+import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,22 +59,18 @@ public class TaskListFragment extends Fragment {
     //public static final String TAG = TaskListFragment.class.getSimpleName();
 
     public static final String EXTRA_TEXT = "extra_text";
-
     private static final int MOCK_LOAD_DATA_DELAYED_TIME = 500;
-
     private static Handler sHandler = new Handler(Looper.getMainLooper());
-
     private TaskListFragment.WeakRunnable mRunnable = new TaskListFragment.WeakRunnable(this);
-
     private String mText;
-
     private ProgressBar progressBar;
     private ImageButton filter;
-
     private ArrayList<Task> taskList;
     private TaskAdapter myAdapter;
     private SwipeMenuListView displayList;
     private int tab;
+    private User user;
+    private LocalDataHandler localDataHandler;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -98,6 +95,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        localDataHandler = new LocalDataHandler(getActivity());
         tab = getArguments().getInt("tab");
         taskList = new ArrayList<Task>();
     }
@@ -221,6 +219,7 @@ public class TaskListFragment extends Fragment {
     private void loadData() { // Server Call
         Log.i("debug", "Loading");
         showProgressBar(true);
+        user = localDataHandler.loadUserFromFile();
 
 
         try {
@@ -260,7 +259,15 @@ public class TaskListFragment extends Fragment {
 
     public void getTasks() throws JSONException {
 
-        ElasticServer.RestClient.get("getAllTasks", new RequestParams(), new JsonHttpResponseHandler() {
+        RequestParams params = new RequestParams();
+
+        try {
+            params.put("user", user.getEmail());
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("getUserTasks", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
@@ -274,7 +281,7 @@ public class TaskListFragment extends Fragment {
                         taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
                     }
                     int index = 0;
-                    for(Task t : taskList){
+                    for (Task t : taskList) {
                         index++;
                         Log.i("item" + index, t.getTitle());
                     }

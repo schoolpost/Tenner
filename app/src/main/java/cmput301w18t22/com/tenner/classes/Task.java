@@ -35,10 +35,10 @@ public class Task {
     private ArrayList<Photo> photos;
     private Date requestedDate;
     private Boolean hasNewBids;
-    private String requester;
+    private User requester;
     private User provider;
 
-    public Task(String title, String description, Location location, Date date, String requester) {
+    public Task(String title, String description, Location location, Date date, User requester) {
         this.status = "requested";
         this.title = title;
         this.description = description;
@@ -278,7 +278,7 @@ public class Task {
      *
      * @param user User representing requester of this task
      */
-    public void setRequester(String user) {
+    public void setRequester(User user) {
         this.requester = user;
     }
 
@@ -287,7 +287,7 @@ public class Task {
      * @return this task's requester
      * @see Task#setRequester
      */
-    public String getRequester() {
+    public User getRequester() {
         return this.requester;
     }
 
