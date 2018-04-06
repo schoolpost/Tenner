@@ -23,7 +23,7 @@ public class PhotoConverterHelper {
         //bitmap = Bitmap.createScaledBitmap(bitmap,mImageView.getWidth(),mImageView.getHeight(),true);
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 5, stream);
         Log.i("imagesize",String.valueOf(stream.size()));
         String imgString = Base64.encodeToString(stream.toByteArray(),
                 Base64.DEFAULT);

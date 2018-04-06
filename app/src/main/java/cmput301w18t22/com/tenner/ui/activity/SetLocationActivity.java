@@ -42,7 +42,6 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
     public String getAddress(Double lat, Double lng) throws Exception {
         addresses = geo.getFromLocation(lat, lng, 5);
         return addresses.get(0).getAddressLine(0);
-
     }
 
 

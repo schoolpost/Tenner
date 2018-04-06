@@ -88,6 +88,4 @@ public class TasksFragment extends Fragment {
         mNavigator.showFragment(position);
         tabLayout.select(position);
     }
-
-
 }

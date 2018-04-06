@@ -226,8 +226,8 @@ public class TaskListFragment extends Fragment {
 
         }
 
-        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
-                new Date(), new User("me@google.com", "John", "Doe", "555-5556", ""));
+//        Task test = new Task("My Task", "Best Task Ever", new Location(1f, 1f, "New York"),
+//                new Date(), new User("me@google.com", "John", "Doe", "555-5556", ""));
 
 //        taskList.add(test);
 //        taskList.add(test);

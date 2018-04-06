@@ -45,21 +45,6 @@ public class PostTaskActivity extends AppCompatActivity {
 
     static final int GET_LOCATION = 1;
 
-    public void getcurrloc() throws SecurityException {
-        mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<android.location.Location>() {
-            @Override
-            public void onSuccess(android.location.Location location) {
-
-                if (location != null) {
-
-                    currentloc = new LatLng(location.getLatitude(), location.getLongitude());
-                    setLocationButton.setEnabled(true);
-
-                }
-            }
-        });
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +98,8 @@ public class PostTaskActivity extends AppCompatActivity {
         if (check(title, description, address)) {
             //TODO: Current User and Elastic Search
 
-            User currentUser = localDataHandler.loadUserFromFile();
+            User user = localDataHandler.loadUserFromFile();
+            String currentUser = user.getEmail();
             Location newLocation = new Location(0.0f, 0.0f, address);
             Task task = new Task(title, description, newLocation, new Date(), currentUser);
 
@@ -192,6 +178,21 @@ public class PostTaskActivity extends AppCompatActivity {
 
                     }
                 } catch (Exception e) {
+
+                }
+            }
+        });
+    }
+
+    public void getcurrloc() throws SecurityException {
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<android.location.Location>() {
+            @Override
+            public void onSuccess(android.location.Location location) {
+
+                if (location != null) {
+
+                    currentloc = new LatLng(location.getLatitude(), location.getLongitude());
+                    setLocationButton.setEnabled(true);
 
                 }
             }

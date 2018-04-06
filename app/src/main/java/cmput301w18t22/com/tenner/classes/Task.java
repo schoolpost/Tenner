@@ -35,10 +35,10 @@ public class Task {
     private ArrayList<Photo> photos;
     private Date requestedDate;
     private Boolean hasNewBids;
-    private User requester;
+    private String requester;
     private User provider;
 
-    public Task(String title, String description, Location location, Date date, User requester) {
+    public Task(String title, String description, Location location, Date date, String requester) {
         this.status = "requested";
         this.title = title;
         this.description = description;
@@ -278,7 +278,7 @@ public class Task {
      *
      * @param user User representing requester of this task
      */
-    public void setRequester(User user) {
+    public void setRequester(String user) {
         this.requester = user;
     }
 
@@ -287,7 +287,7 @@ public class Task {
      * @return this task's requester
      * @see Task#setRequester
      */
-    public User getRequester() {
+    public String getRequester() {
         return this.requester;
     }
 
@@ -311,7 +311,6 @@ public class Task {
         return this.provider;
     }
 
-
     /**
      * Finds and returns the lowest bid on the task for display in MyBidLists
      *
@@ -327,6 +326,4 @@ public class Task {
         }
         return this.bidList.get(lowest);
     }
-
-
 }
