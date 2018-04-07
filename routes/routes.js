@@ -294,12 +294,12 @@ router.post('/getRequestedTasks', function(request, response){
         return response.send(JSON.stringify(requestedTaskArray));
     }, function (err) {
         console.log(err.message);
-        return response.send('Error at /getAssignedTasks : ' + err.message);
+        return response.send({'Error' : 'At /getRequestedTasks : ' + err.message});
     });
 });
 
 router.post('/getProvidingTasks', function(request, response){
-     var userID = request.body.email;
+    var userID = request.body.email;
     
     client.search({
       index: 'tenner',
@@ -320,7 +320,7 @@ router.post('/getProvidingTasks', function(request, response){
         return response.send(JSON.stringify(assignedTaskArray));
     }, function (err) {
         console.log(err.message);
-        return response.send('Error at /getRequestedTasks : ' + err.message);
+        return response.send({'Error' : 'At /getProvidingTasks : ' + err.message});
     });
 });
 
