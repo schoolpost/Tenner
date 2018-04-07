@@ -317,7 +317,7 @@ router.post('/getAssignedTasks', function(request, response){
                 }
             }
         }
-        return response.send(assignedTaskArray);
+        return response.send(JSON.stringify(assignedTaskArray));
     }, function (err) {
         console.log(err.message);
         return response.send('Error at /getRequestedTasks : ' + err.message);
