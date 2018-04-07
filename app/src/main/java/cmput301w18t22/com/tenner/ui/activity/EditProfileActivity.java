@@ -75,7 +75,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //Photo
         mImageView = (ImageView) findViewById(R.id.editProfileImage);
-
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +82,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
+        Log.i("loaded","loaded");
         loadData();
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -103,10 +103,11 @@ public class EditProfileActivity extends AppCompatActivity {
         tvEmail.setText(user.getEmail());
         etPhone.setText(user.getPhoneNum());
 
-        //check if user has a profile picture
-        if (user.getPhoto() == null) {
+
+        if (user.getPhoto().length() == 0){
             mImageView.setImageResource(R.drawable.user_pic);
-        } else {
+        }
+        if (user.getPhoto() != null) {
             mImageView.setImageBitmap(new PhotoConverterHelper().convertStringToBM(user.getPhoto()));
         }
 
