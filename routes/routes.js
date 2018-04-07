@@ -85,7 +85,7 @@ router.post('/signUpUser', function(request, response){
     }
 });
 
-router.get('/getUser', function(request, response){
+router.post('/getUser', function(request, response){
     var user = request.body.user;
     
     if(typeof(user) != 'undefined'){
@@ -98,12 +98,10 @@ router.get('/getUser', function(request, response){
           q : queryString
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
-            console.log(data);
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user == data[dataObj]._source.email){
                         console.log('User Exists!');
-                        
                         return response.send(data[dataObj]._source);
                     }
                 }
