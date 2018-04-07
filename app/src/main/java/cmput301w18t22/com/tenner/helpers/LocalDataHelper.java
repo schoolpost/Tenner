@@ -92,10 +92,6 @@ public class LocalDataHelper {
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
-            for (Task task : tasks) {
-                Log.i("task", task.getTitle());
-            }
-
             Gson gson = new Gson();
             gson.toJson(tasks, out);
             out.flush();

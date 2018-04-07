@@ -2,6 +2,7 @@ package cmput301w18t22.com.tenner.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     private TextView pageTitle;
     private User user;
     private LocalDataHelper localDataHelper;
+    private Boolean cached = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
         InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
         localDataHelper = new LocalDataHelper(this);
+        user = localDataHelper.loadUserFromFile();
+
+        if (savedInstanceState != null) {
+            cached = savedInstanceState.getBoolean("cache", false);
+        }
 
         if (!internetStatusHelper.isConnected(this)) {
             setTheme(R.style.Theme_AppCompat_Light);
@@ -76,24 +83,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     @Override
     protected void onStart() {
         super.onStart();
+        if (!cached) {
+            loadTasksLocal();
+        }
+    }
 
-        user = localDataHelper.loadUserFromFile();
-
+    public void loadTasksLocal() {
         try {
             getRequestedTasks();
             getProvidingTasks();
+            cached = true;
 
         } catch (Exception e) {
 
         }
-
-
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("cache", cached);
         super.onSaveInstanceState(outState);
         mNavigator.onSaveInstanceState(outState);
+
     }
 
     @Override

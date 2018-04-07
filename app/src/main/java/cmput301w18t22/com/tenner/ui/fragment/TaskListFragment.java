@@ -262,7 +262,7 @@ public class TaskListFragment extends Fragment {
 
     }
 
-    public void getTasks(String url) throws JSONException {
+    public void getTasks(final String url) throws JSONException {
 
         RequestParams params = new RequestParams();
 
@@ -293,6 +293,11 @@ public class TaskListFragment extends Fragment {
 
                 } catch (Exception e) {
 
+                }
+                if (url.equals("getRequestedTasks")) {
+                    localDataHelper.saveRequestedTasksToFile(taskList);
+                } else if (url.equals("getProvidingTasks")) {
+                    localDataHelper.saveProvidingTasksToFile(taskList);
                 }
                 sHandler.postDelayed(mRunnable, 500);
             }
