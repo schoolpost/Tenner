@@ -97,10 +97,10 @@ public class HomeFragment extends Fragment {
         openMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(getContext(), SetLocationActivity.class);
-                startActivity(intent);
-
+            Intent intent = new Intent();
+            intent.setClass(getContext(), SetLocationActivity.class);
+            intent.putExtra("maptype", "viewmap");
+            startActivity(intent);
             }
         });
 

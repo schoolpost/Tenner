@@ -138,6 +138,7 @@ public class PostTaskActivity extends AppCompatActivity {
                 Intent mapIntent = new Intent();
                 mapIntent.putExtra("lat", currentloc.latitude);
                 mapIntent.putExtra("lng", currentloc.longitude);
+                mapIntent.putExtra("maptype", "setmap");
                 mapIntent.setClass(PostTaskActivity.this, SetLocationActivity.class);
                 //TODO: Get result of this activity
                 startActivityForResult(mapIntent, GET_LOCATION);

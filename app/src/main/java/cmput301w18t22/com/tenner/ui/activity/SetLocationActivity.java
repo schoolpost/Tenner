@@ -4,25 +4,19 @@ package cmput301w18t22.com.tenner.ui.activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.TextView;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import java.util.List;
@@ -77,7 +71,12 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-        setContentView(R.layout.fragment_map_view);
+        if(getIntent().getStringExtra("maptype").equals("viewmap")){
+            setContentView(R.layout.fragment_map_view);
+        } else if (getIntent().getStringExtra("maptype").equals("setmap")) {
+            setContentView(R.layout.fragment_set_map);
+        }
+
         mapView = (MapView) findViewById(R.id.map);
 
         Intent intent = getIntent();
