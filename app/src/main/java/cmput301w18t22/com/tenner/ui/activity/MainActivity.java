@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         if (position == 2) {
             Intent intent = new Intent();
             intent.setClass(this, PostTaskActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, Constants.ADD_TASK_REQUEST);
         } else {
             if (position != mNavigator.getCurrentPosition()) {
                 mNavigator.showFragment(position);
@@ -123,14 +123,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            logout();
-            Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
-            if (check) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
-            } else {
-                finish();
-            }
+                logout();
+                Boolean check = getIntent().getBooleanExtra("SIGNUP", false);
+                if (check) {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                } else {
+                    finish();
+                }
             }
         });
 
@@ -162,8 +162,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (Constants.EDIT_PROFILE_REQUEST == requestCode) {
+        if (resultCode == Constants.EDIT_PROFILE_REQUEST) {
             mNavigator.showFragment(mNavigator.getCurrentPosition(), true);
+        }
+
+        if (resultCode == Constants.ADD_TASK_REQUEST) {
+            mNavigator.showFragment(1, true);
         }
     }
 }

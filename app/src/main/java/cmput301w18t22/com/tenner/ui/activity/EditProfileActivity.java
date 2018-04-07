@@ -34,6 +34,7 @@ import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.utils.Authenticator;
+import cmput301w18t22.com.tenner.utils.Constants;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 
 public class EditProfileActivity extends AppCompatActivity {
@@ -245,6 +246,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     localDataHandler.saveUserInFile(postUser);
+                    setResult(Constants.EDIT_PROFILE_RESULT, getIntent());
                     finish();
                 } catch (Exception e) {
 

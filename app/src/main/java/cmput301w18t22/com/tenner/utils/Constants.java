@@ -8,4 +8,6 @@ public class Constants {
     public static final String FILENAME = "user.sav";
     public static final int EDIT_PROFILE_REQUEST = 45;
     public static final int EDIT_PROFILE_RESULT = 45;
+    public static final int ADD_TASK_REQUEST = 60;
+    public static final int ADD_TASK_RESULT = 60;
 }

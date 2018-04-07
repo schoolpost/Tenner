@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     } else if (response.has("Error")) {
 
-                        Toast toast = Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getApplicationContext(), response.get("Error").toString(), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                     }
