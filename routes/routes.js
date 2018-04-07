@@ -209,20 +209,20 @@ router.post('/addTask', function(request, response){
                 return response.send({'Error' :  'At /addTask : Cannot have same task title!'});
             } else {
                 client.index({
-                  index: 'tenner',
-                  type : 'tasks',
-                  id : task.title + task.email,
-                  body : {
-                    status: task['status'], 
-                    title : task.title,
-                    description : task['description'],
-                    bidList : task.bidList,
-                    location : task['location'],
-                    photos : task.photos,
-                    requestedDate : date,
-                    hasNewBids : task.hasNewBids,
-                    requester : task.requester
-                  }
+                    index: 'tenner',
+                    type : 'tasks',
+                    id : task.title + task.email,
+                    body : {
+                        status: task['status'], 
+                        title : task.title,
+                        description : task['description'],
+                        bidList : task.bidList,
+                        location : task['location'],
+                        photos : task.photos,
+                        requestedDate : date,
+                        hasNewBids : task.hasNewBids,
+                        requester : task.requester
+                    }
                 }, function (err, response2) {
                     if(err){
                         console.log(err.message);
@@ -232,7 +232,6 @@ router.post('/addTask', function(request, response){
                     }
                 });
             }
-            return response.send(data);
         }, function (err) {
             console.log(err.message);
             return response.send('Error at /searchTasks : ' + err.message);
