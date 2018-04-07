@@ -286,8 +286,10 @@ router.post('/getRequestedTasks', function(request, response){
         var requestedTaskArray = [];
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
-                if(data[dataObj]._source.requester.email == userID){
-                    requestedTaskArray.push(data[dataObj]._source);
+                if(typeof(data[dataObj]._source.requester) != 'undefined'){
+                    if(data[dataObj]._source.requester.email == userID){
+                        requestedTaskArray.push(data[dataObj]._source);
+                    }
                 }
             }
         }
@@ -310,7 +312,6 @@ router.post('/getProvidingTasks', function(request, response){
         
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
-                console.log(data[dataObj]);
                 if(typeof(data[dataObj]._source.provider) != 'undefined'){
                     if(data[dataObj]._source.provider.email == userID){
                         assignedTaskArray.push(data[dataObj]._source);
