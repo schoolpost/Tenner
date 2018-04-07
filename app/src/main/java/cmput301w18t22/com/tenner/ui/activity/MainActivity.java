@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
 import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.adapter.FragmentAdapter;
@@ -40,12 +42,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     private FragmentNavigator mNavigator;
     private BottomNavigatorView bottomNavigatorView;
     private TextView pageTitle;
+    private User user;
+    private LocalDataHelper localDataHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
+        localDataHelper = new LocalDataHelper(this);
 
         if (!internetStatusHelper.isConnected(this)) {
             setTheme(R.style.Theme_AppCompat_Light);
@@ -71,6 +76,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     @Override
     protected void onStart() {
         super.onStart();
+
+        user = localDataHelper.loadUserFromFile();
+
+        try {
+            getRequestedTasks();
+            getProvidingTasks();
+
+        } catch (Exception e) {
+
+        }
+
 
     }
 
@@ -189,50 +205,70 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         }
     }
 
-    private void getRequestedTaskData() throws JSONException{
-        ElasticServer.RestClient.get("getRequestedTasks", new RequestParams(), new JsonHttpResponseHandler() {
+    public void getProvidingTasks() throws JSONException {
+
+        RequestParams params = new RequestParams();
+
+        try {
+            params.put("user", user.getEmail());
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("getProvidingTasks", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    Gson gson = new GsonBuilder().create();
 
-                    ArrayList<Task> requestedTasksArray = new ArrayList<Task>();
-                    JSONArray responseArray = (JSONArray) response;
-                    if (responseArray != null) {
-                        for (int i=0; i< responseArray.length(); i++){
-                            requestedTasksArray.add(gson.fromJson(response.get(i).toString(), Task.class));
-                        }
+                    Gson gson = new GsonBuilder().create();
+                    ArrayList<Task> taskList = new ArrayList<Task>();
+
+                    for (int i = 0; i < response.length(); i++) {
+                        taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
                     }
-                    LocalDataHelper localDataHelper = LocalDataHelper.getInstance();
-                    localDataHelper.saveRequestedTasksToFile(requestedTasksArray);
+
+                    localDataHelper.saveProvidingTasksToFile(taskList);
+
                 } catch (Exception e) {
+
                 }
+
             }
         });
     }
 
-    private void getAssignedTasks() throws JSONException{
-        ElasticServer.RestClient.get("getRequestedTasks", new RequestParams(), new JsonHttpResponseHandler() {
+    public void getRequestedTasks() throws JSONException {
+
+        RequestParams params = new RequestParams();
+
+        try {
+            params.put("user", user.getEmail());
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("getRequestedTasks", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    Gson gson = new GsonBuilder().create();
 
-                    ArrayList<Task> assignedTasksArray = new ArrayList<Task>();
-                    JSONArray responseArray = (JSONArray) response;
-                    if (responseArray != null) {
-                        for (int i=0; i< responseArray.length(); i++){
-                            assignedTasksArray.add(gson.fromJson(responseArray.get(i).toString(), Task.class));
-                        }
+                    Gson gson = new GsonBuilder().create();
+                    ArrayList<Task> taskList = new ArrayList<Task>();
+
+                    for (int i = 0; i < response.length(); i++) {
+                        taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
                     }
-                    LocalDataHelper localDataHelper = LocalDataHelper.getInstance();
-                    localDataHelper.saveRequestedTasksToFile(assignedTasksArray);
+
+                    localDataHelper.saveRequestedTasksToFile(taskList);
+
                 } catch (Exception e) {
+
                 }
+
             }
         });
     }

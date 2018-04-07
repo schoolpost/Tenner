@@ -3,6 +3,7 @@ package cmput301w18t22.com.tenner.helpers;
 import
         android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.tasks.Tasks;
 import com.google.gson.Gson;
@@ -89,6 +90,9 @@ public class LocalDataHelper {
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
+            for(Task task : tasks){
+                Log.i("task", task.getTitle());
+            }
 
             Gson gson = new Gson();
             gson.toJson(tasks, out);
@@ -126,12 +130,12 @@ public class LocalDataHelper {
 
             Gson gson = new Gson();
 
-            Type fileType = new TypeToken<ArrayList<Task>>() {
-            }.getType();
+            Type fileType = new TypeToken<ArrayList<Task>>() {}.getType();
             ArrayList<Task> tasks = gson.fromJson(in, fileType);
             return tasks;
 
         } catch (FileNotFoundException e) {
+            Log.i("hey", e.getMessage());
             return new ArrayList<Task>();
         } catch (IOException e) {
             throw new RuntimeException();
@@ -152,6 +156,7 @@ public class LocalDataHelper {
             return tasks;
 
         } catch (FileNotFoundException e) {
+            Log.i("hey2", e.getMessage());
             return new ArrayList<Task>();
         } catch (IOException e) {
             throw new RuntimeException();

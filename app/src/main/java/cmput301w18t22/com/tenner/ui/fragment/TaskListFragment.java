@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.helpers.InternetStatusHelper;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
@@ -215,19 +216,28 @@ public class TaskListFragment extends Fragment {
         switch (tab) {
             case 0:
                 url = "getRequestedTasks";
+                taskList = localDataHelper.getRequestedTasks();
                 break;
             case 1:
                 url = "getAssignedTasks";
+                taskList = localDataHelper.getProvidingTasks();
                 break;
             default:
                 url = "";
         }
 
-        try {
-            getTasks(url);
-        } catch (JSONException e) {
+        InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
+        if (internetStatusHelper.isConnected(getContext())) {
+            try {
+                getTasks(url);
+            } catch (JSONException e) {
 
+            }
+        } else {
+            sHandler.postDelayed(mRunnable, 500);
         }
+
+
     }
 
     public void getTasks(String url) throws JSONException {
