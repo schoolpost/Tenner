@@ -298,7 +298,7 @@ router.post('/getRequestedTasks', function(request, response){
     });
 });
 
-router.post('/getAssignedTasks', function(request, response){
+router.post('/getProvidingTasks', function(request, response){
      var userID = request.body.email;
     
     client.search({
