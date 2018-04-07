@@ -4,15 +4,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aspsine.fragmentnavigator.FragmentNavigator;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
+import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
+import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.adapter.FragmentAdapter;
 import cmput301w18t22.com.tenner.ui.widget.BottomNavigatorView;
 import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
@@ -52,6 +66,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         }
 
         setCurrentTab(mNavigator.getCurrentPosition());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -167,5 +187,53 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         if (resultCode == ConstantsHelper.ADD_TASK_REQUEST) {
             mNavigator.showFragment(1, true);
         }
+    }
+
+    private void getRequestedTaskData() throws JSONException{
+        ElasticServer.RestClient.get("getRequestedTasks", new RequestParams(), new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    Gson gson = new GsonBuilder().create();
+
+                    ArrayList<Task> requestedTasksArray = new ArrayList<Task>();
+                    JSONArray responseArray = (JSONArray) response;
+                    if (responseArray != null) {
+                        for (int i=0; i< responseArray.length(); i++){
+                            requestedTasksArray.add(gson.fromJson(response.get(i).toString(), Task.class));
+                        }
+                    }
+                    LocalDataHelper localDataHelper = LocalDataHelper.getInstance();
+                    localDataHelper.saveRequestedTasksToFile(requestedTasksArray);
+                } catch (Exception e) {
+                }
+            }
+        });
+    }
+
+    private void getAssignedTasks() throws JSONException{
+        ElasticServer.RestClient.get("getRequestedTasks", new RequestParams(), new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    Gson gson = new GsonBuilder().create();
+
+                    ArrayList<Task> assignedTasksArray = new ArrayList<Task>();
+                    JSONArray responseArray = (JSONArray) response;
+                    if (responseArray != null) {
+                        for (int i=0; i< responseArray.length(); i++){
+                            assignedTasksArray.add(gson.fromJson(responseArray.get(i).toString(), Task.class));
+                        }
+                    }
+                    LocalDataHelper localDataHelper = LocalDataHelper.getInstance();
+                    localDataHelper.saveRequestedTasksToFile(assignedTasksArray);
+                } catch (Exception e) {
+                }
+            }
+        });
     }
 }

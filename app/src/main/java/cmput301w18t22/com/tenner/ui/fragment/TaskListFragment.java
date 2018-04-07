@@ -258,10 +258,8 @@ public class TaskListFragment extends Fragment {
                         index++;
                         Log.i("item" + index, t.getTitle());
                     }
-                    Log.i("finsuhed", response.toString());
 
                 } catch (Exception e) {
-                    Log.i("somebullshit", e.getMessage());
 
                 }
                 sHandler.postDelayed(mRunnable, 500);

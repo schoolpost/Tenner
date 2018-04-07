@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.ui.activity.MainActivity;
 
 /**
  * Created by Schoolpost on 2018-04-04.
@@ -28,8 +29,13 @@ import cmput301w18t22.com.tenner.classes.User;
 
 public class LocalDataHelper {
 
-    private Activity activity;
+    private static final LocalDataHelper ourInstance = new LocalDataHelper(new MainActivity());
 
+    public static LocalDataHelper getInstance() {
+        return ourInstance;
+    }
+
+    private Activity activity;
 
     public LocalDataHelper(Activity activity) {
         this.activity = activity;

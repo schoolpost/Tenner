@@ -298,14 +298,6 @@ public class PostTaskActivity extends AppCompatActivity {
         return image;
     }
 
-//    public void takePic() {
-//        dispatchTakePictureIntent();
-//    }
-
-//    public void addPic() {
-//        addPicFromGallery();
-//    }
-
     private void addPicFromGallery() {
         startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
     }
