@@ -16,9 +16,9 @@ import cmput301w18t22.com.tenner.classes.Bid;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticSearchRestClient;
-import cmput301w18t22.com.tenner.utils.Authenticator;
-import cmput301w18t22.com.tenner.utils.LocalDataHandler;
-import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
+import cmput301w18t22.com.tenner.helpers.AuthenticatorHelper;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
+import cmput301w18t22.com.tenner.helpers.SharedPrefUtilsHelper;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,7 +26,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private EditText etFirst;
     private EditText etLast;
     private EditText etPhone;
-    private LocalDataHandler localDataHandler;
+    private LocalDataHelper localDataHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
 
-        localDataHandler = new LocalDataHandler(this);
+        localDataHelper = new LocalDataHelper(this);
         etEmail = (EditText) findViewById(R.id.et_email);
         etFirst = (EditText) findViewById(R.id.et_first);
         etLast = (EditText) findViewById(R.id.et_last);
@@ -70,15 +70,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             }
 
-            SharedPrefUtils.login(this, "");
+            SharedPrefUtilsHelper.login(this, "");
             BroadcastManager.sendLoginBroadcast(this, 1);
-            localDataHandler.saveUserInFile(user);
+            localDataHelper.saveUserInFile(user);
             finish();
         }
     }
 
     boolean check(String email, String first, String last, String phone) {
-        Authenticator a = new Authenticator();
+        AuthenticatorHelper a = new AuthenticatorHelper();
         if (TextUtils.isEmpty(email)) {
             etEmail.setError(getString(R.string.error_invalid_email));
             return false;

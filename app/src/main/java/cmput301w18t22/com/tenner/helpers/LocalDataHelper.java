@@ -1,4 +1,4 @@
-package cmput301w18t22.com.tenner.utils;
+package cmput301w18t22.com.tenner.helpers;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,23 +17,23 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 
 import cmput301w18t22.com.tenner.classes.User;
-import cmput301w18t22.com.tenner.utils.Constants;
 
 /**
  * Created by Schoolpost on 2018-04-04.
  */
 
-public class LocalDataHandler {
+public class LocalDataHelper {
 
     private Activity activity;
 
-    public LocalDataHandler(Activity activity) {
+
+    public LocalDataHelper(Activity activity) {
         this.activity = activity;
     }
 
     public void saveUserInFile(User user) {
         try {
-            FileOutputStream fos = activity.openFileOutput(Constants.FILENAME,
+            FileOutputStream fos = activity.openFileOutput(ConstantsHelper.USERFILE,
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
@@ -51,7 +51,7 @@ public class LocalDataHandler {
     public User loadUserFromFile() {
 
         try {
-            FileInputStream fis = activity.openFileInput(Constants.FILENAME);
+            FileInputStream fis = activity.openFileInput(ConstantsHelper.USERFILE);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 
 

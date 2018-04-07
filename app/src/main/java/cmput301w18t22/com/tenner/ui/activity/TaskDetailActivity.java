@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
-
 import cmput301w18t22.com.tenner.R;
-import cmput301w18t22.com.tenner.utils.Constants;
+import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -51,7 +49,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if (intent.getBooleanExtra("added", false)) {
-            setResult(Constants.ADD_TASK_RESULT, intent);
+            setResult(ConstantsHelper.ADD_TASK_RESULT, intent);
             finish();
         } else {
             finish();

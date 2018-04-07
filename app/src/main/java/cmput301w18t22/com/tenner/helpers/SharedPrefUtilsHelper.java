@@ -1,14 +1,13 @@
-package cmput301w18t22.com.tenner.utils;
+package cmput301w18t22.com.tenner.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 /**
  * Created by aspsine on 16/9/2.
  */
 
-public class SharedPrefUtils {
+public class SharedPrefUtilsHelper {
 
     private static final String SHARED_PREF_LOGIN = "login";
 

@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.ui.activity.MapActivity;
-import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
+import cmput301w18t22.com.tenner.helpers.SharedPrefUtilsHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -108,7 +108,7 @@ public class MainFragment extends Fragment {
     }
 
     private void bindData() {
-        boolean isLogin = SharedPrefUtils.isLogin(getActivity());
+        boolean isLogin = SharedPrefUtilsHelper.isLogin(getActivity());
         tvText.setText(mText + "\n" + "Login:" + isLogin);
     }
 

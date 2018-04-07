@@ -1,6 +1,6 @@
-package cmput301w18t22.com.tenner.utils;
+package cmput301w18t22.com.tenner.helpers;
 
-public class TaskChecker {
+public class TaskCheckerHelper {
 
     public boolean checkTitle(String title) {
         // Title length constraint is currently <= 30

@@ -1,11 +1,9 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,10 +15,10 @@ import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
 import cmput301w18t22.com.tenner.ui.adapter.FragmentAdapter;
 import cmput301w18t22.com.tenner.ui.widget.BottomNavigatorView;
-import cmput301w18t22.com.tenner.utils.Constants;
-import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
+import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
+import cmput301w18t22.com.tenner.helpers.SharedPrefUtilsHelper;
 
-import cmput301w18t22.com.tenner.Helpers.InternetStatusHelper;
+import cmput301w18t22.com.tenner.helpers.InternetStatusHelper;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigatorView.OnBottomNavigatorViewItemClickListener {
 
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         }
         setContentView(R.layout.activity_main);
 
-        if (!SharedPrefUtils.isLogin(this)) {
+        if (!SharedPrefUtilsHelper.isLogin(this)) {
             this.onDestroy();
         }
 
@@ -68,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     }
 
     private void logout() {
-        SharedPrefUtils.logout(this);
+        SharedPrefUtilsHelper.logout(this);
         BroadcastManager.sendLogoutBroadcast(this, 1);
         clearUserData();
     }
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         if (position == 2) {
             Intent intent = new Intent();
             intent.setClass(this, PostTaskActivity.class);
-            startActivityForResult(intent, Constants.ADD_TASK_REQUEST);
+            startActivityForResult(intent, ConstantsHelper.ADD_TASK_REQUEST);
         } else {
             if (position != mNavigator.getCurrentPosition()) {
                 mNavigator.showFragment(position);
@@ -141,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
                 // Edit Profile
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), EditProfileActivity.class);
-                startActivityForResult(intent, Constants.EDIT_PROFILE_REQUEST);
+                startActivityForResult(intent, ConstantsHelper.EDIT_PROFILE_REQUEST);
             }
         });
     }
@@ -152,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
     public void clearUserData() {
         try {
-            File cache = new File(getFilesDir(), Constants.FILENAME);
+            File cache = new File(getFilesDir(), ConstantsHelper.USERFILE);
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -162,11 +160,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Constants.EDIT_PROFILE_REQUEST) {
+        if (resultCode == ConstantsHelper.EDIT_PROFILE_REQUEST) {
             mNavigator.showFragment(mNavigator.getCurrentPosition(), true);
         }
 
-        if (resultCode == Constants.ADD_TASK_REQUEST) {
+        if (resultCode == ConstantsHelper.ADD_TASK_REQUEST) {
             mNavigator.showFragment(1, true);
         }
     }

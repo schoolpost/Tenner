@@ -30,7 +30,7 @@ import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.activity.MapActivity;
-import cmput301w18t22.com.tenner.utils.LocalDataHandler;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
     private TextView greeting;
     private EditText searchBar;
     private ProgressBar progressBar;
-    private LocalDataHandler localDataHandler;
+    private LocalDataHelper localDataHelper;
 
     public static Fragment newInstance(String text) {
         HomeFragment fragment = new HomeFragment();
@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        localDataHandler = new LocalDataHandler(getActivity());
+        localDataHelper = new LocalDataHelper(getActivity());
     }
 
     @Override
@@ -183,7 +183,7 @@ public class HomeFragment extends Fragment {
 
     private void loadData() {
         showProgressBar(true);
-        user = localDataHandler.loadUserFromFile();
+        user = localDataHelper.loadUserFromFile();
         sHandler.post(mRunnable);
     }
 

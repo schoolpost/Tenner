@@ -1,4 +1,4 @@
-package cmput301w18t22.com.tenner.Helpers;
+package cmput301w18t22.com.tenner.helpers;
 
 public class MapsHelper {
     private static final MapsHelper ourInstance = new MapsHelper();

@@ -24,16 +24,16 @@ import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.broadcast.BroadcastManager;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
-import cmput301w18t22.com.tenner.utils.Authenticator;
-import cmput301w18t22.com.tenner.utils.LocalDataHandler;
-import cmput301w18t22.com.tenner.utils.SharedPrefUtils;
+import cmput301w18t22.com.tenner.helpers.AuthenticatorHelper;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
+import cmput301w18t22.com.tenner.helpers.SharedPrefUtilsHelper;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText etEmail;
     private TextView signup;
     private Button login;
-    private LocalDataHandler localDataHandler;
+    private LocalDataHelper localDataHelper;
 
 
     @Override
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
 
-        localDataHandler = new LocalDataHandler(this);
+        localDataHelper = new LocalDataHelper(this);
 
         etEmail = (EditText) findViewById(R.id.et_email);
         login = (Button) findViewById(R.id.login_in_button);
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void checkLoggedIn() {
-        if (SharedPrefUtils.isLogin(this)) {
+        if (SharedPrefUtilsHelper.isLogin(this)) {
             startActivity(new Intent(this, MainActivity.class).putExtra("SIGNUP", true));
         }
     }
@@ -95,13 +95,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     void login(String username) {
-        SharedPrefUtils.login(this, username);
+        SharedPrefUtilsHelper.login(this, username);
         BroadcastManager.sendLoginBroadcast(this, 1);
         startActivity(new Intent(this, MainActivity.class));
     }
 
     boolean check(String email) {
-        Authenticator a = new Authenticator();
+        AuthenticatorHelper a = new AuthenticatorHelper();
         if (TextUtils.isEmpty(email)) {
             etEmail.setError(getString(R.string.error_invalid_email));
             return false;
@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         Gson gson = new GsonBuilder().create();
                         User user = gson.fromJson(response.toString(), User.class);
-                        localDataHandler.saveUserInFile(user);
+                        localDataHelper.saveUserInFile(user);
                         login(user.getEmail());
 
                     } else if (response.has("Error")) {

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
+import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Task;
 

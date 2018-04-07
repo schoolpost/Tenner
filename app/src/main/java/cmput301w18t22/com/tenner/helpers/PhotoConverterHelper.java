@@ -1,4 +1,4 @@
-package cmput301w18t22.com.tenner.Helpers;
+package cmput301w18t22.com.tenner.helpers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

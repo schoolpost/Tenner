@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
-import cmput301w18t22.com.tenner.Helpers.StatusHelper;
+import cmput301w18t22.com.tenner.helpers.StatusHelper;
 
 /**
  * The Task class represents a task that has been requested. Each task has a taskID, status

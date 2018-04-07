@@ -1,4 +1,4 @@
-package cmput301w18t22.com.tenner.utils;
+package cmput301w18t22.com.tenner.helpers;
 
 import android.util.Patterns;
 
@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * Created by schoo on 3/22/2018.
  */
 
-public class Authenticator {
+public class AuthenticatorHelper {
 
     public boolean checkEmail(String email) {
         if (email.length() < 8) {

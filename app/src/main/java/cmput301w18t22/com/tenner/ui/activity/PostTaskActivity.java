@@ -37,14 +37,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
+import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.server.ElasticServer;
-import cmput301w18t22.com.tenner.utils.LocalDataHandler;
-import cmput301w18t22.com.tenner.utils.TaskChecker;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
+import cmput301w18t22.com.tenner.helpers.TaskCheckerHelper;
 
 public class PostTaskActivity extends AppCompatActivity {
 
@@ -55,7 +55,7 @@ public class PostTaskActivity extends AppCompatActivity {
     private Button setLocationButton;
     private FusedLocationProviderClient mFusedLocationClient;
     private LatLng currentloc;
-    private LocalDataHandler localDataHandler;
+    private LocalDataHelper localDataHelper;
 
     //Photo
     String mCurrentPhotoPath;
@@ -76,7 +76,7 @@ public class PostTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_task);
 
 
-        localDataHandler = new LocalDataHandler(this);
+        localDataHelper = new LocalDataHelper(this);
         b64photos = new ArrayList<>();
 
         imageView1 = (ImageView) findViewById(R.id.addTaskImage1);
@@ -154,7 +154,7 @@ public class PostTaskActivity extends AppCompatActivity {
         if (check(title, description, address)) {
             //TODO: Current User and Elastic Search
 
-            User user = localDataHandler.loadUserFromFile();
+            User user = localDataHelper.loadUserFromFile();
             User currentUser = user;
             Location newLocation = new Location(0.0f, 0.0f, address);
             Task task = new Task(title, description, newLocation, new Date(), currentUser);
@@ -171,7 +171,7 @@ public class PostTaskActivity extends AppCompatActivity {
     }
 
     private boolean check(String title, String description, String address) {
-        TaskChecker ch = new TaskChecker();
+        TaskCheckerHelper ch = new TaskCheckerHelper();
         if (TextUtils.isEmpty(title)) {
             etTitle.setError("title is empty");
             return false;

@@ -29,13 +29,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
+import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
-import cmput301w18t22.com.tenner.utils.Authenticator;
-import cmput301w18t22.com.tenner.utils.Constants;
-import cmput301w18t22.com.tenner.utils.LocalDataHandler;
+import cmput301w18t22.com.tenner.helpers.AuthenticatorHelper;
+import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -46,7 +46,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private TextView save;
 
     private User user;
-    private LocalDataHandler localDataHandler;
+    private LocalDataHelper localDataHelper;
 
     //Photo
     ImageView mImageView;
@@ -60,7 +60,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        localDataHandler = new LocalDataHandler(this);
+        localDataHelper = new LocalDataHelper(this);
 
         // Change ActionBar
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -96,7 +96,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        user = localDataHandler.loadUserFromFile();
+        user = localDataHelper.loadUserFromFile();
 
         etFirst.setText(user.getFirstName());
         etLast.setText(user.getLastName());
@@ -114,7 +114,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     boolean check(String first, String last, String phone) {
-        Authenticator a = new Authenticator();
+        AuthenticatorHelper a = new AuthenticatorHelper();
 
         if (!a.checkName(first)) {
             etFirst.setError("invalid first name");
@@ -246,8 +246,8 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 try {
-                    localDataHandler.saveUserInFile(postUser);
-                    setResult(Constants.EDIT_PROFILE_RESULT, getIntent());
+                    localDataHelper.saveUserInFile(postUser);
+                    setResult(ConstantsHelper.EDIT_PROFILE_RESULT, getIntent());
                     finish();
                 } catch (Exception e) {
 

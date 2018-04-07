@@ -1,4 +1,4 @@
-package cmput301w18t22.com.tenner.Helpers;
+package cmput301w18t22.com.tenner.helpers;
 
 import android.util.Log;
 
@@ -6,7 +6,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 
-public class FirebaseIDService extends FirebaseInstanceIdService {
+public class FirebaseIDServiceHelper extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";
 

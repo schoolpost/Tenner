@@ -16,11 +16,10 @@ import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
-import cmput301w18t22.com.tenner.Helpers.PhotoConverterHelper;
+import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
-import cmput301w18t22.com.tenner.ui.activity.EditProfileActivity;
-import cmput301w18t22.com.tenner.utils.LocalDataHandler;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +34,7 @@ public class ProfileFragment extends Fragment {
     private TextView phone;
     private ProgressBar progressBar;
     private User user;
-    private LocalDataHandler localDataHandler;
+    private LocalDataHelper localDataHelper;
     private ImageView profilePic;
     private Bitmap image;
 
@@ -52,7 +51,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        localDataHandler = new LocalDataHandler(getActivity());
+        localDataHelper = new LocalDataHelper(getActivity());
     }
 
     @Override
@@ -123,7 +122,7 @@ public class ProfileFragment extends Fragment {
     private void loadData() {
         showProgressBar(true);
         PhotoConverterHelper photoConverter = new PhotoConverterHelper();
-        user = localDataHandler.loadUserFromFile();
+        user = localDataHelper.loadUserFromFile();
         try{
             image = photoConverter.convertStringToBM(user.getPhoto());
         } catch (Exception e){

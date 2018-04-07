@@ -1,4 +1,4 @@
-package cmput301w18t22.com.tenner.Helpers;
+package cmput301w18t22.com.tenner.helpers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

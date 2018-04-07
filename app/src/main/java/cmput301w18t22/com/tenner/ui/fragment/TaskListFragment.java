@@ -1,7 +1,6 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -27,29 +26,21 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import cmput301w18t22.com.tenner.R;
-import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
-import cmput301w18t22.com.tenner.ui.activity.PostTaskActivity;
-import cmput301w18t22.com.tenner.ui.activity.TaskDetailActivity;
 import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
-import cmput301w18t22.com.tenner.utils.LocalDataHandler;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,7 +61,7 @@ public class TaskListFragment extends Fragment {
     private SwipeMenuListView displayList;
     private int tab;
     private User user;
-    private LocalDataHandler localDataHandler;
+    private LocalDataHelper localDataHelper;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -95,7 +86,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        localDataHandler = new LocalDataHandler(getActivity());
+        localDataHelper = new LocalDataHelper(getActivity());
         tab = getArguments().getInt("tab");
         taskList = new ArrayList<Task>();
     }
@@ -219,7 +210,7 @@ public class TaskListFragment extends Fragment {
     private void loadData() {
         // Server Call
         showProgressBar(true);
-        user = localDataHandler.loadUserFromFile();
+        user = localDataHelper.loadUserFromFile();
         String url;
         switch (tab) {
             case 0:
