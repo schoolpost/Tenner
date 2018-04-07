@@ -248,20 +248,20 @@ router.post('/editTask', function(request, response){
     
     if(typeof(task.requester) != 'undefined'){
         client.index({
-          index: 'tenner',
-          type : 'tasks',
-          id : task.title + task.requester.email,
-          body : {
-            status: task['status'], 
-            title : task.title,
-            description : task['description'],
-            bidList : task.bidList,
-            location : task['location'],
-            photos : task.photos,
-            requestedDate : date,
-            hasNewBids : task.hasNewBids,
-            requester : task.requester
-          }
+            index: 'tenner',
+            type : 'tasks',
+            id : task.title + task.requester.email,
+            body : {
+                status: task['status'], 
+                title : task.title,
+                description : task['description'],
+                bidList : task.bidList,
+                location : task['location'],
+                photos : task.photos,
+                requestedDate : date,
+                hasNewBids : task.hasNewBids,
+                requester : task.requester
+            }
         }, function (err, response2) {
             if(err){
                 console.log(err.message);
@@ -277,7 +277,7 @@ router.post('/editTask', function(request, response){
 
 router.post('/getRequestedTasks', function(request, response){
     var userID = request.body.user;
-    console.log(userID);
+    
     client.search({
       index: 'tenner',
       type: 'tasks'
@@ -310,6 +310,7 @@ router.post('/getProvidingTasks', function(request, response){
         
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
+                console.log(data[dataObj]);
                 if(typeof(data[dataObj]._source.provider) != 'undefined'){
                     if(data[dataObj]._source.provider.email == userID){
                         assignedTaskArray.push(data[dataObj]._source);
