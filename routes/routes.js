@@ -326,6 +326,22 @@ router.post('/getProvidingTasks', function(request, response){
     });
 });
 
+router.get('/deleteTask', function(request, response){
+    var user = JSON.parse(request.body.user);
+    var title = JSON.parse(request.body.title);
+    
+    client.delete({
+        index: 'tenner',
+        type: 'tasks',
+        id : title + user
+    }).then(function (responseBody) {
+        return response.send({'Success' : 'At /deleteTask, deleted task!'});
+    }, function (err) {
+        console.log(err.message);
+        return response.send({'Error' : 'At /getAllUsers ' + err.message});
+    });
+});
+
 //Bids-------------------------------------------------------------->
 
 router.get('/getMyBids', function(request, response){
@@ -463,12 +479,12 @@ router.get('/deleteTasks', function(request, response){
                   type : 'tasks',
                   id : data[dataObj]._id
                 }, function (error, response2) {
-                  if(error){
+                    if(error){
                       console.log(error);
                       return response.send("lol");
-                  } else {
+                    } else {
                     
-                  }
+                    }
                 });
             }
         }
