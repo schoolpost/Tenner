@@ -4,19 +4,24 @@ package cmput301w18t22.com.tenner.ui.activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 
 import java.util.List;
@@ -32,6 +37,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private LatLng position;
     private Geocoder geo = new Geocoder(this, Locale.getDefault());
     private List<Address> addresses;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     public String getAddress(Double lat, Double lng) throws Exception {
         addresses = geo.getFromLocation(lat, lng, 5);
@@ -98,8 +104,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getApplicationContext());
+
+        //https://developers.google.com/maps/documentation/android-api/location
+        FloatingActionButton locationButton = (FloatingActionButton) findViewById(R.id.myLocationButton);
+        if(getIntent().getStringExtra("maptype").equals("viewmap")){
+            locationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mGoogleMap.getMyLocation() != null) {
+                        CameraUpdate center=
+                                CameraUpdateFactory.newLatLng(new LatLng(mGoogleMap.getMyLocation().getLatitude(),
+                                        mGoogleMap.getMyLocation().getLongitude()));
+                        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+
+                        mGoogleMap.moveCamera(center);
+                        mGoogleMap.animateCamera(zoom);
+                    }
+                }
+            });
+        }
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        try {
+            mGoogleMap.setMyLocationEnabled(true);
+        } catch (SecurityException e){
+
+        }
 //        LatLng yeg = new LatLng(53.5444, -113.4909);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.5f));
 
