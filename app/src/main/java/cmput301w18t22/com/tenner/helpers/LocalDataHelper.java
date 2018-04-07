@@ -19,7 +19,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 
+import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.ui.activity.MainActivity;
@@ -90,7 +92,7 @@ public class LocalDataHelper {
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
-            for(Task task : tasks){
+            for (Task task : tasks) {
                 Log.i("task", task.getTitle());
             }
 
@@ -130,7 +132,8 @@ public class LocalDataHelper {
 
             Gson gson = new Gson();
 
-            Type fileType = new TypeToken<ArrayList<Task>>() {}.getType();
+            Type fileType = new TypeToken<ArrayList<Task>>() {
+            }.getType();
             ArrayList<Task> tasks = gson.fromJson(in, fileType);
             return tasks;
 
@@ -151,7 +154,8 @@ public class LocalDataHelper {
 
             Gson gson = new Gson();
 
-            Type fileType = new TypeToken<ArrayList<Task>>(){}.getType();
+            Type fileType = new TypeToken<ArrayList<Task>>() {
+            }.getType();
             ArrayList<Task> tasks = gson.fromJson(in, fileType);
             return tasks;
 
@@ -163,6 +167,47 @@ public class LocalDataHelper {
         } catch (Exception e) {
             throw new RuntimeException();
         }
+    }
+
+    public void saveTaskToFile(Task task) {
+        try {
+            FileOutputStream fos = activity.openFileOutput(ConstantsHelper.VIEWTASKFILE,
+                    Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+
+            Gson gson = new Gson();
+            gson.toJson(task, out);
+            out.flush();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+
+    }
+
+    public Task getTaskFromFile() {
+        try {
+            FileInputStream fis = activity.openFileInput(ConstantsHelper.VIEWTASKFILE);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson();
+
+            Type fileType = new TypeToken<Task>() {
+            }.getType();
+            Task task = gson.fromJson(in, fileType);
+            return task;
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
     }
 
 }

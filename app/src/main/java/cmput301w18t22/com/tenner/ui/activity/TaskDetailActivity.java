@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -22,13 +24,18 @@ public class TaskDetailActivity extends AppCompatActivity {
     private TextView location;
     private TextView description;
     private TextView requester;
-
+    private LocalDataHelper localDataHelper;
+    private Task task;
     private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
+
+        localDataHelper = new LocalDataHelper(this);
+        task = localDataHelper.getTaskFromFile();
+
         intent = getIntent();
 
         title = (TextView) findViewById(R.id.t_title);
@@ -37,11 +44,11 @@ public class TaskDetailActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.desc);
         requester = (TextView) findViewById(R.id.task_owner);
 
-        title.setText(task_title);
-        lowest.setText(task_lowest);
-        location.setText(task_location);
-        description.setText(task_description);
-        requester.setText(task_requester);
+        title.setText(task.getTitle());
+        lowest.setText("");
+        location.setText(task.getLocation().getAddress());
+        description.setText(task.getDescription());
+        requester.setText(task.getRequester().toProfileName());
     }
 
 

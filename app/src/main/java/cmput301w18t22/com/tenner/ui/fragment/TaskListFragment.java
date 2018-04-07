@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
@@ -40,6 +42,7 @@ import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.InternetStatusHelper;
 import cmput301w18t22.com.tenner.server.ElasticServer;
+import cmput301w18t22.com.tenner.ui.activity.TaskDetailActivity;
 import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 
@@ -193,6 +196,7 @@ public class TaskListFragment extends Fragment {
         displayList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+
                 switch (index) {
                     case 0:
                         taskList.remove(position);
@@ -203,7 +207,25 @@ public class TaskListFragment extends Fragment {
             }
         });
 
+        displayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                openTaskDetails(taskList.get(i));
+            }
+        });
+
+
     }
+
+
+    public void openTaskDetails(Task task) {
+        Intent intent = new Intent();
+        intent.setClass(getContext(), TaskDetailActivity.class);
+        localDataHelper.saveTaskToFile(task);
+        startActivity(intent);
+
+    }
+
 
     /**
      * mock load data
