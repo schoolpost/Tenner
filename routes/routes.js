@@ -277,7 +277,7 @@ router.post('/editTask', function(request, response){
 
 router.post('/getRequestedTasks', function(request, response){
     var userID = request.body.user;
-    
+    console.log(userID);
     client.search({
       index: 'tenner',
       type: 'tasks'
@@ -300,7 +300,7 @@ router.post('/getRequestedTasks', function(request, response){
 
 router.post('/getProvidingTasks', function(request, response){
     var userID = request.body.user;
-    
+    console.log(userID);
     client.search({
       index: 'tenner',
       type: 'tasks'
