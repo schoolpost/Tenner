@@ -9,8 +9,6 @@ import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 
-import static cmput301w18t22.com.tenner.classes.Status.bidStatus.assigned;
-
 public class BidTest extends ActivityInstrumentationTestCase2 {
 
     public BidTest() {
@@ -57,13 +55,13 @@ public class BidTest extends ActivityInstrumentationTestCase2 {
 */
 
     public void testToString() {
-        Bid bid = new Bid(createTestUser(), "2.25", new Date(), createTestTask(), assigned);
+        Bid bid = new Bid(createTestUser(), "2.25", new Date(), createTestTask());
 
-        assertEquals(bid.toString(), "$ 2.25");
+        assertEquals(bid.toString(), "2.25");
     }
 
     private User createTestUser(){
-        User testUser = new User("email@example.com", "First", "Last", "780-123-4567");
+        User testUser = new User("email@example.com", "First", "Last", "780-123-4567", "photo");
         return testUser;
     }
 
