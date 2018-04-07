@@ -299,7 +299,7 @@ router.post('/getRequestedTasks', function(request, response){
 });
 
 router.post('/getProvidingTasks', function(request, response){
-    var userID = request.body.email;
+    var userID = request.body.user;
     
     client.search({
       index: 'tenner',
