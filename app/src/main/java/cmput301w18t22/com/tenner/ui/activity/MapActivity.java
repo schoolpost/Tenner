@@ -24,7 +24,7 @@ import java.util.Locale;
 
 import cmput301w18t22.com.tenner.R;
 
-public class SetLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private MapView mapView;
@@ -47,10 +47,9 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
         getSupportActionBar().setElevation(3);
         getSupportActionBar().setCustomView(R.layout.toolbar_map);
 
-        final String pageTitle = "Set Task Location";
 
         TextView title = getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title);
-        title.setText(pageTitle);
+
 
         TextView done = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_done);
         done.setOnClickListener(new View.OnClickListener() {
@@ -73,8 +72,10 @@ public class SetLocationActivity extends AppCompatActivity implements OnMapReady
 
         if(getIntent().getStringExtra("maptype").equals("viewmap")){
             setContentView(R.layout.fragment_map_view);
+            title.setText("Maps");
         } else if (getIntent().getStringExtra("maptype").equals("setmap")) {
             setContentView(R.layout.fragment_set_map);
+            title.setText("Set Task Location");
         }
 
         mapView = (MapView) findViewById(R.id.map);

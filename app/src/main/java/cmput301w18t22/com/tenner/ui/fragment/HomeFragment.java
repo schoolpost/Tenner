@@ -1,15 +1,12 @@
 package cmput301w18t22.com.tenner.ui.fragment;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,14 +23,13 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
-import cmput301w18t22.com.tenner.ui.activity.SetLocationActivity;
+import cmput301w18t22.com.tenner.ui.activity.MapActivity;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 
 /**
@@ -98,7 +94,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
             Intent intent = new Intent();
-            intent.setClass(getContext(), SetLocationActivity.class);
+            intent.setClass(getContext(), MapActivity.class);
             intent.putExtra("maptype", "viewmap");
             startActivity(intent);
             }

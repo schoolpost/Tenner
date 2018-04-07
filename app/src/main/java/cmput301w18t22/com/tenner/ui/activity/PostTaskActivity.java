@@ -1,7 +1,6 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -139,7 +138,7 @@ public class PostTaskActivity extends AppCompatActivity {
                 mapIntent.putExtra("lat", currentloc.latitude);
                 mapIntent.putExtra("lng", currentloc.longitude);
                 mapIntent.putExtra("maptype", "setmap");
-                mapIntent.setClass(PostTaskActivity.this, SetLocationActivity.class);
+                mapIntent.setClass(PostTaskActivity.this, MapActivity.class);
                 //TODO: Get result of this activity
                 startActivityForResult(mapIntent, GET_LOCATION);
             }
