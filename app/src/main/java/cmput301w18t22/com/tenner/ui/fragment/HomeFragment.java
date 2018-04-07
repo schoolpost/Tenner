@@ -2,6 +2,7 @@ package cmput301w18t22.com.tenner.ui.fragment;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ import java.lang.ref.WeakReference;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
+import cmput301w18t22.com.tenner.ui.activity.SetLocationActivity;
 import cmput301w18t22.com.tenner.utils.LocalDataHandler;
 
 /**
@@ -89,6 +92,17 @@ public class HomeFragment extends Fragment {
         greeting = (TextView) view.findViewById(R.id.home_greeting);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         searchBar = (EditText) view.findViewById(R.id.home_search);
+        Button openMapButton = (Button) view.findViewById(R.id.openmapbutton);
+
+        openMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), SetLocationActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
 
         // your text box
@@ -100,8 +114,8 @@ public class HomeFragment extends Fragment {
                     // TODO do something
                     String query = searchBar.getText().toString();
                     try {
-                        postEditUser(query);
-                    } catch (Exception e){
+                        postTaskSearch(query);
+                    } catch (Exception e) {
 
                     }
                     handled = true;
@@ -113,7 +127,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void postEditUser(String query) throws JSONException {
+    public void postTaskSearch(String query) throws JSONException {
 
         RequestParams params = new RequestParams();
         Gson gson = new Gson();
