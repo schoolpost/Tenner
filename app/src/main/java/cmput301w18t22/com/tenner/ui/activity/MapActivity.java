@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
@@ -14,7 +15,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +60,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Geocoder geo = new Geocoder(this, Locale.getDefault());
     private List<Address> addresses;
     private FusedLocationProviderClient mFusedLocationClient;
+    protected GeoDataClient mGeoDataClient;
+    protected PlaceDetectionClient mPlaceDetectionClient;
+    private GoogleApiClient mGoogleApiClient;
 
     public String getAddress(Double lat, Double lng) throws Exception {
         addresses = geo.getFromLocation(lat, lng, 5);
@@ -112,6 +125,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapView.getMapAsync(this);
         }
 
+//        https://developers.google.com/places/android-api/start
+        mGeoDataClient = Places.getGeoDataClient(this, null);
+
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
+
+        GoogleApiClient.OnConnectionFailedListener connectionFailure = new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+            }
+        };
+
+        // TODO: Start using the Places API.
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, connectionFailure)
+                .build();
+
     }
 
     @Override
@@ -148,6 +181,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
 
             getTasks(position.latitude, position.longitude);
+
+            PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                    getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(Place place) {
+                    // TODO: Get info about the selected place.
+                    Log.i("Place", "Place: " + place.getName());
+                }
+
+                @Override
+                public void onError(Status status) {
+                    // TODO: Handle the error.
+                    Log.i("Error", "An error occurred: " + status);
+                }
+            });
 
         }
 
