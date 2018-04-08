@@ -31,6 +31,7 @@ import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.activity.MapActivity;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
+import cmput301w18t22.com.tenner.ui.activity.SearchActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,10 +94,10 @@ public class HomeFragment extends Fragment {
         openMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Intent intent = new Intent();
-            intent.setClass(getContext(), MapActivity.class);
-            intent.putExtra("maptype", "viewmap");
-            startActivity(intent);
+                Intent intent = new Intent();
+                intent.setClass(getContext(), MapActivity.class);
+                intent.putExtra("maptype", "viewmap");
+                startActivity(intent);
             }
         });
 
@@ -110,7 +111,12 @@ public class HomeFragment extends Fragment {
                     // TODO do something
                     String query = searchBar.getText().toString();
                     try {
-                        postTaskSearch(query);
+                        //postTaskSearch(query);
+                        Intent intent = new Intent();
+                        intent.setClass(getContext(), SearchActivity.class);
+                        intent.putExtra("query", query);
+                        startActivity(intent);
+
                     } catch (Exception e) {
 
                     }

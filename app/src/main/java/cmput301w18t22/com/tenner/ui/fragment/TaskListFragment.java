@@ -112,7 +112,6 @@ public class TaskListFragment extends Fragment {
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Log.i("YO", "HeLLO");
                 return false;
             }
         });
