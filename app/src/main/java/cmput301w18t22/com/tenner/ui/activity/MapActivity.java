@@ -56,14 +56,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mGoogleMap;
     private MapView mapView;
-    private View mView;
     private LatLng position;
     private Geocoder geo = new Geocoder(this, Locale.getDefault());
     private List<Address> addresses;
-    private FusedLocationProviderClient mFusedLocationClient;
     protected GeoDataClient mGeoDataClient;
     protected PlaceDetectionClient mPlaceDetectionClient;
-    private GoogleApiClient mGoogleApiClient;
 
     public String getAddress(Double lat, Double lng) throws Exception {
         addresses = geo.getFromLocation(lat, lng, 5);
@@ -126,7 +123,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapView.getMapAsync(this);
         }
 
-//        https://developers.google.com/places/android-api/start
+        //https://developers.google.com/places/android-api/start
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this, null);
@@ -197,6 +194,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                     getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+            //https://stackoverflow.com/questions/11692162/android-change-background-color-of-fragment?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
             autocompleteFragment.getView().setBackgroundColor(Color.WHITE);
 
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -244,6 +242,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (int i = 0; i < taskList.size(); i++) {
             LatLng point = new LatLng(taskList.get(i).getLocation().getLatitude(),
                     taskList.get(i).getLocation().getLongitude());
+            //https://stackoverflow.com/questions/14226453/google-maps-api-v2-how-to-make-markers-clickable?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(point);
             markerOptions.title("Title : " + taskList.get(i).getTitle());
@@ -259,15 +258,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             });
         }
-//        LatLng sydney = new LatLng(-34, 151);
-//
-//        marker.setTag(sydney);
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
-        //title
-        //requester
-        //button to task
     }
 
     @Override
