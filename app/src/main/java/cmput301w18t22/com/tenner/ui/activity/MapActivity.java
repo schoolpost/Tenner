@@ -133,7 +133,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         CameraUpdate center =
                                 CameraUpdateFactory.newLatLng(new LatLng(mGoogleMap.getMyLocation().getLatitude(),
                                         mGoogleMap.getMyLocation().getLongitude()));
-                        CameraUpdate zoom = CameraUpdateFactory.zoomTo(14);
+                        CameraUpdate zoom = CameraUpdateFactory.zoomTo(11);
 
                         mGoogleMap.moveCamera(center);
                         mGoogleMap.animateCamera(zoom);
