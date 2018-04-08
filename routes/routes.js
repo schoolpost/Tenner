@@ -201,6 +201,7 @@ router.post('/addTask', function(request, response){
     
     if(typeof(task.requester) != 'undefined'){
         var email = task.requester.email;
+        email = email.replace('.','');
         var newId = task.title + email.replace('@', '');
         console.log(newId);
         client.search({
