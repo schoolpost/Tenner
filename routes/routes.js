@@ -168,7 +168,6 @@ router.post('/editUser', function(request, response){
             if(!found){
                 return response.send({'Error' : 'At /editUser No User Found!'});    
             }
-            
         }, function (err) {
             if(err){
                 return response.send({'Error' : 'At /editUser' + err.message});
@@ -469,36 +468,36 @@ router.get('/getAllUsers', function(request, response){
     });
 });
 
-// router.get('/deleteUsers', function(request, response){
-//     client.search({
-//       index: 'tenner',
-//       type : 'users',
-//       id : "tester@gmail.com"
-//     }).then(function (responseBody) {
-//         var data = responseBody.hits.hits;
-//         var arr = [];
-//         for(var dataObj in data){
-//             if (data.hasOwnProperty(dataObj)) {
-//                 client.delete({
-//                   index: 'tenner',
-//                   type : 'users',
-//                   id : data[dataObj]._id
-//                 }, function (error, response2) {
-//                   if(error){
-//                       console.log(error);
-//                       return response.send("Error at delete users!");
-//                   } else {
+router.get('/deleteUsers', function(request, response){
+    client.search({
+      index: 'tenner',
+      type : 'users',
+      id : "tester@gmail.com"
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        var arr = [];
+        for(var dataObj in data){
+            if (data.hasOwnProperty(dataObj)) {
+                client.delete({
+                  index: 'tenner',
+                  type : 'users',
+                  id : data[dataObj]._id
+                }, function (error, response2) {
+                  if(error){
+                      console.log(error);
+                      return response.send("Error at delete users!");
+                  } else {
                     
-//                   }
-//                 });
-//             }
-//         }
-//         return response.send({'Success' : 'At /deleteUsers!'}); 
-//     }, function (err) {
-//         console.log(err.message);
-//         return response.send({'Error' : 'At /getAllUsers ' + err.message});
-//     });
-// });
+                  }
+                });
+            }
+        }
+        return response.send({'Success' : 'At /deleteUsers!'}); 
+    }, function (err) {
+        console.log(err.message);
+        return response.send({'Error' : 'At /getAllUsers ' + err.message});
+    });
+});
 
 router.get('/getAllTasks', function(request, response){
     client.search({
