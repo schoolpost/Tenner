@@ -200,11 +200,11 @@ router.post('/addTask', function(request, response){
     var date = new Date(task.requestedDate);
     
     if(typeof(task.requester) != 'undefined'){
-        console.log(task.requester.email);
+        var newId = task.title + task.requester.email;
         client.search({
           index: 'tenner',
           type: 'tasks',
-          id: task.title + task.requester.email,
+          id: newId
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
             if(data.length != 0){
