@@ -186,7 +186,13 @@ router.post('/searchTasks', function(request, response){
           q : query
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
-            return response.send(data);
+            var arr = [];
+            for(var dataObj in data){
+                if (data.hasOwnProperty(dataObj)) {
+                    arr.push(data[dataObj]._source);
+                }
+            }
+            return response.send(arr);
         }, function (err) {
             console.log(err.message);
             return response.send('Error at /searchTasks : ' + err.message);
