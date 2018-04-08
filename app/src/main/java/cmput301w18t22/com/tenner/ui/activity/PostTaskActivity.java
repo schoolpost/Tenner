@@ -56,6 +56,7 @@ public class PostTaskActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private LatLng currentloc;
     private LocalDataHelper localDataHelper;
+    private Location taskLocation;
 
     //Photo
     String mCurrentPhotoPath;
@@ -156,8 +157,7 @@ public class PostTaskActivity extends AppCompatActivity {
 
             User user = localDataHelper.loadUserFromFile();
             User currentUser = user;
-            Location newLocation = new Location(0.0f, 0.0f, address);
-            Task task = new Task(title, description, newLocation, new Date(), currentUser);
+            Task task = new Task(title, description, taskLocation, new Date(), currentUser);
             task.setPhotos(b64photos);
 
             try {
@@ -329,7 +329,9 @@ public class PostTaskActivity extends AppCompatActivity {
             }
         }
         if (resultCode == 20) {
-            etLocation.setText(data.getStringExtra("location"));
+            taskLocation = new Location(data.getFloatExtra("lat", 0),
+                    data.getFloatExtra("lng", 0),
+                    data.getStringExtra("location"));
         }
     }
 

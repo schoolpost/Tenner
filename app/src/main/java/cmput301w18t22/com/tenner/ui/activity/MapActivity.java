@@ -56,7 +56,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return addresses.get(0).getAddressLine(0);
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +77,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     Intent intent = new Intent();
                     intent.putExtra("location", getAddress(position.latitude, position.longitude));
+                    intent.putExtra("lat", Double.valueOf(position.latitude).floatValue());
+                    intent.putExtra("lng", Double.valueOf(position.longitude).floatValue());
                     setResult(20, intent);
 
                 } catch (Exception e) {
@@ -88,7 +89,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        if(getIntent().getStringExtra("maptype").equals("viewmap")){
+        if (getIntent().getStringExtra("maptype").equals("viewmap")) {
             setContentView(R.layout.fragment_map_view);
             title.setText("Maps");
         } else if (getIntent().getStringExtra("maptype").equals("setmap")) {
@@ -115,16 +116,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
         MapsInitializer.initialize(getApplicationContext());
+
+        mGoogleMap = googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         //https://developers.google.com/maps/documentation/android-api/location
         FloatingActionButton locationButton = (FloatingActionButton) findViewById(R.id.myLocationButton);
-        if(getIntent().getStringExtra("maptype").equals("viewmap")){
+        if (getIntent().getStringExtra("maptype").equals("viewmap")) {
             locationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mGoogleMap.getMyLocation() != null) {
-                        CameraUpdate center=
+                    if (mGoogleMap.getMyLocation() != null) {
+                        CameraUpdate center =
                                 CameraUpdateFactory.newLatLng(new LatLng(mGoogleMap.getMyLocation().getLatitude(),
                                         mGoogleMap.getMyLocation().getLongitude()));
                         CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
@@ -134,9 +140,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 }
             });
+
+            try {
+                mGoogleMap.setMyLocationEnabled(true);
+            } catch (SecurityException e) {
+
+            }
+
+            getTasks(position.latitude, position.longitude);
+
         }
 
-        if(getIntent().getStringExtra("maptype").equals("setmap")) {
+
+        if (getIntent().getStringExtra("maptype").equals("setmap")) {
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.5f));
 
             mGoogleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
@@ -147,25 +163,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             });
         }
 
-        mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        try {
-            mGoogleMap.setMyLocationEnabled(true);
-        } catch (SecurityException e){
-
-        }
     }
 
-    private void setPins(ArrayList<Task> taskList){
-        for(int i = 0; i < taskList.size(); i++){
+    private void setPins(ArrayList<Task> taskList) {
+        for (int i = 0; i < taskList.size(); i++) {
             LatLng point = new LatLng(taskList.get(i).getLocation().getLatitude(),
                     taskList.get(i).getLocation().getLongitude());
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(point);
             markerOptions.title("Title : " + taskList.get(i).getTitle());
             markerOptions.snippet("Requester : " + taskList.get(i).getRequester().getFirstName()
-                + taskList.get(i).getRequester().getLastName());
+                    + taskList.get(i).getRequester().getLastName());
             Marker marker = mGoogleMap.addMarker(markerOptions);
 
             mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -199,7 +208,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    private void getTasks(float latitude, float longitude) {
+    private void getTasks(double latitude, double longitude) {
         RequestParams params = new RequestParams();
 
         try {
