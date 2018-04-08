@@ -206,8 +206,13 @@ router.post('/addTask', function(request, response){
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
             if(data.length != 0){
-                console.log(data);
-                return response.send({'Error' :  'At /addTask : Cannot have same task title!'});
+                for(var dataObj in data){
+                    if (data.hasOwnProperty(dataObj)) {
+                        if(task.title == data[dataObj]._source.title){
+                            return response.send({'Error' :  'At /addTask : Cannot have same task title!'});
+                        }
+                    }
+                }
             } else {
                 client.index({
                     index: 'tenner',
