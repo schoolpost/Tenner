@@ -58,7 +58,8 @@ public class TaskDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Intent editIntent = new Intent();
-                    editIntent.setClass(getApplicationContext(), PostTaskActivity.class);
+                    editIntent.setClass(getApplicationContext(), EditTaskActivity.class);
+                    startActivity(editIntent);
                 }
             });
         } else {
