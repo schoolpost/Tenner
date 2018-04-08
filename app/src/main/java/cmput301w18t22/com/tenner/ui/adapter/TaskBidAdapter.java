@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Bid;
+import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
 
 /**
  * Custom Adapter provides the adapter for an array of my bids on others' tasks
@@ -59,17 +61,24 @@ public class TaskBidAdapter extends BaseAdapter {
         // inflate the layout for each list row
         if (convertView == null) {
             convertView = LayoutInflater.from(context).
-                    inflate(R.layout.mybidadapter_item, parent, false);
+                    inflate(R.layout.taskbidadapter_item, parent, false);
         }
 
         // get current item to be displayed
         Bid currentBid = getItem(position);
 
         // get TextView objects
+        ImageView profilePic = (ImageView) convertView.findViewById(R.id.imageView);
         TextView bidderNameTextView = (TextView) convertView.findViewById(R.id.bidder_name);
         TextView bidAmtTextView = (TextView) convertView.findViewById(R.id.bid_amt);
 
         // get Subscription information and display in textViews
+        if (currentBid.getOwner().getPhoto().equals("")) {
+            profilePic.setImageResource(R.drawable.user_pic);
+        } else{
+            profilePic.setImageBitmap(new PhotoConverterHelper().convertStringToBM(currentBid.getOwner().getPhoto()));
+        }
+
         bidderNameTextView.setText(currentBid.getOwner().toDisplayName());
         bidAmtTextView.setText(currentBid.toString());
 
