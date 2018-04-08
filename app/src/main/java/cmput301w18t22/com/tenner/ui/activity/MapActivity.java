@@ -117,9 +117,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getApplicationContext());
 
-        mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
         //https://developers.google.com/maps/documentation/android-api/location
         FloatingActionButton locationButton = (FloatingActionButton) findViewById(R.id.myLocationButton);
         if(getIntent().getStringExtra("maptype").equals("viewmap")){
@@ -137,11 +134,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     }
                 }
             });
-            try {
-                mGoogleMap.setMyLocationEnabled(true);
-            } catch (SecurityException e){
-
-            }
         }
 
         if(getIntent().getStringExtra("maptype").equals("setmap")) {
@@ -153,6 +145,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     position = mGoogleMap.getCameraPosition().target;
                 }
             });
+        }
+
+        mGoogleMap = googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        try {
+            mGoogleMap.setMyLocationEnabled(true);
+        } catch (SecurityException e){
+
         }
     }
 
@@ -167,10 +168,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 + taskList.get(i).getRequester().getLastName());
             Marker marker = mGoogleMap.addMarker(markerOptions);
 
-            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-//                int position = (int)(marker.getTag());
                     LatLng position = (LatLng) marker.getTag();
                     Log.i("Pos", String.valueOf(position.latitude));
                     //Using position get Value from arraylist
