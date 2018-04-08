@@ -37,7 +37,7 @@ function sendNotification(){
     // See documentation on defining a message payload.
     var message = {
         data : {
-            body : 'New bid!'
+            body : 'New Bid!'
         },
         topic: topic
     };
@@ -54,19 +54,6 @@ function sendNotification(){
 }
 
 sendNotification();
-
-// var notify       = require("./routes/routes");
-
-// (function(){
-//     notify(); 
-//     setTimeout(arguments.callee, 10000);
-// })();
-
-// var http = require("http");
-// setInterval(function() {
-//     http.get("http://cmputer301tenner.herokuapp.com/");
-//     console.log("pinged");
-// }, 30000);
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Tenner Server Started!");

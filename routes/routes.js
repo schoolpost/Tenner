@@ -32,7 +32,6 @@ router.post('/signUpUser', function(request, response){
     
     if(typeof(user.email) != 'undefined'){
         var queryString = 'email:' + user.email;
-        console.log(queryString);
         
         client.search({
           index: 'tenner',
@@ -43,7 +42,6 @@ router.post('/signUpUser', function(request, response){
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user.email == data[dataObj]._source.email){
-                        console.log('User Exists!');
                         return response.send({'Error' : 'At /signUpUser User Exists!'});
                     }
                 }
@@ -90,7 +88,8 @@ router.post('/getUser', function(request, response){
     
     if(typeof(user) != 'undefined'){
         var queryString = 'email:' + user;
-        console.log(queryString);
+        
+        var found = false;
         
         client.search({
           index: 'tenner',
@@ -101,12 +100,14 @@ router.post('/getUser', function(request, response){
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user == data[dataObj]._source.email){
-                        console.log('User Exists!');
+                        found = true;
                         return response.send(data[dataObj]._source);
                     }
                 }
             }
-            return response.send({'Error' : 'At /getUser No User Found!!'});
+            if(!found){
+                return response.send({'Error' : 'At /getUser No User Found!!'});   
+            }
             
         }, function (err) {
             if(err){
@@ -138,36 +139,81 @@ router.post('/editUser', function(request, response){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user.email == data[dataObj]._source.email){
                         found = true;
-                        console.log('User Exists!');
+                        
+                        var userObj = {
+                            email : user.email,
+                            firstName : user.firstName,
+                            lastName : user.lastName,
+                            phoneNum : user.phoneNum,
+                            photo : user.photo,
+                            requestedTasks : user.requestedTasks,
+                            providedTasks : user.providedTasks,
+                            bids : user.bids
+                        }
+                        
                         client.index({
                             index: 'tenner',
                             type : 'users',
                             id : user.email,
-                            body : {
-                                email : user.email,
-                                firstName : user.firstName,
-                                lastName : user.lastName,
-                                phoneNum : user.phoneNum,
-                                photo : user.photo,
-                                requestedTasks : user.requestedTasks,
-                                providedTasks : user.providedTasks,
-                                bids : user.bids
-                            }
+                            body : userObj
                         }, function (err, response2) {
                             if(err){
                                 console.log(err.message);
                                 return response.send({'Error' : 'At /editUser' + err.message});
                             } else {
-                                return response.send({'Success' : 'At /editUser User Updated!'});
+                                client.search({
+                                    index: 'tenner',
+                                    type: 'tasks'
+                                }).then(function (responseBody) {
+                                    var data = responseBody.hits.hits;
+                                    var arr = [];
+                                    for(var dataObj in data){
+                                        if (data.hasOwnProperty(dataObj)) {
+                                            if(data[dataObj]._source.requester.email == user.email){
+                                                client.index({
+                                                    index: 'tenner',
+                                                    type : 'tasks',
+                                                    id : data[dataObj]._source.title + user.email,
+                                                    body : {
+                                                        status: data[dataObj]._source['status'], 
+                                                        title : data[dataObj]._source.title,
+                                                        description : data[dataObj]._source['description'],
+                                                        bidList : data[dataObj]._source.bidList,
+                                                        location : data[dataObj]._source['location'],
+                                                        photos : data[dataObj]._source.photos,
+                                                        requestedDate : data[dataObj]._source,
+                                                        hasNewBids : data[dataObj]._source.hasNewBids,
+                                                        requester : userObj
+                                                    }
+                                                }, function (err, response2) {
+                                                    if(err){
+                                                        console.log(err.message);
+                                                        return response.send({'Error' : 'At /addTask' + err.message});
+                                                    } else {
+                                                        return response.send({'Success' : 'At /addTask Task Added!'});
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                    
+                                }, function (err) {
+                                    if(err){
+                                        console.log(err.message);
+                                        return response.send('Error at /searchTasks : ' + err.message);     
+                                    } else {
+                                        return response.send({'Success' : 'At /editUser User Updated!'});
+                                    }
+                                });
                             }
                         });
                     }
                 }
             }
-            
             if(!found){
                 return response.send({'Error' : 'At /editUser No User Found!'});    
             }
+            
         }, function (err) {
             if(err){
                 return response.send({'Error' : 'At /editUser' + err.message});
@@ -200,6 +246,7 @@ router.post('/searchTasks', function(request, response){
                 }
             }
             return response.send(arr);
+            
         }, function (err) {
             console.log(err.message);
             return response.send('Error at /searchTasks : ' + err.message);
@@ -263,7 +310,6 @@ router.post('/addTask', function(request, response){
     }
 });
 
-///???
 router.post('/editTask', function(request, response){
     var task = JSON.parse(request.body.task);
     
@@ -317,6 +363,7 @@ router.post('/getRequestedTasks', function(request, response){
             }
         }
         return response.send(JSON.stringify(requestedTaskArray));
+        
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getRequestedTasks : ' + err.message});
@@ -325,7 +372,7 @@ router.post('/getRequestedTasks', function(request, response){
 
 router.post('/getProvidingTasks', function(request, response){
     var userID = request.body.user;
-    console.log(userID);
+    
     client.search({
       index: 'tenner',
       type: 'tasks'
@@ -343,6 +390,7 @@ router.post('/getProvidingTasks', function(request, response){
             }
         }
         return response.send(JSON.stringify(assignedTaskArray));
+        
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getProvidingTasks : ' + err.message});
@@ -385,7 +433,7 @@ router.post('/getMapTasks', function(request, response){
 router.post('/deleteTask', function(request, response){
     var user = request.body.user;
     var title = request.body.title;
-    console.log(title + user);
+    
     client.delete({
         index: 'tenner',
         type: 'tasks',
@@ -472,7 +520,6 @@ router.get('/deleteUsers', function(request, response){
     client.search({
       index: 'tenner',
       type : 'users',
-      id : "tester@gmail.com"
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
         var arr = [];
@@ -493,6 +540,7 @@ router.get('/deleteUsers', function(request, response){
             }
         }
         return response.send({'Success' : 'At /deleteUsers!'}); 
+        
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
@@ -542,14 +590,15 @@ router.get('/deleteTasks', function(request, response){
                 });
             }
         }
-        return response.send({'Success' : 'User Sign Up Success!'}); 
+        return response.send({'Success' : 'User Sign Up Success!'});
+        
     }, function (err) {
         console.log(err.message);
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
 });
 
-https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+//https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
