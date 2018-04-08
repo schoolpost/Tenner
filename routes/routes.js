@@ -189,7 +189,9 @@ router.post('/searchTasks', function(request, response){
             var arr = [];
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
-                    arr.push(data[dataObj]._source);
+                    if(data[dataObj]._source['status'] != 'done'){
+                        arr.push(data[dataObj]._source);   
+                    }
                 }
             }
             return response.send(arr);
@@ -356,11 +358,13 @@ router.post('/getMapTasks', function(request, response){
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
                 if(typeof(data[dataObj]._source['location'].latitude) != 'undefined' && typeof(data[dataObj]._source['location'].longitude) != 'undefined'){
-                    var dataLat = data[dataObj]._source['location'].latitude;
-                    var dataLong = data[dataObj]._source['location'].longitude;
-                    var dist = getDistanceFromLatLonInKm(lat, long, dataLat, dataLong);
-                    if(dist < 5){
-                        mapPointsArray.push(data[dataObj]._source);
+                    if(data[dataObj]._source['status'] != 'done'){
+                        var dataLat = data[dataObj]._source['location'].latitude;
+                        var dataLong = data[dataObj]._source['location'].longitude;
+                        var dist = getDistanceFromLatLonInKm(lat, long, dataLat, dataLong);
+                        if(dist < 5){
+                            mapPointsArray.push(data[dataObj]._source);
+                        }
                     }
                 }
             }
