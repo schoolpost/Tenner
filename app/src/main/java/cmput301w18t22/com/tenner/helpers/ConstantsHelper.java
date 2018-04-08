@@ -13,4 +13,5 @@ public class ConstantsHelper {
     public static final int EDIT_PROFILE_RESULT = 45;
     public static final int ADD_TASK_REQUEST = 60;
     public static final int ADD_TASK_RESULT = 60;
+    public static final int TASK_BIDS_RESULT = 77;
 }

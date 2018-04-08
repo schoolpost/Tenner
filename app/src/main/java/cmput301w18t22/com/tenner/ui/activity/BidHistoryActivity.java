@@ -128,17 +128,21 @@ public class BidHistoryActivity extends AppCompatActivity {
             }
         });
 
-        //displayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        //    @Override
-        //    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        //        openTaskDetails(taskList.get(i));
-        //    }
-        //});
+        displayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent profileViewIntent = new Intent();
+                profileViewIntent.putExtra("bidIndex", i);
+                profileViewIntent.setClass(getApplicationContext(), ViewProfileActivity.class);
+                startActivity(profileViewIntent);
+            }
+        });
 
         // Sample Data
-        bidList.add(new Bid(new User("", "John", "Smith", "", ""), "2.75", new Date(), task));
-        bidList.add(new Bid(new User("", "John", "Smith", "", ""), "3.75", new Date(), task));
-        bidList.add(new Bid(new User("", "John", "Smith", "", ""), "4.75", new Date(), task));
+        //bidList.add(new Bid(new User("", "John", "Smith", "", ""), "2.75", new Date(), task));
+        //bidList.add(new Bid(new User("", "John", "Smith", "", ""), "3.75", new Date(), task));
+        //bidList.add(new Bid(new User("", "John", "Smith", "", ""), "4.75", new Date(), task));
+
     }
 
 

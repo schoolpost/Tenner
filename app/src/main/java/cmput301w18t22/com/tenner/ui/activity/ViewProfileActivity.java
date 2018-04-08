@@ -1,12 +1,17 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.Bid;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
@@ -46,9 +51,24 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
     public void loadFromFile(){
+        Intent intent = getIntent();
+
         // Load Requester profile from task
         task = localDataHelper.getTaskFromFile();
-        user = task.getRequester();
+
+        if (intent.getExtras() == null) {
+            Log.i("actually", "we got here");
+            user = task.getRequester();
+        } else {
+            Log.i("we", "got here");
+            //task.addBid(new Bid(new User("", "John", "Smith", "1234567890", ""), "2.75", new Date(), task));
+            //task.addBid(new Bid(new User("", "John", "Smith", "1234567890", ""), "3.75", new Date(), task));
+            //task.addBid(new Bid(new User("", "John", "Smith", "1234567890", ""), "4.75", new Date(), task));
+
+            int index = 0;
+            intent.getIntExtra("bidIndex", index);
+            user = task.getBidList().get(index).getOwner();
+        }
 
         // Set the value to display
         name.setText(user.toProfileName()); // First + Last Name
