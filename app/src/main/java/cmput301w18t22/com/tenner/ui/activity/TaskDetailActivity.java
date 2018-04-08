@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,12 +56,33 @@ public class TaskDetailActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.desc);
         requester = (TextView) findViewById(R.id.task_owner);
         imageView = (ImageView) findViewById(R.id.imageView5);
+        Button bid_button = (Button) findViewById(R.id.bid_button);
+
+
+        bid_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent bidIntent = new Intent();
+                bidIntent.setClass(getApplicationContext(), BidHistoryActivity.class);
+                startActivity(bidIntent);
+            }
+        });
+
+        requester.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent profileViewIntent = new Intent();
+                profileViewIntent.setClass(getApplicationContext(), ViewProfileActivity.class);
+                startActivity(profileViewIntent);
+
+            }
+        });
 
         String taskTitle = task.getTitle().substring(0, 1).toUpperCase() + task.getTitle().substring(1);
         title.setText(taskTitle);
-        if(task.getBidList().size() == 0){
+        if (task.getBidList().size() == 0) {
             lowest.setText("$0.00");
-        }else{
+        } else {
             lowest.setText(task.getLowestBid().toString());
         }
 
