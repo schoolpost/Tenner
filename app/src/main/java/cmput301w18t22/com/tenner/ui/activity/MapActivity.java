@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -114,6 +117,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getApplicationContext());
 
+        mGoogleMap = googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
         //https://developers.google.com/maps/documentation/android-api/location
         FloatingActionButton locationButton = (FloatingActionButton) findViewById(R.id.myLocationButton);
         if(getIntent().getStringExtra("maptype").equals("viewmap")){
@@ -138,9 +144,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
 
-        mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
         if(getIntent().getStringExtra("maptype").equals("setmap")) {
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.5f));
 
@@ -154,7 +157,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void setPins(ArrayList<Task> taskList){
+        for(int i = 0; i < taskList.size(); i++){
+            LatLng point = new LatLng(taskList.get(i).getLocation().getLatitude(),
+                    taskList.get(i).getLocation().getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(point);
+            markerOptions.title("Title : " + taskList.get(i).getTitle());
+            markerOptions.snippet("Requester : " + taskList.get(i).getRequester().getFirstName()
+                + taskList.get(i).getRequester().getLastName());
+            Marker marker = mGoogleMap.addMarker(markerOptions);
 
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+//                int position = (int)(marker.getTag());
+                    LatLng position = (LatLng) marker.getTag();
+                    Log.i("Pos", String.valueOf(position.latitude));
+                    //Using position get Value from arraylist
+                    return false;
+                }
+            });
+        }
+//        LatLng sydney = new LatLng(-34, 151);
+//
+//        marker.setTag(sydney);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
+        //title
+        //requester
+        //button to task
     }
 
     @Override
