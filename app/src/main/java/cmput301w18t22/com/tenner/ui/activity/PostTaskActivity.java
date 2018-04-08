@@ -204,7 +204,7 @@ public class PostTaskActivity extends AppCompatActivity {
         return true;
     }
 
-    public void postTask(Task task) throws JSONException {
+    public void postTask(final Task task) throws JSONException {
 
         RequestParams params = new RequestParams();
         //https://github.com/google/gson
@@ -225,6 +225,7 @@ public class PostTaskActivity extends AppCompatActivity {
                 try {
                     if (response.has("Success")) {
 
+                        localDataHelper.saveTaskToFile(task);
                         Intent intent = new Intent();
                         intent.setClass(PostTaskActivity.this, TaskDetailActivity.class);
                         startActivity(intent);
@@ -332,6 +333,7 @@ public class PostTaskActivity extends AppCompatActivity {
             taskLocation = new Location(data.getFloatExtra("lat", 0),
                     data.getFloatExtra("lng", 0),
                     data.getStringExtra("location"));
+            etLocation.setText(data.getStringExtra("location"));
         }
     }
 
