@@ -58,9 +58,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".ui.activity.SearchActivity"></activity>
-        <activity android:name=".ui.activity.BidHistoryActivity"></activity>
-        <activity android:name=".ui.activity.ViewProfileActivity"></activity>
+        <activity android:name=".ui.activity.SearchActivity" />
+        <activity android:name=".ui.activity.BidHistoryActivity" />
+        <activity android:name=".ui.activity.ViewProfileActivity" />
     </application>
 
 </manifest>
