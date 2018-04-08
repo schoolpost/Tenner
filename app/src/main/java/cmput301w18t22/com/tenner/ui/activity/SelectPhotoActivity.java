@@ -8,6 +8,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -20,7 +21,8 @@ import cmput301w18t22.com.tenner.R;
 public class SelectPhotoActivity extends AppCompatActivity {
 
     //Photo
-    ImageView mImageView;
+    ImageView selectCamera;
+    ImageView selectGallery;
     String mCurrentPhotoPath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int GET_FROM_GALLERY = 3;
@@ -30,10 +32,27 @@ public class SelectPhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_photo);
+
+        //Take a Photo
+        selectCamera = (ImageView) findViewById(R.id.cameraImage);
+        selectCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePic();
+            }
+        });
+
+        //Select from Gallery
+        selectGallery = (ImageView) findViewById(R.id.galleryImage);
+        selectGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addPic();
+            }
+        });
+
+        // TODO: Send back the image string and finish() this activity
     }
-
-
-
 
 
     private void dispatchTakePictureIntent() {
