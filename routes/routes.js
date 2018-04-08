@@ -534,6 +534,7 @@ router.get('/deleteTasks', function(request, response){
     });
 });
 
+https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
