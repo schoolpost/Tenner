@@ -200,10 +200,8 @@ router.post('/addTask', function(request, response){
     var date = new Date(task.requestedDate);
     
     if(typeof(task.requester) != 'undefined'){
-        var email = task.requester.email;
-        email = email.replace('.','');
-        var newId = task.title + email.replace('@', '');
-        console.log(newId);
+        var newId = task.title + task.requester.email;
+        
         client.search({
           index: 'tenner',
           type: 'tasks',
@@ -222,7 +220,7 @@ router.post('/addTask', function(request, response){
             client.index({
                 index: 'tenner',
                 type : 'tasks',
-                id : task.title + task.email,
+                id : newId,
                 body : {
                     status: task['status'], 
                     title : task.title,
