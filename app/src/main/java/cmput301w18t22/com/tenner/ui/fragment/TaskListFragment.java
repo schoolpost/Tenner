@@ -214,8 +214,6 @@ public class TaskListFragment extends Fragment {
                 openTaskDetails(taskList.get(i));
             }
         });
-
-
     }
 
 

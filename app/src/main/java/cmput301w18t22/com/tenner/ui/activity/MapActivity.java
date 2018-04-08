@@ -2,6 +2,7 @@ package cmput301w18t22.com.tenner.ui.activity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -192,15 +193,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             getTasks(position.latitude, position.longitude);
 
+            //https://developers.google.com/places/android-api/autocomplete
+
             PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                     getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+            autocompleteFragment.getView().setBackgroundColor(Color.WHITE);
 
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                 @Override
                 public void onPlaceSelected(Place place) {
                     // TODO: Get info about the selected place.
-                    Log.i("Place", "Place: " + place.getName());
+                    Double latitude = place.getLatLng().latitude;
+                    Double longitude = place.getLatLng().longitude;
 
+                    CameraUpdate center =
+                            CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude));
+                    CameraUpdate zoom = CameraUpdateFactory.zoomTo(11);
+
+                    mGoogleMap.moveCamera(center);
+                    mGoogleMap.animateCamera(zoom);
+
+                    getTasks(latitude, longitude);
                 }
 
                 @Override
