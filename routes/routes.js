@@ -474,34 +474,34 @@ router.get('/getAllTasks', function(request, response){
     });
 });
 
-// router.get('/deleteTasks', function(request, response){
-//     client.search({
-//       index: 'tenner',
-//       type: 'tasks'
-//     }).then(function (responseBody) {
-//         var data = responseBody.hits.hits;
-//         var arr = [];
-//         for(var dataObj in data){
-//             if (data.hasOwnProperty(dataObj)) {
-//                 client.delete({
-//                   index: 'tenner',
-//                   type : 'tasks',
-//                   id : data[dataObj]._id
-//                 }, function (error, response2) {
-//                     if(error){
-//                       console.log(error);
-//                       return response.send("lol");
-//                     } else {
+router.get('/deleteTasks', function(request, response){
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        var arr = [];
+        for(var dataObj in data){
+            if (data.hasOwnProperty(dataObj)) {
+                client.delete({
+                  index: 'tenner',
+                  type : 'tasks',
+                  id : data[dataObj]._id
+                }, function (error, response2) {
+                    if(error){
+                      console.log(error);
+                      return response.send("lol");
+                    } else {
                     
-//                     }
-//                 });
-//             }
-//         }
-//         return response.send({'Success' : 'User Sign Up Success!'}); 
-//     }, function (err) {
-//         console.log(err.message);
-//         return response.send({'Error' : 'At /getAllUsers ' + err.message});
-//     });
-// });
+                    }
+                });
+            }
+        }
+        return response.send({'Success' : 'User Sign Up Success!'}); 
+    }, function (err) {
+        console.log(err.message);
+        return response.send({'Error' : 'At /getAllUsers ' + err.message});
+    });
+});
 
 module.exports = router;
