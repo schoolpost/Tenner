@@ -62,6 +62,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         localDataHelper = new LocalDataHelper(this);
 
+
         // Change ActionBar
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
@@ -98,6 +99,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void loadData() {
         user = localDataHelper.loadUserFromFile();
 
+        b64 = user.getPhoto();
         etFirst.setText(user.getFirstName());
         etLast.setText(user.getLastName());
         tvEmail.setText(user.getEmail());
