@@ -109,9 +109,10 @@ public class PostTaskActivity extends AppCompatActivity {
         });
 
         setLocationButton = (Button) findViewById(R.id.location_button);
-        setLocationButton.setEnabled(false);
+        setLocationButton.setEnabled(true);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        currentloc = new LatLng(53.5444, -113.4909);
         getcurrloc();
 
         // Change ActionBar
