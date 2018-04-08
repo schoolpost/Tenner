@@ -5,5 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cmput301w18t22.com.tenner.ui.activity.ViewProfileActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="415dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="35dp"
+        android:layout_marginStart="35dp"
+        android:orientation="vertical">
 
+
+        <ImageView
+            android:id="@+id/view_profile_picture"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/view_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:textSize="18sp"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/view_profile_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:textSize="18sp"
+            tools:text="Email" />
+
+        <TextView
+            android:id="@+id/view_profile_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
+            android:textSize="18sp"
+            tools:text="Phone" />
+
+
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

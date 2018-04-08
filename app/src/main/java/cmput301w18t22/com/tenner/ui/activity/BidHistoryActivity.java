@@ -33,138 +33,61 @@ import org.json.JSONException;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.Bid;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.InternetStatusHelper;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
+import cmput301w18t22.com.tenner.ui.adapter.TaskBidAdapter;
 
 public class BidHistoryActivity extends AppCompatActivity {
 
-    private ImageButton filter;
-    private ArrayList<Task> taskList;
-    private TaskAdapter myAdapter;
+    private ArrayList<Bid> bidList;
+    private TaskBidAdapter myAdapter;
     private SwipeMenuListView displayList;
-    private int tab;
-    private User user;
+    private Task task;
+    //private User user;
     private LocalDataHelper localDataHelper;
-    private InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
-    private static Handler sHandler = new Handler(Looper.getMainLooper());
-    private ProgressBar progressBar;
-    private BidHistoryActivity.WeakRunnable mRunnable = new BidHistoryActivity.WeakRunnable(this);
-    private String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_bid_history);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
-        getSupportActionBar().setCustomView(R.layout.toolbar_search);
+        getSupportActionBar().setCustomView(R.layout.toolbar_home);
         TextView title = getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title);
-        title.setText("Search");
+        title.setText("Bid History");
 
         localDataHelper = new LocalDataHelper(this);
 
-        taskList = new ArrayList<Task>();
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        displayList = (SwipeMenuListView) findViewById(R.id.tasksList);
-        setFilter();
+        bidList = new ArrayList<Bid>();
+        displayList = (SwipeMenuListView) findViewById(R.id.bidsList);
 
-        Intent intent = getIntent();
-        query = intent.getStringExtra("query");
-
-        if (savedInstanceState == null) {
+        //if (savedInstanceState == null) {
             loadData();
-        } else {
+        //} else {
             bindData();
-        }
+       // }
 
 
-    }
-
-    private void showPopup(View v) {
-        PopupMenu popup = new PopupMenu(getApplicationContext(), v);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.task_filters, popup.getMenu());
-        popup.show();
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                return false;
-            }
-        });
-    }
-
-    public void setFilter() {
-        filter = (ImageButton) getSupportActionBar().getCustomView().findViewById(R.id.taskFilterButton);
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopup(view);
-            }
-        });
     }
 
     private void loadData() {
-        // Server Call
-        showProgressBar(true);
-        user = localDataHelper.loadUserFromFile();
-        try {
-            postTaskSearch(query);
-//            getTasks();
-        } catch (JSONException e) {
-
-        }
+        // Server Call or Local Data
+        task = localDataHelper.getTaskFromFile();
+        bidList = task.getBidList();
 
     }
-
-    public void postTaskSearch(String query) throws JSONException {
-
-        RequestParams params = new RequestParams();
-
-        try {
-            params.put("query", query);
-        } catch (Exception e) {
-
-        }
-
-        ElasticServer.RestClient.post("searchTasks", params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-
-                    Gson gson = new GsonBuilder().create();
-                    taskList = new ArrayList<Task>();
-
-                    for (int i = 0; i < response.length(); i++) {
-                        taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
-                    }
-                    int index = 0;
-                    for (Task t : taskList) {
-                        index++;
-                        Log.i("item" + index, t.getTitle());
-                    }
-
-
-                } catch (Exception e) {
-
-                }
-
-                sHandler.postDelayed(mRunnable, 500);
-            }
-        });
-    }
-
 
     private void bindData() { // Attach to listview
-        Log.i("debug", "Binding");
 
-        myAdapter = new TaskAdapter(getApplicationContext(), taskList);
+        myAdapter = new TaskBidAdapter(getApplicationContext(), bidList);
         displayList.setAdapter(myAdapter);
 
         DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
@@ -205,84 +128,19 @@ public class BidHistoryActivity extends AppCompatActivity {
             }
         });
 
-        displayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                openTaskDetails(taskList.get(i));
-            }
-        });
+        //displayList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //    @Override
+        //    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        //        openTaskDetails(taskList.get(i));
+        //    }
+        //});
+
+        // Sample Data
+        bidList.add(new Bid(new User("", "John", "Smith", "", ""), "2.75", new Date(), task));
+        bidList.add(new Bid(new User("", "John", "Smith", "", ""), "3.75", new Date(), task));
+        bidList.add(new Bid(new User("", "John", "Smith", "", ""), "4.75", new Date(), task));
     }
 
-    public void getTasks() throws JSONException {
-
-        final String url = "getRequestedTasks";
-
-        RequestParams params = new RequestParams();
-
-        try {
-            params.put("user", user.getEmail());
-        } catch (Exception e) {
-
-        }
-
-        ElasticServer.RestClient.post(url, params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-
-                    Gson gson = new GsonBuilder().create();
-                    taskList = new ArrayList<Task>();
-
-                    for (int i = 0; i < response.length(); i++) {
-                        taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
-                    }
-                    int index = 0;
-                    for (Task t : taskList) {
-                        index++;
-                        Log.i("item" + index, t.getTitle());
-                    }
-
-                } catch (Exception e) {
-
-                }
-
-                sHandler.postDelayed(mRunnable, 500);
-            }
-        });
-    }
-
-
-    public void openTaskDetails(Task task) {
-        Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), TaskDetailActivity.class);
-        localDataHelper.saveTaskToFile(task);
-        startActivity(intent);
-
-    }
-
-    private void showProgressBar(boolean show) {
-        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-    }
-
-    private static class WeakRunnable implements Runnable {
-
-        WeakReference<BidHistoryActivity> mSearchActivityReference;
-
-        public WeakRunnable(BidHistoryActivity searchActivity) {
-            this.mSearchActivityReference = new WeakReference<BidHistoryActivity>(searchActivity);
-        }
-
-        @Override
-        public void run() {
-            BidHistoryActivity searchActivity = mSearchActivityReference.get();
-            if (searchActivity != null && !searchActivity.isDestroyed()) {
-                searchActivity.showProgressBar(false);
-                searchActivity.bindData();
-            }
-        }
-    }
 
 
 }
