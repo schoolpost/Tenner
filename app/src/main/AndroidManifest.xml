@@ -44,9 +44,10 @@
         <activity android:name=".ui.activity.PostTaskActivity" />
         <activity
             android:name=".ui.activity.EditProfileActivity"
-            android:label="@string/title_activity_edit_profile"/>
+            android:label="@string/title_activity_edit_profile" />
         <activity android:name=".ui.activity.TaskDetailActivity" />
         <activity android:name=".ui.activity.TaskBidsActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.example.android.fileprovider"
@@ -54,8 +55,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".ui.activity.SearchActivity"></activity>
     </application>
 
 </manifest>
