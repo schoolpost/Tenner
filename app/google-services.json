@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "623664597925",
+    "firebase_url": "https://cmput301.firebaseio.com",
+    "project_id": "cmput301",
+    "storage_bucket": "cmput301.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623664597925:android:fb3977009786bfce",
+        "android_client_info": {
+          "package_name": "com.example.louismoc.notifications"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "623664597925-lee71jdid9ov6e41mqgsk364gmrqpnve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5tFmvmjU-VdENi2SR6oai_4O8809Lhxo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
