@@ -335,7 +335,7 @@ router.post('/getProvidingTasks', function(request, response){
 });
 
 ///???
-router.get('/deleteTask', function(request, response){
+router.post('/deleteTask', function(request, response){
     var user = JSON.parse(request.body.user);
     var title = JSON.parse(request.body.title);
     
@@ -361,8 +361,6 @@ router.get('/getMyBids', function(request, response){
       type: 'tasks'
     }).then(function (responseBody) {
         var data = responseBody.hits.hits;
-        console.log(data);
-        
         var bidArray = [];
         
         for(var dataObj in data){
