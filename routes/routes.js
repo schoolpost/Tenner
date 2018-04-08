@@ -126,6 +126,8 @@ router.post('/editUser', function(request, response){
         var queryString = 'email:' + user.email;
         console.log(queryString);
         
+        var found = false;
+        
         client.search({
           index: 'tenner',
           type: 'users',
@@ -135,6 +137,7 @@ router.post('/editUser', function(request, response){
             for(var dataObj in data){
                 if (data.hasOwnProperty(dataObj)) {
                     if(user.email == data[dataObj]._source.email){
+                        found = true;
                         console.log('User Exists!');
                         client.index({
                             index: 'tenner',
@@ -161,7 +164,10 @@ router.post('/editUser', function(request, response){
                     }
                 }
             }
-            return response.send({'Error' : 'At /editUser No User Found!'});
+            
+            if(!found){
+                return response.send({'Error' : 'At /editUser No User Found!'});    
+            }
             
         }, function (err) {
             if(err){
