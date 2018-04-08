@@ -163,51 +163,6 @@ router.post('/editUser', function(request, response){
                                 return response.send({'Error' : 'At /editUser' + err.message});
                             } else {
                                 return response.send({'Success' : 'User Updated!'});
-                                // client.search({
-                                //     index: 'tenner',
-                                //     type: 'tasks'
-                                // }).then(function (responseBody) {
-                                //     var data = responseBody.hits.hits;
-                                //     for(var dataObj in data){
-                                //         if (data.hasOwnProperty(dataObj)) {
-                                //             if(data[dataObj]._source.requester.email == user.email){
-                                //                 client.index({
-                                //                     index: 'tenner',
-                                //                     type : 'tasks',
-                                //                     id : data[dataObj]._source.title + user.email,
-                                //                     body : {
-                                //                         status: data[dataObj]._source['status'], 
-                                //                         title : data[dataObj]._source.title,
-                                //                         description : data[dataObj]._source['description'],
-                                //                         bidList : data[dataObj]._source.bidList,
-                                //                         location : data[dataObj]._source['location'],
-                                //                         photos : data[dataObj]._source.photos,
-                                //                         requestedDate : data[dataObj]._source,
-                                //                         hasNewBids : data[dataObj]._source.hasNewBids,
-                                //                         requester : userObj
-                                //                     }
-                                //                 }, function (err, response2) {
-                                //                     // if(!errorFound){
-                                //                     //     errorFound = true;
-                                //                     //     if(err){
-                                //                     //         console.log(err.message);
-                                //                     //         return response.send({'Error' : 'At /addTask' + err.message});
-                                //                     //     } else {
-                                //                     //         return response.send({'Success' : 'At /addTask Task Added!'});
-                                //                     //     }
-                                //                     // }
-                                //                 });
-                                //             }
-                                //         }
-                                //     }
-                                // }, function (err) {
-                                //     if(err){
-                                //         console.log(err.message);
-                                //         return response.send('Error at /searchTasks : ' + err.message);     
-                                //     } else {
-                                //         return response.send({'Success' : 'At /editUser User Updated!'});
-                                //     }
-                                // });
                             }
                         });
                     }
