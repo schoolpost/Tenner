@@ -84,6 +84,7 @@ public class EditTaskActivity extends AppCompatActivity {
         user = localDataHelper.loadUserFromFile();
 
         b64photos = new ArrayList<>();
+        b64photos = taskOld.getPhotos();
 
         imageView1 = (ImageView) findViewById(R.id.addTaskImage1);
         imageView1.setOnClickListener(new View.OnClickListener() {
@@ -183,6 +184,7 @@ public class EditTaskActivity extends AppCompatActivity {
         String description = String.valueOf(etDescription.getText()).trim();
         String address = String.valueOf(etLocation.getText()).trim();
 
+
         if (check(title, description, address)) {
             //TODO: Current User and Elastic Search
 
@@ -196,7 +198,10 @@ public class EditTaskActivity extends AppCompatActivity {
 
             try {
 
-                if(task.getTitle().equals(taskOld.getTitle())){
+                if (task.getTitle().equals(taskOld.getTitle())) {
+                    postTask(task);
+                } else {
+                    deleteTask();
                     postTask(task);
                 }
             } catch (Exception e) {
