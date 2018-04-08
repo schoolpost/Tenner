@@ -181,7 +181,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     LatLng position = (LatLng) marker.getTag();
-                    Log.i("Pos", String.valueOf(position.latitude));
+//                    Log.i("Pos", String.valueOf(position.latitude));
                     //Using position get Value from arraylist
                     return false;
                 }
