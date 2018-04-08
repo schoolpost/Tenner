@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
@@ -34,6 +35,8 @@ public class TaskDetailActivity extends AppCompatActivity {
     private Task task;
     private Intent intent;
     private ImageView imageView;
+    private User user;
+    private TextView toolbarEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +45,25 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         localDataHelper = new LocalDataHelper(this);
         task = localDataHelper.getTaskFromFile();
+        user = localDataHelper.loadUserFromFile();
         intent = getIntent();
         PhotoConverterHelper photoConverterHelper = new PhotoConverterHelper();
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
-        getSupportActionBar().setCustomView(R.layout.toolbar_home);
+        if (user.getEmail().equals(task.getRequester().getEmail())) {
+            getSupportActionBar().setCustomView(R.layout.toolbar_task_edit);
+            toolbarEdit = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit_task);
+            toolbarEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent editIntent = new Intent();
+                    editIntent.setClass(getApplicationContext(), PostTaskActivity.class);
+                }
+            });
+        } else {
+            getSupportActionBar().setCustomView(R.layout.toolbar_task_detail);
+        }
 
 
         TextView title = getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title);
