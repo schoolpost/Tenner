@@ -128,6 +128,7 @@ router.post('/editUser', function(request, response){
         console.log(queryString);
         
         var found = false;
+        var errorFound = false;
         
         client.search({
           index: 'tenner',
@@ -158,15 +159,14 @@ router.post('/editUser', function(request, response){
                             body : userObj
                         }, function (err, response2) {
                             if(err){
-                                console.log(err.message);
-                                return response.send({'Error' : 'At /editUser' + err.message});
+                                // console.log(err.message);
+                                // return response.send({'Error' : 'At /editUser' + err.message});
                             } else {
                                 client.search({
                                     index: 'tenner',
                                     type: 'tasks'
                                 }).then(function (responseBody) {
                                     var data = responseBody.hits.hits;
-                                    var arr = [];
                                     for(var dataObj in data){
                                         if (data.hasOwnProperty(dataObj)) {
                                             if(data[dataObj]._source.requester.email == user.email){
@@ -186,17 +186,19 @@ router.post('/editUser', function(request, response){
                                                         requester : userObj
                                                     }
                                                 }, function (err, response2) {
-                                                    if(err){
-                                                        console.log(err.message);
-                                                        return response.send({'Error' : 'At /addTask' + err.message});
-                                                    } else {
-                                                        return response.send({'Success' : 'At /addTask Task Added!'});
-                                                    }
+                                                    // if(!errorFound){
+                                                    //     errorFound = true;
+                                                    //     if(err){
+                                                    //         console.log(err.message);
+                                                    //         return response.send({'Error' : 'At /addTask' + err.message});
+                                                    //     } else {
+                                                    //         return response.send({'Success' : 'At /addTask Task Added!'});
+                                                    //     }
+                                                    // }
                                                 });
                                             }
                                         }
                                     }
-                                    
                                 }, function (err) {
                                     if(err){
                                         console.log(err.message);
