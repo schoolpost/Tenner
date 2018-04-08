@@ -206,6 +206,7 @@ router.post('/addTask', function(request, response){
         }).then(function (responseBody) {
             var data = responseBody.hits.hits;
             if(data.length != 0){
+                console.log(data);
                 return response.send({'Error' :  'At /addTask : Cannot have same task title!'});
             } else {
                 client.index({
@@ -325,6 +326,8 @@ router.post('/getProvidingTasks', function(request, response){
         return response.send({'Error' : 'At /getProvidingTasks : ' + err.message});
     });
 });
+
+
 
 router.get('/deleteTask', function(request, response){
     var user = JSON.parse(request.body.user);
