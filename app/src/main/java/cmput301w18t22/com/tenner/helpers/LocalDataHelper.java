@@ -150,8 +150,7 @@ public class LocalDataHelper {
 
             Gson gson = new Gson();
 
-            Type fileType = new TypeToken<ArrayList<Task>>() {
-            }.getType();
+            Type fileType = new TypeToken<ArrayList<Task>>(){}.getType();
             ArrayList<Task> tasks = gson.fromJson(in, fileType);
             return tasks;
 
@@ -205,5 +204,4 @@ public class LocalDataHelper {
         }
 
     }
-
 }

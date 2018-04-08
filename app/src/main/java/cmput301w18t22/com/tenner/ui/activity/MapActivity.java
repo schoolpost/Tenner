@@ -22,12 +22,21 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.Task;
+import cmput301w18t22.com.tenner.server.ElasticServer;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -115,31 +124,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         CameraUpdate center=
                                 CameraUpdateFactory.newLatLng(new LatLng(mGoogleMap.getMyLocation().getLatitude(),
                                         mGoogleMap.getMyLocation().getLongitude()));
-                        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+                        CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 
                         mGoogleMap.moveCamera(center);
                         mGoogleMap.animateCamera(zoom);
                     }
                 }
             });
+            try {
+                mGoogleMap.setMyLocationEnabled(true);
+            } catch (SecurityException e){
+
+            }
         }
+
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        try {
-            mGoogleMap.setMyLocationEnabled(true);
-        } catch (SecurityException e){
 
+        if(getIntent().getStringExtra("maptype").equals("setmap")) {
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.5f));
+
+            mGoogleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+                @Override
+                public void onCameraMove() {
+                    position = mGoogleMap.getCameraPosition().target;
+                }
+            });
         }
-//        LatLng yeg = new LatLng(53.5444, -113.4909);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.5f));
+    }
 
-
-        mGoogleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-                position = mGoogleMap.getCameraPosition().target;
-            }
-        });
+    private void setPins(ArrayList<Task> taskList){
 
     }
 
@@ -151,5 +165,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onBackPressed() {
 
+    }
+
+    private void getTasks(float latitude, float longitude) {
+        RequestParams params = new RequestParams();
+
+        try {
+            params.put("lat", latitude);
+            params.put("long", longitude);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("getMapTasks", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    Gson gson = new GsonBuilder().create();
+                    ArrayList<Task> taskList = new ArrayList<Task>();
+
+                    for (int i = 0; i < response.length(); i++) {
+                        taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
+                    }
+
+                    setPins(taskList);
+
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 }

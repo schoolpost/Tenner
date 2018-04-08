@@ -285,11 +285,6 @@ public class TaskListFragment extends Fragment {
                     for (int i = 0; i < response.length(); i++) {
                         taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
                     }
-                    int index = 0;
-                    for (Task t : taskList) {
-                        index++;
-                        Log.i("item" + index, t.getTitle());
-                    }
 
                 } catch (Exception e) {
 
