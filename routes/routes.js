@@ -213,31 +213,31 @@ router.post('/addTask', function(request, response){
                         }
                     }
                 }
-            } else {
-                client.index({
-                    index: 'tenner',
-                    type : 'tasks',
-                    id : task.title + task.email,
-                    body : {
-                        status: task['status'], 
-                        title : task.title,
-                        description : task['description'],
-                        bidList : task.bidList,
-                        location : task['location'],
-                        photos : task.photos,
-                        requestedDate : date,
-                        hasNewBids : task.hasNewBids,
-                        requester : task.requester
-                    }
-                }, function (err, response2) {
-                    if(err){
-                        console.log(err.message);
-                        return response.send({'Error' : 'At /addTask' + err.message});
-                    } else {
-                        return response.send({'Success' : 'At /addTask Task Added!'});
-                    }
-                });
             }
+            client.index({
+                index: 'tenner',
+                type : 'tasks',
+                id : task.title + task.email,
+                body : {
+                    status: task['status'], 
+                    title : task.title,
+                    description : task['description'],
+                    bidList : task.bidList,
+                    location : task['location'],
+                    photos : task.photos,
+                    requestedDate : date,
+                    hasNewBids : task.hasNewBids,
+                    requester : task.requester
+                }
+            }, function (err, response2) {
+                if(err){
+                    console.log(err.message);
+                    return response.send({'Error' : 'At /addTask' + err.message});
+                } else {
+                    return response.send({'Success' : 'At /addTask Task Added!'});
+                }
+            });
+            
         }, function (err) {
             console.log(err.message);
             return response.send('Error at /searchTasks : ' + err.message);
