@@ -79,7 +79,9 @@ public class EditProfileActivity extends AppCompatActivity {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takePic();
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), SelectPhotoActivity.class);
+                startActivityForResult(intent, 999);
             }
         });
 
@@ -165,7 +167,7 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
     }
-
+/*
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
@@ -194,8 +196,9 @@ public class EditProfileActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,  *//* prefix *//*
+                ".jpg",         *//* suffix *//*
+                storageDir      *//* directory *//*
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -213,13 +216,15 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void addPicFromGallery() {
         startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+        if (requestCode == 999) {
+            String path = data.getStringExtra("FILENAME");
+
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+            Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 
             PhotoConverterHelper photoConverter = new PhotoConverterHelper();
             b64 = photoConverter.convertBMToString(bitmap);

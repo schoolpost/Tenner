@@ -104,6 +104,14 @@ public class SelectPhotoActivity extends AppCompatActivity {
         startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
     }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Intent intent = new Intent();
+            intent.putExtra("FILENAME",mCurrentPhotoPath);
+            setResult(999, intent);
+            finish();
+        }
+    }
 }
