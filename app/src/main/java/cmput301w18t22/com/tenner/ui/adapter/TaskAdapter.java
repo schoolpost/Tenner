@@ -74,11 +74,15 @@ public class TaskAdapter extends BaseAdapter {
         TextView requesterNameTextView = (TextView) convertView.findViewById(R.id.requester_name);
         TextView lowestBidTextView = (TextView) convertView.findViewById(R.id.bid_amt);
         View coloredBar = (View) convertView.findViewById(R.id.colored_bar);
+        TextView dolla = (TextView) convertView.findViewById(R.id.dolla);
+
 
         // get Subscription information and display in textViews
         nameTextView.setText(currentTask.getTitle());
         if (currentTask.getBidList().size() == 0) {
-            lowestBidTextView.setText("-");
+            lowestBidTextView.setText("");
+            dolla.setVisibility(View.GONE);
+
         } else {
             lowestBidTextView.setText(currentTask.getLowestBid().toString());
         }

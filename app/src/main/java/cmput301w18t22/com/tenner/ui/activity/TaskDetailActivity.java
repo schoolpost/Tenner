@@ -57,7 +57,12 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         String taskTitle = task.getTitle().substring(0, 1).toUpperCase() + task.getTitle().substring(1);
         title.setText(taskTitle);
-        lowest.setText("$9.99");
+        if(task.getBidList().size() == 0){
+            lowest.setText("$0.00");
+        }else{
+            lowest.setText("$0.00");
+        }
+
         location.setText(task.getLocation().getAddress());
         description.setText(task.getDescription());
         requester.setText(task.getRequester().toProfileName());

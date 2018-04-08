@@ -82,7 +82,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        Log.i("loaded","loaded");
+        Log.i("loaded", "loaded");
         loadData();
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -104,10 +104,9 @@ public class EditProfileActivity extends AppCompatActivity {
         etPhone.setText(user.getPhoneNum());
 
 
-        if (user.getPhoto().length() == 0){
+        if (user.getPhoto().equals("")) {
             mImageView.setImageResource(R.drawable.user_pic);
-        }
-        if (user.getPhoto() != null) {
+        } else {
             mImageView.setImageBitmap(new PhotoConverterHelper().convertStringToBM(user.getPhoto()));
         }
 
