@@ -33,6 +33,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -199,8 +200,7 @@ public class TaskListFragment extends Fragment {
 
                 switch (index) {
                     case 0:
-                        taskList.remove(position);
-                        myAdapter.notifyDataSetChanged();
+                        deleteTask(index);
                         break;
                 }
                 return false;
@@ -285,6 +285,11 @@ public class TaskListFragment extends Fragment {
                     for (int i = 0; i < response.length(); i++) {
                         taskList.add(gson.fromJson(response.get(i).toString(), Task.class));
                     }
+                    int index = 0;
+                    for (Task t : taskList) {
+                        index++;
+                        Log.i("item" + index, t.getTitle());
+                    }
 
                 } catch (Exception e) {
 
@@ -297,6 +302,43 @@ public class TaskListFragment extends Fragment {
                 sHandler.postDelayed(mRunnable, 500);
             }
         });
+    }
+
+
+    public void deleteTask(final int taskIndex) {
+
+        RequestParams params = new RequestParams();
+
+        try {
+            params.put("user", user.getEmail());
+            params.put("title", taskList.get(taskIndex).getTitle());
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("deleteTask", params, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+
+                    if (response.has("Success")) {
+                        taskList.remove(taskIndex);
+                        myAdapter.notifyDataSetChanged();
+                    }
+
+                    if (response.has("Error")) {
+                        Log.i("Error", "somthign bad happened");
+                    }
+
+
+                } catch (Exception e) {
+
+                }
+            }
+        });
+
     }
 
     private static class WeakRunnable implements Runnable {

@@ -2,6 +2,7 @@ package cmput301w18t22.com.tenner.ui.activity;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
@@ -60,7 +61,13 @@ public class TaskDetailActivity extends AppCompatActivity {
         location.setText(task.getLocation().getAddress());
         description.setText(task.getDescription());
         requester.setText(task.getRequester().toProfileName());
-        imageView.setImageBitmap(photoConverterHelper.convertStringToBM(task.getPhotos().get(0)));
+
+        Bitmap bm;
+        if (task.getPhotos().size() != 0) {
+            bm = photoConverterHelper.convertStringToBM(task.getPhotos().get(0));
+            imageView.setImageBitmap(bm);
+        }
+
 
     }
 
