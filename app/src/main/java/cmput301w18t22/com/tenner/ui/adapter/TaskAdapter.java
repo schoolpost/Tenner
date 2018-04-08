@@ -77,8 +77,12 @@ public class TaskAdapter extends BaseAdapter {
 
         // get Subscription information and display in textViews
         nameTextView.setText(currentTask.getTitle());
-        requesterNameTextView.setText(currentTask.getRequester().toDisplayName());
-        lowestBidTextView.setText("5.00");
+        if (currentTask.getBidList().size() == 0) {
+            lowestBidTextView.setText("-");
+        } else {
+            lowestBidTextView.setText(currentTask.getLowestBid().toString());
+        }
+
 
         // Set correct colored bar color based on task status
         String taskStatus = currentTask.getStatus();
@@ -100,7 +104,7 @@ public class TaskAdapter extends BaseAdapter {
         //Add photo
         PhotoConverterHelper photoConverterHelper = new PhotoConverterHelper();
         Bitmap bitmap = null;
-        if(currentTask.getPhotos().size() == 0){
+        if (currentTask.getPhotos().size() == 0) {
             imgView.setImageResource(R.drawable.user_pic);
         } else {
             bitmap = photoConverterHelper.convertStringToBM(currentTask.getPhotos().get(0));

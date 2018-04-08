@@ -114,8 +114,8 @@ public class SearchActivity extends AppCompatActivity {
         showProgressBar(true);
         user = localDataHelper.loadUserFromFile();
         try {
-            //postTaskSearch(query);
-            getTasks();
+            postTaskSearch(query);
+//            getTasks();
         } catch (JSONException e) {
 
         }

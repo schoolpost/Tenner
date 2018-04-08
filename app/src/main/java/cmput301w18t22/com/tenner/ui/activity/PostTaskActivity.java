@@ -157,6 +157,9 @@ public class PostTaskActivity extends AppCompatActivity {
 
             User user = localDataHelper.loadUserFromFile();
             User currentUser = user;
+            if (taskLocation == null) {
+                taskLocation = new Location(0, 0, "");
+            }
             Task task = new Task(title, description, taskLocation, new Date(), currentUser);
             task.setPhotos(b64photos);
 
