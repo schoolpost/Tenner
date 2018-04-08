@@ -337,10 +337,10 @@ router.post('/getProvidingTasks', function(request, response){
 });
 
 ///???
-router.post('/deleteTask', function(request, response){
+router.get('/deleteTask', function(request, response){
     var user = request.body.user;
     var title = request.body.title;
-    
+    console.log(title + user);
     client.delete({
         index: 'tenner',
         type: 'tasks',
