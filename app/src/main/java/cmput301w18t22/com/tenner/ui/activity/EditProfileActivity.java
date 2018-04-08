@@ -104,10 +104,10 @@ public class EditProfileActivity extends AppCompatActivity {
         etPhone.setText(user.getPhoneNum());
 
 
-        if (user.getPhoto().equals("")) {
-            mImageView.setImageResource(R.drawable.user_pic);
-        } else {
+        if (user.hasPhoto()) {
             mImageView.setImageBitmap(new PhotoConverterHelper().convertStringToBM(user.getPhoto()));
+        } else {
+            mImageView.setImageResource(R.drawable.user_pic);
         }
 
     }

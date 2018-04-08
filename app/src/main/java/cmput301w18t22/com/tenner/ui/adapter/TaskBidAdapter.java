@@ -73,7 +73,7 @@ public class TaskBidAdapter extends BaseAdapter {
         TextView bidAmtTextView = (TextView) convertView.findViewById(R.id.bid_amt);
 
         // get Subscription information and display in textViews
-        if (currentBid.getOwner().getPhoto().equals("")) {
+        if (!currentBid.getOwner().hasPhoto()) {
             profilePic.setImageResource(R.drawable.user_pic);
         } else{
             profilePic.setImageBitmap(new PhotoConverterHelper().convertStringToBM(currentBid.getOwner().getPhoto()));

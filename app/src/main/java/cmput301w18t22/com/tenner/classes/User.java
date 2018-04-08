@@ -140,6 +140,12 @@ public class User {
     }
 
 
+    public boolean hasPhoto() {
+        if (this.photo == null) return false;
+        if (this.photo == "") return false;
+        return true;
+    }
+
     /**
      * @return ArrayList of tasks where this user is the requester
      * @see User#setRequestedTasks
