@@ -156,6 +156,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        if (mGoogleMap.getMyLocation() != null) {
+            CameraUpdate center =
+                    CameraUpdateFactory.newLatLng(new LatLng(mGoogleMap.getMyLocation().getLatitude(),
+                            mGoogleMap.getMyLocation().getLongitude()));
+            CameraUpdate zoom = CameraUpdateFactory.zoomTo(11);
+
+            mGoogleMap.moveCamera(center);
+            mGoogleMap.animateCamera(zoom);
+        }
+
         //https://developers.google.com/maps/documentation/android-api/location
         FloatingActionButton locationButton = (FloatingActionButton) findViewById(R.id.myLocationButton);
         if (getIntent().getStringExtra("maptype").equals("viewmap")) {
