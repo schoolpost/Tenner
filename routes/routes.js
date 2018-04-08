@@ -336,8 +336,8 @@ router.post('/getProvidingTasks', function(request, response){
 
 ///???
 router.post('/deleteTask', function(request, response){
-    var user = JSON.parse(request.body.user);
-    var title = JSON.parse(request.body.title);
+    var user = request.body.user;
+    var title = request.body.title;
     
     client.delete({
         index: 'tenner',
