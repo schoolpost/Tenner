@@ -61,6 +61,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private List<Address> addresses;
     protected GeoDataClient mGeoDataClient;
     protected PlaceDetectionClient mPlaceDetectionClient;
+    GoogleApiClient mGoogleApiClient;
 
     public String getAddress(Double lat, Double lng) throws Exception {
         addresses = geo.getFromLocation(lat, lng, 5);
