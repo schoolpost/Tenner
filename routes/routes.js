@@ -353,7 +353,7 @@ router.post('/getMapTasks', function(request, response){
                 if(typeof(data[dataObj]._source.latitude) != 'undefined' && typeof(data[dataObj]._source.longitude) != 'undefined'){
                     var dataLat = data[dataObj]._source.latitude;
                     var dataLong = data[dataObj]._source.longitude;
-                    
+                    console.log('yes1');
                     var dist = getDistanceFromLatLonInKm(lat, long, dataLat, dataLong);
                     if(dist < 5){
                         console.log('yes');
