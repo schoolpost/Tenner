@@ -35,7 +35,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(3);
         getSupportActionBar().setCustomView(R.layout.toolbar_home);
         pageTitle = (getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title));
-        pageTitle.setText("Requester Profile");
+        pageTitle.setText("User Profile");
 
         name = (TextView) findViewById(R.id.view_profile_name);
         email = (TextView) findViewById(R.id.view_profile_email);
@@ -49,7 +49,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         // Load Requester profile from task
         task = localDataHelper.getTaskFromFile();
         user = task.getRequester();
-        
+
         // Set the value to display
         name.setText(user.toProfileName()); // First + Last Name
         email.setText(user.getEmail());
