@@ -67,6 +67,7 @@ public class TaskListFragment extends Fragment {
     private int tab;
     private User user;
     private LocalDataHelper localDataHelper;
+    private InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -241,14 +242,13 @@ public class TaskListFragment extends Fragment {
                 taskList = localDataHelper.getRequestedTasks();
                 break;
             case 1:
-                url = "getAssignedTasks";
+                url = "getProvidingTasks";
                 taskList = localDataHelper.getProvidingTasks();
                 break;
             default:
                 url = "";
         }
 
-        InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
         if (internetStatusHelper.isConnected(getContext())) {
             try {
                 getTasks(url);
@@ -307,37 +307,51 @@ public class TaskListFragment extends Fragment {
 
     public void deleteTask(final int taskIndex) {
 
-        RequestParams params = new RequestParams();
-
-        try {
-            params.put("user", user.getEmail());
-            params.put("title", taskList.get(taskIndex).getTitle());
-        } catch (Exception e) {
-
-        }
-
-        ElasticServer.RestClient.post("deleteTask", params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-
-                    if (response.has("Success")) {
-                        taskList.remove(taskIndex);
-                        myAdapter.notifyDataSetChanged();
-                    }
-
-                    if (response.has("Error")) {
-                        Log.i("Error", "somthign bad happened");
-                    }
-
-
-                } catch (Exception e) {
-
-                }
+        if (!internetStatusHelper.isConnected(getContext())) {
+            taskList.remove(taskIndex);
+            myAdapter.notifyDataSetChanged();
+            switch (tab) {
+                case 0:
+                    localDataHelper.saveRequestedTasksToFile(taskList);
+                    break;
+                case 1:
+                    localDataHelper.saveProvidingTasksToFile(taskList);
+                    break;
             }
-        });
+        } else {
+
+            RequestParams params = new RequestParams();
+
+            try {
+                params.put("user", user.getEmail());
+                params.put("title", taskList.get(taskIndex).getTitle());
+            } catch (Exception e) {
+
+            }
+
+            ElasticServer.RestClient.post("deleteTask", params, new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                    super.onSuccess(statusCode, headers, response);
+                    try {
+
+                        if (response.has("Success")) {
+                            taskList.remove(taskIndex);
+                            myAdapter.notifyDataSetChanged();
+                        }
+
+                        if (response.has("Error")) {
+                            Log.i("Error", "somthign bad happened");
+                        }
+
+
+                    } catch (Exception e) {
+
+                    }
+                }
+            });
+        }
 
     }
 
