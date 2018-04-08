@@ -55,7 +55,9 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
-        if (user.getEmail().equals(task.getRequester().getEmail())) {
+        getSupportActionBar().setCustomView(R.layout.toolbar_task_detail);
+
+        if (user.getEmail().equals(task.getRequester().getEmail()) && task.getStatus().equals("requested")) {
             getSupportActionBar().setCustomView(R.layout.toolbar_task_edit);
             toolbarEdit = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit_task);
             toolbarEdit.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +72,6 @@ public class TaskDetailActivity extends AppCompatActivity {
             bid_button.setEnabled(false);
             bid_button.setVisibility(View.GONE);
 
-        } else {
-            getSupportActionBar().setCustomView(R.layout.toolbar_task_detail);
         }
 
 
