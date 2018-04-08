@@ -61,7 +61,8 @@
         <activity android:name=".ui.activity.SearchActivity" />
         <activity android:name=".ui.activity.BidHistoryActivity" />
         <activity android:name=".ui.activity.ViewProfileActivity" />
-        <activity android:name=".ui.activity.EditTaskActivity"></activity>
+        <activity android:name=".ui.activity.EditTaskActivity" />
+        <activity android:name=".ui.activity.SelectPhotoActivity"></activity>
     </application>
 
 </manifest>
