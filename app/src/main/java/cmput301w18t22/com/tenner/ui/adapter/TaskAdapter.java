@@ -2,6 +2,7 @@ package cmput301w18t22.com.tenner.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,7 @@ public class TaskAdapter extends BaseAdapter {
 
         // get Subscription information and display in textViews
         nameTextView.setText(currentTask.getTitle());
+        requesterNameTextView.setText(currentTask.getRequester().toDisplayName());
         if (currentTask.getBidList().size() == 0) {
             lowestBidTextView.setText("");
             dolla.setVisibility(View.GONE);
@@ -87,21 +89,20 @@ public class TaskAdapter extends BaseAdapter {
             lowestBidTextView.setText(currentTask.getLowestBid().toString());
         }
 
-
         // Set correct colored bar color based on task status
         String taskStatus = currentTask.getStatus();
         switch (taskStatus) {
             case "requested":
-                coloredBar.setBackgroundResource(R.color.yellow);
+                convertView.setBackgroundResource(R.drawable.task_adapter_requested);
                 break;
             case "bidded":
-                coloredBar.setBackgroundResource(R.color.orange);
+                convertView.setBackgroundResource(R.drawable.task_adapter_bidded);
                 break;
             case "assigned":
-                coloredBar.setBackgroundResource(R.color.green);
+                convertView.setBackgroundResource(R.drawable.task_adapter_assigned);
                 break;
             case "done":
-                coloredBar.setBackgroundResource(R.color.black);
+                convertView.setBackgroundResource(R.drawable.task_adapter_done);
                 break;
         }
 

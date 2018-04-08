@@ -60,7 +60,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         if(task.getBidList().size() == 0){
             lowest.setText("$0.00");
         }else{
-            lowest.setText("$0.00");
+            lowest.setText(task.getLowestBid().toString());
         }
 
         location.setText(task.getLocation().getAddress());
