@@ -190,6 +190,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 public void onPlaceSelected(Place place) {
                     // TODO: Get info about the selected place.
                     Log.i("Place", "Place: " + place.getName());
+
                 }
 
                 @Override
