@@ -201,7 +201,7 @@ public class TaskListFragment extends Fragment {
 
                 switch (index) {
                     case 0:
-                        deleteTask(index);
+                        deleteTask(position);
                         break;
                 }
                 return false;
