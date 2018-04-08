@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cmput301w18t22.com.tenner.R;
+import cmput301w18t22.com.tenner.classes.Bid;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
@@ -37,6 +38,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     private ImageView imageView;
     private User user;
     private TextView toolbarEdit;
+    private Bid bidToPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         user = localDataHelper.loadUserFromFile();
         intent = getIntent();
         PhotoConverterHelper photoConverterHelper = new PhotoConverterHelper();
+
+        Button bid_button = (Button) findViewById(R.id.bid_button);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setElevation(3);
@@ -62,6 +66,10 @@ public class TaskDetailActivity extends AppCompatActivity {
                     startActivity(editIntent);
                 }
             });
+
+            bid_button.setEnabled(false);
+            bid_button.setVisibility(View.GONE);
+
         } else {
             getSupportActionBar().setCustomView(R.layout.toolbar_task_detail);
         }
@@ -73,10 +81,17 @@ public class TaskDetailActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.desc);
         requester = (TextView) findViewById(R.id.task_owner);
         imageView = (ImageView) findViewById(R.id.imageView5);
-        Button bid_button = (Button) findViewById(R.id.bid_button);
 
 
         bid_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        lowest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent bidIntent = new Intent();
