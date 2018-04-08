@@ -349,14 +349,11 @@ router.post('/getMapTasks', function(request, response){
         
         for(var dataObj in data){
             if (data.hasOwnProperty(dataObj)) {
-                console.log('getting stuff')
                 if(typeof(data[dataObj]._source['location'].latitude) != 'undefined' && typeof(data[dataObj]._source['location'].longitude) != 'undefined'){
                     var dataLat = data[dataObj]._source['location'].latitude;
                     var dataLong = data[dataObj]._source['location'].longitude;
-                    console.log('yes1');
                     var dist = getDistanceFromLatLonInKm(lat, long, dataLat, dataLong);
                     if(dist < 5){
-                        console.log('yes');
                         mapPointsArray.push(data[dataObj]._source);
                     }
                 }
