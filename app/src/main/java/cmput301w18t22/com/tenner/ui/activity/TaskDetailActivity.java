@@ -4,7 +4,6 @@ package cmput301w18t22.com.tenner.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -50,14 +49,15 @@ public class TaskDetailActivity extends AppCompatActivity {
 
 
         TextView title = getSupportActionBar().getCustomView().findViewById(R.id.home_action_bar_title);
-        lowest = (TextView) findViewById(R.id.bid_text);
+        lowest = (TextView) findViewById(R.id.bid_amt);
         location = (TextView) findViewById(R.id.location);
         description = (TextView) findViewById(R.id.desc);
         requester = (TextView) findViewById(R.id.task_owner);
         imageView = (ImageView) findViewById(R.id.imageView5);
 
-        title.setText(task.getTitle());
-        lowest.setText("");
+        String taskTitle = task.getTitle().substring(0, 1).toUpperCase() + task.getTitle().substring(1);
+        title.setText(taskTitle);
+        lowest.setText("$9.99");
         location.setText(task.getLocation().getAddress());
         description.setText(task.getDescription());
         requester.setText(task.getRequester().toProfileName());

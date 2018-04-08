@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
@@ -8,91 +8,81 @@
     android:orientation="vertical"
     tools:context="cmput301w18t22.com.tenner.ui.activity.TaskDetailActivity">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/imageView5"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="250dp"
+        app:srcCompat="@drawable/user_pic"
+        android:scaleType="centerCrop"/>
 
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/user_pic" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/bid_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:text="$123.45"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
-            <TextView
-                android:id="@+id/t_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Title"
-                android:visibility="gone" />
+    <ImageView
+        android:id="@+id/location_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/location"
+        android:src="@drawable/ic_place_black_24dp"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/bid_text"
-                android:layout_width="26dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="$123.45" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@id/location_icon"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
 
-        <LinearLayout
-            android:layout_width="374dp"
-            android:layout_height="36dp"
-            android:orientation="horizontal">
+        android:maxLength="10"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:text="Edmonton"
+        android:scrollHorizontally="true"/>
 
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="13dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="edmonton" />
+    <Button
+        android:id="@+id/bid_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@id/bid_amt"
+        android:text="Bid" />
 
-            <Button
-                android:id="@+id/bid_button"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Bid" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/task_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="28dp"
+        android:textSize="18dp"
+        android:text="John Doe" />
 
-            <TextView
-                android:id="@+id/task_owner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Name" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/space"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/task_owner"
+        android:gravity="center_horizontal"
+        android:text="Really really long description used for testing wtheter or not the wrapping of the text qwill owkr or not idk what im doign rn lololo hi." />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/desc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Description" />
-        </LinearLayout>
-
-    </LinearLayout>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
