@@ -14,7 +14,7 @@ router.get('/', function(request, response){
 
 router.get('/ping', function(request, response){
     client.ping({
-      requestTimeout: 10000
+      requestTimeout: 25000
     }, function (error) {
         if (error) {
             //console.trace('Cluster is down!');
