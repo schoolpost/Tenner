@@ -52,8 +52,6 @@ import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
  */
 public class TaskListFragment extends Fragment {
 
-    //public static final String TAG = TaskListFragment.class.getSimpleName();
-
     public static final String EXTRA_TEXT = "extra_text";
     private static final int MOCK_LOAD_DATA_DELAYED_TIME = 500;
     private static Handler sHandler = new Handler(Looper.getMainLooper());
@@ -260,7 +258,7 @@ public class TaskListFragment extends Fragment {
 
 
     }
-
+    //TODO : We are so close to finish offline just need to fix this function
 //    public void sendOfflineTasks() {
 //        try {
 //            LocalDataHelper localDataHelper = new LocalDataHelper(getActivity());

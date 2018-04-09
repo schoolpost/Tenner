@@ -86,9 +86,6 @@ public class TaskBidsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // Get task from lisk view
-        //thisTask = ...
-
         bidList = thisTask.getBidList();
 
         adapter = new TaskBidAdapter(this, bidList);

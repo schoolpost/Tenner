@@ -51,7 +51,6 @@ public class BidHistoryActivity extends AppCompatActivity {
     private TaskBidAdapter myAdapter;
     private SwipeMenuListView displayList;
     private Task task;
-    //private User user;
     private LocalDataHelper localDataHelper;
 
     @Override
@@ -69,13 +68,8 @@ public class BidHistoryActivity extends AppCompatActivity {
         bidList = new ArrayList<Bid>();
         displayList = (SwipeMenuListView) findViewById(R.id.bidsList);
 
-        //if (savedInstanceState == null) {
-            loadData();
-        //} else {
-            bindData();
-       // }
-
-
+        loadData();
+        bindData();
     }
 
     private void loadData() {
@@ -137,14 +131,5 @@ public class BidHistoryActivity extends AppCompatActivity {
                 startActivity(profileViewIntent);
             }
         });
-
-        // Sample Data
-        //bidList.add(new Bid(new User("", "John", "Smith", "", ""), "2.75", new Date(), task));
-        //bidList.add(new Bid(new User("", "John", "Smith", "", ""), "3.75", new Date(), task));
-        //bidList.add(new Bid(new User("", "John", "Smith", "", ""), "4.75", new Date(), task));
-
     }
-
-
-
 }

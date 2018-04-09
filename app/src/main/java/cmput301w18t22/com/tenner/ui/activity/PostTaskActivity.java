@@ -228,7 +228,6 @@ public class PostTaskActivity extends AppCompatActivity {
 //            finish();
 //        }
 
-
         ElasticServer.RestClient.post("addTask", params, new JsonHttpResponseHandler() {
 
             @Override
@@ -347,5 +346,4 @@ public class PostTaskActivity extends AppCompatActivity {
             etLocation.setText(data.getStringExtra("location"));
         }
     }
-
 }

@@ -39,8 +39,6 @@ import cmput301w18t22.com.tenner.ui.adapter.OtherBidAdapter;
  */
 public class BidListFragment extends Fragment {
 
-    //public static final String TAG = TaskListFragment.class.getSimpleName();
-
     public static final String EXTRA_TEXT = "extra_text";
 
     private static final int MOCK_LOAD_DATA_DELAYED_TIME = 500;

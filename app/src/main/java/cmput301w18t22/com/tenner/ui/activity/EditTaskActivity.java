@@ -179,7 +179,6 @@ public class EditTaskActivity extends AppCompatActivity {
 
     }
 
-
     private void tryPost() {
         String title = String.valueOf(etTitle.getText()).trim();
         String description = String.valueOf(etDescription.getText()).trim();
@@ -248,8 +247,6 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     public void deleteTask() {
-
-
         RequestParams params = new RequestParams();
 
         try {
@@ -280,7 +277,6 @@ public class EditTaskActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void postTask(final Task task) throws JSONException {
 
@@ -417,7 +413,6 @@ public class EditTaskActivity extends AppCompatActivity {
             etLocation.setText(data.getStringExtra("location"));
         }
     }
-
 }
 
 

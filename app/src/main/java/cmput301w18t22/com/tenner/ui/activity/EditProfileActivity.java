@@ -50,9 +50,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     //Photo
     ImageView mImageView;
-    String mCurrentPhotoPath;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int GET_FROM_GALLERY = 3;
     String b64;
 
     @Override

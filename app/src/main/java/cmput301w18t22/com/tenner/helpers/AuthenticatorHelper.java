@@ -31,8 +31,4 @@ public class AuthenticatorHelper {
         String expression = "^[a-zA-Z\\s]+";
         return name.matches(expression);
     }
-
-    public boolean checkUserExists(String username) {
-        return Boolean.FALSE;
-    }
 }
