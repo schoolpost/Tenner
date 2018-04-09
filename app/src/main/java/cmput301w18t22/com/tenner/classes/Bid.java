@@ -11,7 +11,7 @@ import cmput301w18t22.com.tenner.helpers.StatusHelper;
  * the provider of the task if the bid is accepted.
  *
  * @author Team 22
- * @version 1.1
+ * @version 1.2
  * @see Bid
  */
 
@@ -101,10 +101,20 @@ public class Bid {
         this.task = task;
     }
 
+    /**
+     * Pass the status of the bid.
+     *
+     * @return this bid's status
+     */
     public String getStatus() {
         return this.status;
     }
 
+    /**
+     * Change the status of the bid.
+     *
+     * @param The new status for the bid.
+     */
     public void setStatus(String status) {
         StatusHelper statusHelper = new StatusHelper();
         String newStatus = statusHelper.getBidStatus(status);
