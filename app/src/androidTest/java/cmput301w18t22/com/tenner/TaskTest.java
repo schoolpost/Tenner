@@ -314,7 +314,7 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
     }
 
     private Bid createTestBid() {
-        Bid bid = new Bid(createTestUser(), "1.00", new Date(), createTestTask());
+        Bid bid = new Bid(createTestUser(), "1.00", new Date());
         return bid;
     }
 

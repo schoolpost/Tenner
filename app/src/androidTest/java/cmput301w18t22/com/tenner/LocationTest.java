@@ -8,6 +8,7 @@ import cmput301w18t22.com.tenner.classes.Location;
  * Created by Schoolpost on 2018-02-26.
  */
 
+// Do not need since Location consists of only getters and setters
 public class LocationTest extends ActivityInstrumentationTestCase2 {
 
     LocationTest() {

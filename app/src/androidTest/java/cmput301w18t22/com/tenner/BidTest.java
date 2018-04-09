@@ -55,7 +55,7 @@ public class BidTest extends ActivityInstrumentationTestCase2 {
 */
 
     public void testToString() {
-        Bid bid = new Bid(createTestUser(), "2.25", new Date(), createTestTask());
+        Bid bid = new Bid(createTestUser(), "2.25", new Date());
 
         assertEquals(bid.toString(), "2.25");
     }
