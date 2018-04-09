@@ -137,8 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFinish() {
                 super.onFinish();
-                login.setEnabled(true);
-                login.setClickable(true);
+
             }
 
             @Override
@@ -151,6 +150,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         User user = gson.fromJson(response.toString(), User.class);
                         localDataHelper.saveUserInFile(user);
                         login(user.getEmail());
+                        login.setEnabled(true);
+                        login.setClickable(true);
 
                     } else if (response.has("Error")) {
 
