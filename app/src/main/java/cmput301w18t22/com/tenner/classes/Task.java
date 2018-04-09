@@ -52,6 +52,8 @@ public class Task {
 
 
     /**
+     * Passes the task's ID.
+     *
      * @return this task's id
      * @see Task#setTaskID
      */
@@ -71,6 +73,8 @@ public class Task {
 
 
     /**
+     * Passes the task's status.
+     *
      * @return this task's current status
      * @see Task #setStatus
      */
@@ -94,6 +98,8 @@ public class Task {
 
 
     /**
+     * Passes the task's title.
+     *
      * @return this task's title
      * @see Task#setTitle
      */
@@ -113,6 +119,8 @@ public class Task {
 
 
     /**
+     * Passes the task's description.
+     *
      * @return this task's description
      * @see Task#setDescription
      */
@@ -132,6 +140,8 @@ public class Task {
 
 
     /**
+     * Passes a list of the bids made on the task. 
+     *
      * @return ArrayList of bids on this task
      * @see Task#setBidList
      * @see Task#addBid
@@ -204,6 +214,8 @@ public class Task {
 
 
     /**
+     * Passes all of the photos attached to the task.
+     *
      * @return ArrayList of photos for this task
      * @see Task@setPhotos
      * @see Task#addPhoto
@@ -215,7 +227,7 @@ public class Task {
 
     /**
      * Set the photos associated with this task. Each must be less than 65536 bytes.
-     * Might define a limit of 3 or 5 photos per task.
+     * There is a limit of 3 photos per task.
      *
      * @param photos ArrayList of photos to add.
      */
@@ -226,6 +238,7 @@ public class Task {
 
     /**
      * Add new photo to task. Must ensure it is less than 65535 bytes in size.
+     * Only avaliable if the task has less than three photos already attached to it. 
      *
      * @param photo Photo to be added to task
      */
@@ -235,6 +248,8 @@ public class Task {
 
 
     /**
+     * Passes the date the task was posted.
+     *
      * @return this task's requested date
      * @see Task#setRequestedDate
      */
@@ -254,6 +269,8 @@ public class Task {
 
 
     /**
+     * Passes the status of the "hasNewBids" flag on the task.
+     *
      * @return Boolean representing whether task has new bids
      * @see Task#setHasNewBids
      */
@@ -284,6 +301,8 @@ public class Task {
 
 
     /**
+     * Passes the user that posted the task. 
+     *
      * @return this task's requester
      * @see Task#setRequester
      */
@@ -304,6 +323,8 @@ public class Task {
 
 
     /**
+     * Passes the user selected to perform the task, if one has been chosen.
+     *
      * @return this task's provider, if one exists
      * @see Task#setProvider
      */
