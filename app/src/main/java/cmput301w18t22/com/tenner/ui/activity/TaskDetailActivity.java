@@ -184,6 +184,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int which) {
                 String bid_amt = input.getText().toString();
                 newBidAmt = bid_amt;
+                dialogInterface.cancel();
                 Log.i("bid is", bid_amt);
                 if (newBidAmt != null) {
                     if (!newBidAmt.equals("")){
@@ -191,25 +192,34 @@ public class TaskDetailActivity extends AppCompatActivity {
                         ArrayList<Bid> taskBidList = task.getBidList();
                         boolean userHasExistingBid = false;
 
-                        for (int i = 0; i < task.getBidList().size(); i++) {
-                            if (taskBidList.get(i).getOwner().getEmail().equals(user.getEmail())) {
-                                taskBidList.set(i, newBid);
-                                userHasExistingBid = true;
-                                break;
+                        if (task.getBidList().size() > 0) {
+
+                            for (int i = 0; i < task.getBidList().size(); i++) {
+
+                                Log.i("testing", String.valueOf(i));
+                                if (taskBidList.get(i).getOwner().getEmail().equals(user.getEmail())) {
+                                    taskBidList.set(i, newBid);
+                                    userHasExistingBid = true;
+                                    break;
+                                }
                             }
                         }
                         if (!userHasExistingBid) {
                             taskBidList.add(newBid);
                         }
                         task.setBidList(taskBidList);
+                        task.setStatus("Bidded");
                     }
                 }
+
+                Log.i("testing", "before post task");
                 try {
                     postTask(task);
                 } catch (Exception e) {
                     Log.i("Bid Error", e.getMessage());
                 }
-                dialogInterface.cancel();
+
+                Log.i("testing", "after post task");
             }
         });
 
