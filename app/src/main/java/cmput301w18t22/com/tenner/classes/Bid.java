@@ -15,7 +15,6 @@ import cmput301w18t22.com.tenner.helpers.StatusHelper;
  * @see Bid
  */
 
-
 public class Bid {
 
     private User owner;
@@ -26,15 +25,13 @@ public class Bid {
 
     public Bid(User owner, String amount, Date date, Task task) {
         this.owner = owner;
-        // Convert input string to Big Decimal
         this.value = new BigDecimal(amount);
         this.value.setScale(2);
         this.date = date;
         this.task = task;
         this.status = status;
     }
-
-
+    
     /**
      * @return this bid's owner
      * @see Bid#setOwner
@@ -42,7 +39,6 @@ public class Bid {
     public User getOwner() {
         return owner;
     }
-
 
     /**
      * Set the owner of this bid
@@ -53,7 +49,6 @@ public class Bid {
         this.owner = owner;
     }
 
-
     /**
      * @return this bid's value (BigDecimal)
      * @see Bid#setValue
@@ -61,7 +56,6 @@ public class Bid {
     public BigDecimal getValue() {
         return value;
     }
-
 
     /**
      * Set the value of this bid, must be greater than $0. Should never be called, since a user
@@ -73,7 +67,6 @@ public class Bid {
         this.value = value;
     }
 
-
     /**
      * @return this bid's date
      * @see Bid#setDate
@@ -81,7 +74,6 @@ public class Bid {
     public Date getDate() {
         return date;
     }
-
 
     /**
      * Set the date this bid was created.
@@ -92,7 +84,6 @@ public class Bid {
         this.date = date;
     }
 
-
     /**
      * @return this bid's task
      * @see Bid#setTask
@@ -100,7 +91,6 @@ public class Bid {
     public Task getTask() {
         return this.task;
     }
-
 
     /**
      * Set the task that this bid was placed on.
@@ -111,7 +101,6 @@ public class Bid {
         this.task = task;
     }
 
-
     public String getStatus() {
         return this.status;
     }
@@ -121,7 +110,6 @@ public class Bid {
         String newStatus = statusHelper.getBidStatus(status);
         this.status = newStatus;
     }
-
 
     /**
      * Returns the value of this bid as a string following a dollar sign. For use with bid adapters.
