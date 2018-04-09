@@ -54,12 +54,12 @@ public class FirebaseMessagingServiceHelper extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "ID")
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("New Bid!")
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+            .setSmallIcon(R.drawable.ic_launcher_background)
+            .setContentTitle("New Bid!")
+            .setContentText(messageBody)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
+            .setContentIntent(pendingIntent);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
