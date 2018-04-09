@@ -222,7 +222,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
                     }
 
-                    ElasticServer.RestClient.post("editTask", params, new JsonHttpResponseHandler() {
+                    ElasticServer.RestClient.post("editTaskBid", params, new JsonHttpResponseHandler() {
 
                         @Override
                         public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
