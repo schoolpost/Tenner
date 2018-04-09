@@ -1,15 +1,33 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Bid;
@@ -18,6 +36,7 @@ import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.ConstantsHelper;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
+import cmput301w18t22.com.tenner.server.ElasticServer;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -39,6 +58,9 @@ public class TaskDetailActivity extends AppCompatActivity {
     private User user;
     private TextView toolbarEdit;
     private Bid bidToPlace;
+
+    protected String newBidAmt = null;
+    boolean alert_done = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +108,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         bid_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                makeBid();
             }
         });
 
@@ -132,6 +154,68 @@ public class TaskDetailActivity extends AppCompatActivity {
     }
 
 
+    private void makeBid() {
+        alert_done = false;
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(TaskDetailActivity.this, R.style.myDialog));
+        alertBuilder.setTitle("New Bid");
+        alertBuilder.setMessage("Enter bid amount:");
+
+        final EditText input = new EditText(TaskDetailActivity.this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        alertBuilder.setView(input);
+
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alert_done = true;
+                newBidAmt = null;
+                dialogInterface.cancel();
+            }
+        });
+
+        alertBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                alert_done = true;
+                String bid_amt = input.getText().toString();
+                newBidAmt = bid_amt;
+                Log.i("bid is", bid_amt);
+                dialogInterface.cancel();
+
+            }
+        });
+
+        while(!alert_done) {
+            Log.i("alert", "looping");
+            alertBuilder.show();
+        }
+
+        if (newBidAmt != null) {
+            Bid newBid = new Bid(user, newBidAmt, new Date(), task);
+            ArrayList<Bid> taskBidList = task.getBidList();
+            boolean userHasExistingBid = false;
+
+            for (int i = 0; i < task.getBidList().size(); i++) {
+                if (taskBidList.get(i).getOwner().getEmail().equals(user.getEmail())) {
+                    taskBidList.set(i, newBid);
+                    userHasExistingBid = true;
+                    break;
+                }
+            }
+            if (!userHasExistingBid) {
+                taskBidList.add(newBid);
+            }
+            task.setBidList(taskBidList);
+        }
+        try {
+            postTask(task);
+        } catch (Exception e) {
+            Log.i("Bid Error", e.getMessage());
+        }
+
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -142,5 +226,42 @@ public class TaskDetailActivity extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    public void postTask(final Task task) throws JSONException {
+
+        RequestParams params = new RequestParams();
+        //https://github.com/google/gson
+        Gson gson = new Gson();
+        String json = gson.toJson(task);
+
+        try {
+            params.put("task", json);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("editTask", params, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.has("Success")) {
+
+                        localDataHelper.saveTaskToFile(task);
+                        finish();
+
+                    } else if (response.has("Error")) {
+
+                        Toast toast = Toast.makeText(getApplicationContext(), response.get("Error").toString(), Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+                        toast.show();
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 }
