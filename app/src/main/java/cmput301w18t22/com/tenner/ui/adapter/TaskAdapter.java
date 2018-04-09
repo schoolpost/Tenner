@@ -110,7 +110,7 @@ public class TaskAdapter extends BaseAdapter {
         PhotoConverterHelper photoConverterHelper = new PhotoConverterHelper();
         Bitmap bitmap = null;
         if (currentTask.getPhotos().size() == 0) {
-            imgView.setImageResource(R.drawable.user_pic);
+            imgView.setImageResource(R.drawable.task);
         } else {
             bitmap = photoConverterHelper.convertStringToBM(currentTask.getPhotos().get(0));
             imgView.setImageBitmap(bitmap);

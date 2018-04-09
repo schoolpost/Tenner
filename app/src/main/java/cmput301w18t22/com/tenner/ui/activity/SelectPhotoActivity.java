@@ -1,6 +1,7 @@
 package cmput301w18t22.com.tenner.ui.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -110,24 +111,23 @@ public class SelectPhotoActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Log.i("FILENAME", mCurrentPhotoPath);
             Intent intent = new Intent();
             intent.putExtra("FILENAME",mCurrentPhotoPath);
             setResult(999, intent);
             finish();
         } else if(requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
-           /* Uri selectedImage = data.getData();
-            Bitmap bitmap = null;
+            Uri selectedImage = data.getData();
 
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-               mImageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }*/
+            // Get Real path from URI
+            String[] filePathColumn = {MediaStore.MediaColumns.DATA};
+
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            mCurrentPhotoPath = cursor.getString(columnIndex);
+            cursor.close();
 
             Intent intent = new Intent();
             intent.putExtra("FILENAME",mCurrentPhotoPath);
