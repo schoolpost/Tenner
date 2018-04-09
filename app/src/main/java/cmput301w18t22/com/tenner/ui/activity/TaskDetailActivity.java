@@ -141,7 +141,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             lowest.setText(task.getLowestBid().toString());
         }
 
-        location.setText(task.getLocation().getAddress());
+        location.setText(task.getLocation().getAddress().substring(0, 10) + "...");
         description.setText(task.getDescription());
         requester.setText(task.getRequester().toProfileName());
 
@@ -187,7 +187,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                 dialogInterface.cancel();
                 Log.i("bid is", bid_amt);
                 if (newBidAmt != null) {
-                    if (!newBidAmt.equals("")){
+                    if (!newBidAmt.equals("")) {
                         Bid newBid = new Bid(user, newBidAmt, new Date());
                         ArrayList<Bid> taskBidList = task.getBidList();
                         boolean userHasExistingBid = false;

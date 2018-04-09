@@ -45,10 +45,6 @@
         android:textSize="16dp"
         app:layout_constraintStart_toEndOf="@id/location_icon"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
-
-        android:maxLength="10"
-        android:ellipsize="end"
-        android:maxEms="10"
         android:text="Edmonton"
         android:scrollHorizontally="true"/>
 
