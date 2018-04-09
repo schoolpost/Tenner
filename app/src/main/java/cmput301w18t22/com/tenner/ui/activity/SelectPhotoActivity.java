@@ -118,18 +118,17 @@ public class SelectPhotoActivity extends AppCompatActivity {
             finish();
         } else if(requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
-            mCurrentPhotoPath = selectedImage.getPath();
 
-            /*// Cursor Method
+            // Get Real path from URI
             String[] filePathColumn = {MediaStore.MediaColumns.DATA};
 
-            Cursor cursor = contentResolver.query(selectedVideoUri, filePathColumn, null, null, null);
-            Cursor.moveToFirst();
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            filePath = cursor.getString(columnIndex);
+            mCurrentPhotoPath = cursor.getString(columnIndex);
             cursor.close();
-            */
+
             Intent intent = new Intent();
             intent.putExtra("FILENAME",mCurrentPhotoPath);
             Log.i("Path", mCurrentPhotoPath);
