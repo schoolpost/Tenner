@@ -140,8 +140,11 @@ public class TaskDetailActivity extends AppCompatActivity {
         } else {
             lowest.setText(task.getLowestBid().toString());
         }
-
-        location.setText(task.getLocation().getAddress().substring(0, 10) + "...");
+        if (!task.getLocation().getAddress().equals("")){
+            location.setText(task.getLocation().getAddress().substring(0, 10) + "...");
+        } else {
+            location.setText("");
+        }
         description.setText(task.getDescription());
         requester.setText(task.getRequester().toProfileName());
 
