@@ -230,6 +230,8 @@ public class TaskListFragment extends Fragment {
      */
     private void loadData() {
         // Server Call
+        Log.i("lol2", "lol3");
+//        sendOfflineTasks();
         showProgressBar(true);
         user = localDataHelper.loadUserFromFile();
         String url;
@@ -258,6 +260,24 @@ public class TaskListFragment extends Fragment {
 
 
     }
+
+//    public void sendOfflineTasks() {
+//        try {
+//            LocalDataHelper localDataHelper = new LocalDataHelper(getActivity());
+//            ArrayList<Task> offlineTasks = localDataHelper.getOfflineTasks();
+//            Log.i("upload3", "lol");
+//            for(int i = 0; i < offlineTasks.size(); i++){
+//                Log.i("upload", "lol");
+//                int val = 0;
+//                if(i == offlineTasks.size() - 1){
+//                    val = 1;
+//                }
+//                postTask(offlineTasks.get(i), val);
+//            }
+//        } catch (Exception e) {
+//            Log.i("upload", e.getMessage());
+//        }
+//    }
 
     public void getTasks(final String url) throws JSONException {
 
@@ -350,6 +370,37 @@ public class TaskListFragment extends Fragment {
             });
         }
 
+    }
+
+    public void postTask(final Task task, final int i) {
+        RequestParams params = new RequestParams();
+        //https://github.com/google/gson
+        Gson gson = new Gson();
+        String json = gson.toJson(task);
+
+        try {
+            params.put("task", json);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("editTask", params, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.has("Success")) {
+                        if(i != 0){
+                            //localDataHelper.deleteOfflineTasks();
+                        }
+                    } else if (response.has("Error")) {
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        });
     }
 
     private static class WeakRunnable implements Runnable {

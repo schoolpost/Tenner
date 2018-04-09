@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         super.onStart();
         if (!cached) {
             loadTasksLocal();
-            sendOfflineTasks();
         }
     }
 
@@ -97,21 +96,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             cached = true;
         } catch (Exception e) {
 
-        }
-    }
-
-    public void sendOfflineTasks() {
-        try {
-            ArrayList<Task> offlineTasks = localDataHelper.getOfflineTasks();
-            for(int i = 0; i < offlineTasks.size(); i++){
-                int val = 0;
-                if(i == offlineTasks.size() - 1){
-                    val = 1;
-                }
-                postTask(offlineTasks.get(i), val);
-            }
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
         }
     }
 
@@ -296,37 +280,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
                 }
 
-            }
-        });
-    }
-
-    public void postTask(final Task task, final int i) {
-        RequestParams params = new RequestParams();
-        //https://github.com/google/gson
-        Gson gson = new Gson();
-        String json = gson.toJson(task);
-
-        try {
-            params.put("task", json);
-        } catch (Exception e) {
-
-        }
-
-        ElasticServer.RestClient.post("editTask", params, new JsonHttpResponseHandler() {
-
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-                    if (response.has("Success")) {
-                        if(i != 0){
-                            localDataHelper.deleteOfflineTasks();
-                        }
-                    } else if (response.has("Error")) {
-                    }
-                } catch (Exception e) {
-
-                }
             }
         });
     }

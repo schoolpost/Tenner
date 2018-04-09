@@ -208,13 +208,13 @@ public class LocalDataHelper {
 
             Gson gson = new Gson();
 
-            Type fileType = new TypeToken<ArrayList<cmput301w18t22.com.tenner.classes.Task>>(){}.getType();
-            ArrayList<cmput301w18t22.com.tenner.classes.Task> tasks = gson.fromJson(in, fileType);
+            Type fileType = new TypeToken<ArrayList<Task>>(){}.getType();
+            ArrayList<Task> tasks = gson.fromJson(in, fileType);
             return tasks;
 
         } catch (FileNotFoundException e) {
             Log.i("Error", e.getMessage());
-            return new ArrayList<cmput301w18t22.com.tenner.classes.Task>();
+            return new ArrayList<Task>();
         } catch (IOException e) {
             throw new RuntimeException();
         } catch (Exception e) {
@@ -245,7 +245,6 @@ public class LocalDataHelper {
             FileOutputStream fos = activity.openFileOutput(ConstantsHelper.OFFLINEFILE,
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
-
 
             Gson gson = new Gson();
             gson.toJson(new ArrayList<Task>(), out);

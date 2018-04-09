@@ -222,6 +222,13 @@ public class PostTaskActivity extends AppCompatActivity {
 
         }
 
+//        InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
+//        if (!internetStatusHelper.isConnected(getApplicationContext())) {
+//            localDataHelper.saveTaskToOfflineFile(task);
+//            finish();
+//        }
+
+
         ElasticServer.RestClient.post("addTask", params, new JsonHttpResponseHandler() {
 
             @Override
@@ -231,10 +238,7 @@ public class PostTaskActivity extends AppCompatActivity {
                 if (response.has("Success")) {
 
                     localDataHelper.saveTaskToFile(task);
-                    InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
-                    if (!internetStatusHelper.isConnected(getApplicationContext())) {
-                        localDataHelper.saveTaskToOfflineFile(task);
-                    }
+
                     Intent intent = new Intent();
                     intent.setClass(PostTaskActivity.this, TaskDetailActivity.class);
                     startActivity(intent);

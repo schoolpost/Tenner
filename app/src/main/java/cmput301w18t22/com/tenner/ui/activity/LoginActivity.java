@@ -52,9 +52,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signup = (TextView) findViewById(R.id.sign_up_prompt);
         login.setOnClickListener(this);
         signup.setOnClickListener(this);
-
-        FirebaseApp.initializeApp(this);
-        FirebaseMessaging.getInstance().subscribeToTopic("bids");
     }
 
     @Override

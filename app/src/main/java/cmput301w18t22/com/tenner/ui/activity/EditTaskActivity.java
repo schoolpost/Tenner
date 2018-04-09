@@ -295,6 +295,13 @@ public class EditTaskActivity extends AppCompatActivity {
 
         }
 
+//        InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
+//        if (!internetStatusHelper.isConnected(getApplicationContext())) {
+//            Log.i("happen", "lol2");
+//            localDataHelper.saveTaskToOfflineFile(task);
+//            finish();
+//        }
+
         ElasticServer.RestClient.post("editTask", params, new JsonHttpResponseHandler() {
 
             @Override
@@ -304,10 +311,6 @@ public class EditTaskActivity extends AppCompatActivity {
                     if (response.has("Success")) {
 
                         localDataHelper.saveTaskToFile(task);
-                        InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
-                        if (!internetStatusHelper.isConnected(getApplicationContext())) {
-                            localDataHelper.saveTaskToOfflineFile(task);
-                        }
                         finish();
 
                     } else if (response.has("Error")) {

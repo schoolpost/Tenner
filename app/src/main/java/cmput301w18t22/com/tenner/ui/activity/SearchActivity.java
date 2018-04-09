@@ -23,6 +23,8 @@ import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -82,8 +84,13 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             bindData();
         }
+    }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseApp.initializeApp(this);
+        FirebaseMessaging.getInstance().subscribeToTopic("bids");
     }
 
     private void showPopup(View v) {

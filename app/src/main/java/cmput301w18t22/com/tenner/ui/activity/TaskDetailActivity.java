@@ -154,7 +154,6 @@ public class TaskDetailActivity extends AppCompatActivity {
 
     }
 
-
     private void makeBid() {
         //https://stackoverflow.com/questions/10903754/input-text-dialog-android?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         AlertDialog.Builder alertBuilder;
