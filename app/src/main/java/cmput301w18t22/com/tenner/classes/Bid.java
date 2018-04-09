@@ -31,7 +31,7 @@ public class Bid {
         this.task = task;
         this.status = status;
     }
-    
+
     /**
      * @return this bid's owner
      * @see Bid#setOwner
