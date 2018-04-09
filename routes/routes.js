@@ -274,7 +274,41 @@ router.post('/editTask', function(request, response){
     var date = new Date(task.requestedDate);
     
     if(typeof(task.requester) != 'undefined'){
-        notify(task.title, task.requester.email, task.bidList.length);
+        client.index({
+            index: 'tenner',
+            type : 'tasks',
+            id : task.title + task.requester.email,
+            body : {
+                status: task['status'], 
+                title : task.title,
+                description : task['description'],
+                bidList : task.bidList,
+                location : task['location'],
+                photos : task.photos,
+                requestedDate : date,
+                hasNewBids : task.hasNewBids,
+                requester : task.requester
+            }
+        }, function (err, response2) {
+            if(err){
+                console.log(err.message);
+                return response.send({'Error' : 'At /addTask' + err.message});
+            } else {
+                return response.send({'Success' : 'At /addTask Task Added!'});
+            }
+        });
+    } else {
+        return response.send({'Error' : 'At /addTask No Requester!'});
+    }
+});
+
+router.post('/editTaskBid', function(request, response){
+    var task = JSON.parse(request.body.task);
+    
+    var date = new Date(task.requestedDate);
+    
+    if(typeof(task.requester) != 'undefined'){
+        notify(task.title);
         client.index({
             index: 'tenner',
             type : 'tasks',
@@ -429,44 +463,26 @@ router.post('/deleteTask', function(request, response){
     });
 });
 
-function notify(title, email, bidListLen){
-    client.search({
-      index: 'tenner',
-      type: 'tasks',
-      id: title + email
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        if(data.length != 0){
-            for(var dataObj in data){
-                if (data.hasOwnProperty(dataObj)) {
-                    if(title == data[dataObj]._source.title){
-                        if(data[dataObj]._source.bidList.length != bidListLen){
-                            
-                            // The topic name can be optionally prefixed with "/topics/".
-                            var topic = 'bids';
-                        
-                            var message = {
-                                data : {
-                                    body : title + 'has a new bid!'
-                                },
-                                topic: topic
-                            };
-                            
-                            // Send a message to devices subscribed to the provided topic.
-                            admin.messaging().send(message)
-                              .then((response) => {
-                                // Response is a message ID string.
-                                console.log('Successfully sent message:', response);
-                              })
-                              .catch((error) => {
-                                console.log('Error sending message:', error);
-                              });
-                        }
-                    }
-                }
-            }
-        }
-    });
+function notify(title){
+    // The topic name can be optionally prefixed with "/topics/".
+    var topic = 'bids';
+
+    var message = {
+        data : {
+            body : title + 'has a new bid!'
+        },
+        topic: topic
+    };
+    
+    // Send a message to devices subscribed to the provided topic.
+    admin.messaging().send(message)
+      .then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+      })
+      .catch((error) => {
+        console.log('Error sending message:', error);
+      });
 }
 
 //Bids-------------------------------------------------------------->
