@@ -10,8 +10,6 @@ import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 
-import static cmput301w18t22.com.tenner.classes.Status.bidStatus.assigned;
-
 /**
  * Created by Schoolpost on 2018-02-26.
  */
@@ -267,7 +265,7 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
         testTask.removeBid(bid2);
 
         assertEquals(testTask.getBidList().size(), 1);
-        assertEquals(testTask.getBidList().get(0).toString(), "$ 1.75");
+        assertEquals(testTask.getBidList().get(0).toString(), "1.75");
 
         testTask.removeBid(bid1);
 
@@ -305,7 +303,7 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
 
 
     private User createTestUser(){
-        User testUser = new User("email@example.com", "First", "Last", "780-123-4567");
+        User testUser = new User("email@example.com", "First", "Last", "780-123-4567", "photo");
         return testUser;
     }
 
@@ -316,7 +314,7 @@ public class TaskTest extends ActivityInstrumentationTestCase2 {
     }
 
     private Bid createTestBid() {
-        Bid bid = new Bid(createTestUser(), "1.00", new Date(), createTestTask(), assigned);
+        Bid bid = new Bid(createTestUser(), "1.00", new Date(), createTestTask());
         return bid;
     }
 
