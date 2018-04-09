@@ -4,6 +4,7 @@ package cmput301w18t22.com.tenner.ui.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -155,20 +156,24 @@ public class TaskDetailActivity extends AppCompatActivity {
 
 
     private void makeBid() {
-        alert_done = false;
 
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(TaskDetailActivity.this, R.style.myDialog));
+        AlertDialog.Builder alertBuilder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            alertBuilder = new AlertDialog.Builder(this);
+        } else {
+            alertBuilder = new AlertDialog.Builder(this);
+        }
+
         alertBuilder.setTitle("New Bid");
         alertBuilder.setMessage("Enter bid amount:");
 
-        final EditText input = new EditText(TaskDetailActivity.this);
+        final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         alertBuilder.setView(input);
 
         alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                alert_done = true;
+            public void onClick(DialogInterface dialogInterface, int which) {
                 newBidAmt = null;
                 dialogInterface.cancel();
             }
@@ -176,43 +181,40 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         alertBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                alert_done = true;
+            public void onClick(DialogInterface dialogInterface, int which) {
                 String bid_amt = input.getText().toString();
                 newBidAmt = bid_amt;
                 Log.i("bid is", bid_amt);
-                dialogInterface.cancel();
+                if (newBidAmt != null) {
+                    if (!newBidAmt.equals("")){
+                        Bid newBid = new Bid(user, newBidAmt, new Date(), task);
+                        ArrayList<Bid> taskBidList = task.getBidList();
+                        boolean userHasExistingBid = false;
 
+                        for (int i = 0; i < task.getBidList().size(); i++) {
+                            if (taskBidList.get(i).getOwner().getEmail().equals(user.getEmail())) {
+                                taskBidList.set(i, newBid);
+                                userHasExistingBid = true;
+                                break;
+                            }
+                        }
+                        if (!userHasExistingBid) {
+                            taskBidList.add(newBid);
+                        }
+                        task.setBidList(taskBidList);
+                    }
+                }
+                try {
+                    postTask(task);
+                } catch (Exception e) {
+                    Log.i("Bid Error", e.getMessage());
+                }
+                dialogInterface.cancel();
             }
         });
 
-        while(!alert_done) {
-            Log.i("alert", "looping");
-            alertBuilder.show();
-        }
+        alertBuilder.show();
 
-        if (newBidAmt != null) {
-            Bid newBid = new Bid(user, newBidAmt, new Date(), task);
-            ArrayList<Bid> taskBidList = task.getBidList();
-            boolean userHasExistingBid = false;
-
-            for (int i = 0; i < task.getBidList().size(); i++) {
-                if (taskBidList.get(i).getOwner().getEmail().equals(user.getEmail())) {
-                    taskBidList.set(i, newBid);
-                    userHasExistingBid = true;
-                    break;
-                }
-            }
-            if (!userHasExistingBid) {
-                taskBidList.add(newBid);
-            }
-            task.setBidList(taskBidList);
-        }
-        try {
-            postTask(task);
-        } catch (Exception e) {
-            Log.i("Bid Error", e.getMessage());
-        }
 
     }
 
@@ -250,7 +252,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                     if (response.has("Success")) {
 
                         localDataHelper.saveTaskToFile(task);
-                        finish();
 
                     } else if (response.has("Error")) {
 
