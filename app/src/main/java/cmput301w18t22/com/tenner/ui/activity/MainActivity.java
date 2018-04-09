@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     }
 
     private void profileToolbarActions() {
-        TextView logout = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_logout);
+        Button logout = (Button) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             }
         });
 
-        TextView edit = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit);
+        Button edit = (Button) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
