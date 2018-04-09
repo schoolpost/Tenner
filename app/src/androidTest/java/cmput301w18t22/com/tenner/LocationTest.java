@@ -14,9 +14,9 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
         super(Location.class);
     }
 
-/*
+
     public void testGetLatitude() {
-        Location loc = new Location();
+        Location loc = new Location(0.0f, 0.0f, "123 Main St");;
         float lat = 9.92384f;
         loc.setLatitude(lat);
 
@@ -25,7 +25,7 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testSetLatitude() {
-        Location loc = new Location();
+        Location loc = new Location(0.0f, 0.0f, "123 Main St");;
         float lat = 9.92384f;
         loc.setLatitude(lat);
 
@@ -34,7 +34,7 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testGetLongitude() {
-        Location loc = new Location();
+        Location loc = new Location(0.0f, 0.0f, "123 Main St");;
         float lon = 2.92384f;
         loc.setLongitude(lon);
 
@@ -43,7 +43,7 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testSetLongitude() {
-        Location loc = new Location();
+        Location loc = new Location(0.0f, 0.0f, "123 Main St");;
         float lon = 2.92384f;
         loc.setLongitude(lon);
 
@@ -52,7 +52,7 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testGetAddress() {
-        Location loc = new Location();
+        Location loc = new Location(0.0f, 0.0f, "1245 oak st");;
         String addy = "1245 oak st";
         loc.setAddress(addy);
 
@@ -62,13 +62,13 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testSetAddress() {
-        Location loc = new Location();
+        Location loc = new Location(0.0f, 0.0f, "1245 oak st");;
         String addy = "1245 oak st";
         loc.setAddress(addy);
 
         assertEquals(addy, loc.getAddress());
     }
-*/
+
 
 
 }
