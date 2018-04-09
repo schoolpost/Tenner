@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * the user's requested tasks, provided tasks, and bids.
  *
  * @author Team 22
- * @version 1.1
+ * @version 1.2
  */
 public class User {
 
@@ -51,6 +51,8 @@ public class User {
     }
 
     /**
+     * Passes the user's email. 
+     *
      * @return this user's email
      * @see User#setEmail
      */
@@ -71,6 +73,8 @@ public class User {
 
 
     /**
+     * Passes the user's first name.
+     *
      * @return this user's first name
      * @see User#setFirstName
      */
@@ -90,6 +94,8 @@ public class User {
 
 
     /**
+     * Passes the user's last name.
+     *
      * @return this user's last name
      * @see User#setLastName
      */
@@ -109,6 +115,8 @@ public class User {
 
 
     /**
+     * Passes the user's phone number. 
+     *
      * @return this user's phone number
      * @see User#setPhoneNum
      */
@@ -116,12 +124,19 @@ public class User {
         return phoneNum;
     }
 
+    /**
+     * Changes the user's phone number to a different 10 character string of numbers.
+     *
+     * @param 10 character string of numbers.
+     */
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
 
 
     /**
+     * Passes the user's profile photo.
+     *
      * @return this user's photo
      * @see User#setPhoto
      */
@@ -139,7 +154,12 @@ public class User {
         this.photo = photo;
     }
 
-
+    /**
+     * Checks to see if the user has a profile photo set already.
+     *
+     * @return false if the user doesn't have a profile phot, true otherwise. 
+     * @see Photo
+     */
     public boolean hasPhoto() {
         if (this.photo == null) return false;
         if (this.photo == "") return false;
@@ -147,6 +167,8 @@ public class User {
     }
 
     /**
+     * Passes the list of all tasks the user has posted. 
+     *
      * @return ArrayList of tasks where this user is the requester
      * @see User#setRequestedTasks
      * @see User#addRequestedTask
@@ -178,6 +200,8 @@ public class User {
 
 
     /**
+     * Passes the list of all tasks the user has been chosen to perform. 
+     *
      * @return ArrayList of tasks where this user is the provider
      * @see User#setProvidedTasks
      * @see User#addProvidedTask
@@ -209,6 +233,8 @@ public class User {
 
 
     /**
+     * Passes the list of all the current bids the user has made. 
+     *
      * @return ArrayList of bids this user has made on all tasks
      * @see User#setBids
      * @see User#addBid
@@ -251,6 +277,12 @@ public class User {
         return displayName;
     }
 
+    /**
+     * Organizes the user's phone number into the standard format.
+     * (ex. (780)-444-3333 )
+     *
+     * @return reformated version of the user's phone number
+     */
     public String toDisplayPhone() {
         String areaCode = this.phoneNum.substring(0, 3);
         String phone1 = this.phoneNum.substring(3, 6);
@@ -259,6 +291,11 @@ public class User {
         return displayPhone;
     }
 
+    /**
+     * Organizes the user's first and last name into their full name.
+     *
+     * @return string of the user's first name, plus a space, plus string of the user's last name
+     */
     public String toProfileName() {
         String firstName = this.firstName.substring(0, 1).toUpperCase() + this.firstName.substring(1);
         String lastName = this.lastName.substring(0, 1).toUpperCase() + this.lastName.substring(1);
