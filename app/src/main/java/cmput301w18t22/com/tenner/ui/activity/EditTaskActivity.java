@@ -41,6 +41,7 @@ import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.helpers.InternetStatusHelper;
 import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.helpers.TaskCheckerHelper;
@@ -303,6 +304,10 @@ public class EditTaskActivity extends AppCompatActivity {
                     if (response.has("Success")) {
 
                         localDataHelper.saveTaskToFile(task);
+                        InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
+                        if (!internetStatusHelper.isConnected(getApplicationContext())) {
+                            localDataHelper.saveTaskToOfflineFile(task);
+                        }
                         finish();
 
                     } else if (response.has("Error")) {

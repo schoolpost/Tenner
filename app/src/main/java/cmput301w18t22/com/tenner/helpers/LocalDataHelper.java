@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
@@ -128,8 +129,7 @@ public class LocalDataHelper {
 
             Gson gson = new Gson();
 
-            Type fileType = new TypeToken<ArrayList<Task>>() {
-            }.getType();
+            Type fileType = new TypeToken<ArrayList<Task>>(){}.getType();
             ArrayList<Task> tasks = gson.fromJson(in, fileType);
             return tasks;
 
@@ -170,7 +170,6 @@ public class LocalDataHelper {
                     Context.MODE_PRIVATE);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
-
             Gson gson = new Gson();
             gson.toJson(task, out);
             out.flush();
@@ -180,7 +179,6 @@ public class LocalDataHelper {
         } catch (IOException e) {
             throw new RuntimeException();
         }
-
     }
 
     public Task getTaskFromFile() {
@@ -190,8 +188,7 @@ public class LocalDataHelper {
 
             Gson gson = new Gson();
 
-            Type fileType = new TypeToken<Task>() {
-            }.getType();
+            Type fileType = new TypeToken<Task>(){}.getType();
             Task task = gson.fromJson(in, fileType);
             return task;
 
@@ -202,6 +199,62 @@ public class LocalDataHelper {
         } catch (Exception e) {
             throw new RuntimeException();
         }
+    }
 
+    public ArrayList<Task> getOfflineTasks() {
+        try {
+            FileInputStream fis = activity.openFileInput(ConstantsHelper.OFFLINEFILE);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+
+            Gson gson = new Gson();
+
+            Type fileType = new TypeToken<ArrayList<cmput301w18t22.com.tenner.classes.Task>>(){}.getType();
+            ArrayList<cmput301w18t22.com.tenner.classes.Task> tasks = gson.fromJson(in, fileType);
+            return tasks;
+
+        } catch (FileNotFoundException e) {
+            Log.i("Error", e.getMessage());
+            return new ArrayList<cmput301w18t22.com.tenner.classes.Task>();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public void saveTaskToOfflineFile(Task task) {
+        try {
+            FileOutputStream fos = activity.openFileOutput(ConstantsHelper.OFFLINEFILE,
+                    Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+
+            Gson gson = new Gson();
+            gson.toJson(task, out);
+            out.flush();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    public void deleteOfflineTasks() {
+        try {
+            FileOutputStream fos = activity.openFileOutput(ConstantsHelper.OFFLINEFILE,
+                    Context.MODE_PRIVATE);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+
+
+            Gson gson = new Gson();
+            gson.toJson(new ArrayList<Task>(), out);
+            out.flush();
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException();
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 }

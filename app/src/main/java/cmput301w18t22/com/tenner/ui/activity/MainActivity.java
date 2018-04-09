@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
         super.onStart();
         if (!cached) {
             loadTasksLocal();
+            sendOfflineTasks();
         }
     }
 
@@ -93,9 +95,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             getRequestedTasks();
             getProvidingTasks();
             cached = true;
-
         } catch (Exception e) {
 
+        }
+    }
+
+    public void sendOfflineTasks() {
+        try {
+            ArrayList<Task> offlineTasks = localDataHelper.getOfflineTasks();
+            for(int i = 0; i < offlineTasks.size(); i++){
+                int val = 0;
+                if(i == offlineTasks.size() - 1){
+                    val = 1;
+                }
+                postTask(offlineTasks.get(i), val);
+            }
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
         }
     }
 
@@ -164,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
     }
 
     private void profileToolbarActions() {
-        TextView logout = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_logout);
+        Button logout = (Button) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
             }
         });
 
-        TextView edit = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit);
+        Button edit = (Button) getSupportActionBar().getCustomView().findViewById(R.id.toolbar_edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,6 +296,37 @@ public class MainActivity extends AppCompatActivity implements BottomNavigatorVi
 
                 }
 
+            }
+        });
+    }
+
+    public void postTask(final Task task, final int i) {
+        RequestParams params = new RequestParams();
+        //https://github.com/google/gson
+        Gson gson = new Gson();
+        String json = gson.toJson(task);
+
+        try {
+            params.put("task", json);
+        } catch (Exception e) {
+
+        }
+
+        ElasticServer.RestClient.post("editTask", params, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    if (response.has("Success")) {
+                        if(i != 0){
+                            localDataHelper.deleteOfflineTasks();
+                        }
+                    } else if (response.has("Error")) {
+                    }
+                } catch (Exception e) {
+
+                }
             }
         });
     }

@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cmput301w18t22.com.tenner.helpers.InternetStatusHelper;
 import cmput301w18t22.com.tenner.helpers.PhotoConverterHelper;
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Location;
@@ -225,27 +226,30 @@ public class PostTaskActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                super.onSuccess(statusCode, headers, response);
-                try {
-                    if (response.has("Success")) {
+            super.onSuccess(statusCode, headers, response);
+            try {
+                if (response.has("Success")) {
 
-                        localDataHelper.saveTaskToFile(task);
-                        Intent intent = new Intent();
-                        intent.setClass(PostTaskActivity.this, TaskDetailActivity.class);
-                        startActivity(intent);
-                        finish();
-
-
-                    } else if (response.has("Error")) {
-
-                        etTitle.setError("Task already exists!");
-                        Toast toast = Toast.makeText(getApplicationContext(), response.get("Error").toString(), Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
-                        toast.show();
+                    localDataHelper.saveTaskToFile(task);
+                    InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
+                    if (!internetStatusHelper.isConnected(getApplicationContext())) {
+                        localDataHelper.saveTaskToOfflineFile(task);
                     }
-                } catch (Exception e) {
+                    Intent intent = new Intent();
+                    intent.setClass(PostTaskActivity.this, TaskDetailActivity.class);
+                    startActivity(intent);
+                    finish();
 
+                } else if (response.has("Error")) {
+
+                    etTitle.setError("Task already exists!");
+                    Toast toast = Toast.makeText(getApplicationContext(), response.get("Error").toString(), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+                    toast.show();
                 }
+            } catch (Exception e) {
+
+            }
             }
         });
     }
@@ -281,7 +285,6 @@ public class PostTaskActivity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                takePictureIntent.putExtra("imagepos", String.valueOf(imagePos));
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
