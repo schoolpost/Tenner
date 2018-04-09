@@ -184,7 +184,6 @@ router.post('/editUser', function(request, response){
 
 //Tasks-------------------------------------------------------------->
 
-//???
 router.post('/searchTasks', function(request, response){
     var query = request.body.query;
     
@@ -388,6 +387,30 @@ router.post('/getMapTasks', function(request, response){
     });
 });
 
+router.post('/getOtherTasks', function(request, response){
+    var userID = request.body.user;
+    
+    client.search({
+      index: 'tenner',
+      type: 'tasks'
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        var otherTasksArray = [];
+        for(var dataObj in data){
+            if (data.hasOwnProperty(dataObj)) {
+                if(typeof(data[dataObj]._source.requester) != userID){
+                    otherTasksArray.push(data[dataObj]._source);
+                }
+            }
+        }
+        return response.send(JSON.stringify(otherTasksArray));
+        
+    }, function (err) {
+        console.log(err.message);
+        return response.send({'Error' : 'At /getOtherTasks : ' + err.message});
+    });
+});
+
 router.post('/deleteTask', function(request, response){
     var user = request.body.user;
     var title = request.body.title;
@@ -405,52 +428,6 @@ router.post('/deleteTask', function(request, response){
 });
 
 //Bids-------------------------------------------------------------->
-
-router.get('/getMyBids', function(request, response){
-    var userID = request.body.email;
-    
-    client.search({
-      index: 'tenner',
-      type: 'tasks'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        var bidArray = [];
-        
-        for(var dataObj in data){
-            if(dataObj._source.provider != userID){
-                bidArray.push(dataObj._source.bids);
-            }
-        }
-        response.send(data);
-    }, function (err) {
-        console.log(err.message);
-        response.send('Error!');
-    });
-});
-
-router.get('/getOtherBids', function(request, response){
-    var userID = request.body.email;
-    
-    client.search({
-      index: 'tenner',
-      type: 'tasks'
-    }).then(function (responseBody) {
-        var data = responseBody.hits.hits;
-        console.log(data);
-        
-        var bidArray = [];
-        
-        for(var dataObj in data){
-            if(dataObj._source.provider == userID){
-                bidArray.push(dataObj._source.bids);
-            }
-        }
-        response.send(data);
-    }, function (err) {
-        console.log(err.message);
-        response.send('Error!');
-    });
-});
 
 //Get All and Delete-------------------------------------------------------------->
 
