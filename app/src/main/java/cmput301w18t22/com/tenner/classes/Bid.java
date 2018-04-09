@@ -33,6 +33,8 @@ public class Bid {
     }
 
     /**
+     * Passes the bid's owner. 
+     *
      * @return this bid's owner
      * @see Bid#setOwner
      */
@@ -41,7 +43,7 @@ public class Bid {
     }
 
     /**
-     * Set the owner of this bid
+     * Set the owner of this bid.
      *
      * @param owner User who made this bid
      */
@@ -50,6 +52,8 @@ public class Bid {
     }
 
     /**
+     * Passes the value of the bid.
+     *
      * @return this bid's value (BigDecimal)
      * @see Bid#setValue
      */
@@ -68,6 +72,8 @@ public class Bid {
     }
 
     /**
+     * Passes the date of the bids last modification. 
+     *
      * @return this bid's date
      * @see Bid#setDate
      */
@@ -85,6 +91,8 @@ public class Bid {
     }
 
     /**
+     * Passes the task the bid was made on. 
+     *
      * @return this bid's task
      * @see Bid#setTask
      */
