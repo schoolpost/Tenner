@@ -15,7 +15,7 @@ import cmput301w18t22.com.tenner.ui.widget.BidTabLayout;
 import cmput301w18t22.com.tenner.ui.widget.TabLayout;
 
 /**
- * Created by deepu on 3/24/2018.
+ * Created by Dinesh on 3/24/2018.
  */
 
 public class BidFragment extends Fragment {

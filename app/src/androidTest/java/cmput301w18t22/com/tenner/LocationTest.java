@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import cmput301w18t22.com.tenner.classes.Location;
 
 /**
- * Created by Schoolpost on 2018-02-26.
+ * Created by Schoolpost and Dinesh on 2018-02-26.
  */
 
 public class LocationTest extends ActivityInstrumentationTestCase2 {
@@ -13,6 +13,7 @@ public class LocationTest extends ActivityInstrumentationTestCase2 {
     LocationTest() {
         super(Location.class);
     }
+
 /*
     public void testGetLatitude() {
         Location loc = new Location();
