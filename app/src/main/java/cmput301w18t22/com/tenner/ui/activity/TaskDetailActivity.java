@@ -156,7 +156,7 @@ public class TaskDetailActivity extends AppCompatActivity {
 
 
     private void makeBid() {
-
+        //https://stackoverflow.com/questions/10903754/input-text-dialog-android?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         AlertDialog.Builder alertBuilder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             alertBuilder = new AlertDialog.Builder(this);
@@ -192,16 +192,13 @@ public class TaskDetailActivity extends AppCompatActivity {
                         ArrayList<Bid> taskBidList = task.getBidList();
                         boolean userHasExistingBid = false;
 
-                        if (task.getBidList().size() > 0) {
+                        for (int i = 0; i < task.getBidList().size(); i++) {
 
-                            for (int i = 0; i < task.getBidList().size(); i++) {
-
-                                Log.i("testing", String.valueOf(i));
-                                if (taskBidList.get(i).getOwner().getEmail().equals(user.getEmail())) {
-                                    taskBidList.set(i, newBid);
-                                    userHasExistingBid = true;
-                                    break;
-                                }
+                            Log.i("testing", String.valueOf(i));
+                            if (taskBidList.get(i).getOwner().getEmail().equals(user.getEmail())) {
+                                taskBidList.set(i, newBid);
+                                userHasExistingBid = true;
+                                break;
                             }
                         }
                         if (!userHasExistingBid) {
@@ -214,7 +211,38 @@ public class TaskDetailActivity extends AppCompatActivity {
 
                 Log.i("testing", "before post task");
                 try {
-                    postTask(task);
+                    RequestParams params = new RequestParams();
+                    //https://github.com/google/gson
+                    Gson gson = new Gson();
+                    String json = gson.toJson(task);
+
+                    try {
+                        params.put("task", json);
+                    } catch (Exception e) {
+
+                    }
+
+                    ElasticServer.RestClient.post("editTask", params, new JsonHttpResponseHandler() {
+
+                        @Override
+                        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                            super.onSuccess(statusCode, headers, response);
+                            try {
+                                if (response.has("Success")) {
+
+                                    localDataHelper.saveTaskToFile(task);
+
+                                } else if (response.has("Error")) {
+
+                                    Toast toast = Toast.makeText(getApplicationContext(), response.get("Error").toString(), Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+                                    toast.show();
+                                }
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    });
                 } catch (Exception e) {
                     Log.i("Bid Error", e.getMessage());
                 }
