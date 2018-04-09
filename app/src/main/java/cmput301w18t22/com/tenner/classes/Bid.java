@@ -23,12 +23,12 @@ public class Bid {
     private Task task;
     private String status;
 
-    public Bid(User owner, String amount, Date date, Task task) {
+    public Bid(User owner, String amount, Date date) {
         this.owner = owner;
         this.value = new BigDecimal(amount);
         this.value.setScale(2);
         this.date = date;
-        this.task = task;
+        this.task = new Task("Default Task", "Description", new Location(0,0,""), new Date(), owner);
         this.status = status;
     }
 

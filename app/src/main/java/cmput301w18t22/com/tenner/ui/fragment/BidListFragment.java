@@ -214,7 +214,7 @@ public class BidListFragment extends Fragment {
         User testUser = new User("email@example.com", "First", "Last", "780-123-4567", "");
         Location testLocation = new Location(0.0f, 0.0f, "123 Main St");
         Task testTask = new Task("Task Title", "Task Description", testLocation, new Date(), testUser);
-        Bid bid = new Bid(testUser, "1.00", new Date(), testTask);
+        Bid bid = new Bid(testUser, "1.00", new Date());
 
         for (int i = 0; i < 20; i++) {
             bidList.add(bid);

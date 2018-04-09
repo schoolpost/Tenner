@@ -188,7 +188,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                 Log.i("bid is", bid_amt);
                 if (newBidAmt != null) {
                     if (!newBidAmt.equals("")){
-                        Bid newBid = new Bid(user, newBidAmt, new Date(), task);
+                        Bid newBid = new Bid(user, newBidAmt, new Date());
                         ArrayList<Bid> taskBidList = task.getBidList();
                         boolean userHasExistingBid = false;
 
@@ -204,8 +204,8 @@ public class TaskDetailActivity extends AppCompatActivity {
                         if (!userHasExistingBid) {
                             taskBidList.add(newBid);
                         }
-                        task.setBidList(taskBidList);
-                        task.setStatus("Bidded");
+                        //task.setBidList(taskBidList);
+                        task.setStatus("bidded");
                     }
                 }
 
