@@ -5,7 +5,7 @@ package cmput301w18t22.com.tenner.classes;
  * and as a simple address string. Facilitates map views.
  *
  * @author Team 22
- * @version 1.1
+ * @version 1.2
  */
 public class Location {
 
@@ -20,6 +20,8 @@ public class Location {
     }
 
     /**
+     * Passes the latitude of the location.
+     *
      * @return the latitude of this location
      * @see Location#setLatitude
      */
@@ -39,6 +41,8 @@ public class Location {
 
 
     /**
+     * Passes the longitude of the location.
+     *
      * @return the longitude of this location
      * @see Location#setLongitude
      */
@@ -58,6 +62,8 @@ public class Location {
 
 
     /**
+     * Passes the address of the location.
+     *
      * @return String representing the address of this location
      * @see Location#setAddress
      */
