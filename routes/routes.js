@@ -1,7 +1,8 @@
 var express       = require('express'),
     router        = express.Router(),
     geocoder      = require('geocoder'),
-    elasticsearch = require('elasticsearch');
+    elasticsearch = require('elasticsearch'),
+    admin        = require("firebase-admin");
     
 var client = new elasticsearch.Client({
   host: 'cmput301.softwareprocess.es:8080/',
@@ -273,6 +274,7 @@ router.post('/editTask', function(request, response){
     var date = new Date(task.requestedDate);
     
     if(typeof(task.requester) != 'undefined'){
+        notify(task.title, task.requester.email, task.bidList.length);
         client.index({
             index: 'tenner',
             type : 'tasks',
@@ -426,6 +428,46 @@ router.post('/deleteTask', function(request, response){
         return response.send({'Error' : 'At /getAllUsers ' + err.message});
     });
 });
+
+function notify(title, email, bidListLen){
+    client.search({
+      index: 'tenner',
+      type: 'tasks',
+      id: title + email
+    }).then(function (responseBody) {
+        var data = responseBody.hits.hits;
+        if(data.length != 0){
+            for(var dataObj in data){
+                if (data.hasOwnProperty(dataObj)) {
+                    if(title == data[dataObj]._source.title){
+                        if(data[dataObj]._source.bidList.length != bidListLen){
+                            
+                            // The topic name can be optionally prefixed with "/topics/".
+                            var topic = 'bids';
+                        
+                            var message = {
+                                data : {
+                                    body : title + 'has a new bid!'
+                                },
+                                topic: topic
+                            };
+                            
+                            // Send a message to devices subscribed to the provided topic.
+                            admin.messaging().send(message)
+                              .then((response) => {
+                                // Response is a message ID string.
+                                console.log('Successfully sent message:', response);
+                              })
+                              .catch((error) => {
+                                console.log('Error sending message:', error);
+                              });
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
 
 //Bids-------------------------------------------------------------->
 
