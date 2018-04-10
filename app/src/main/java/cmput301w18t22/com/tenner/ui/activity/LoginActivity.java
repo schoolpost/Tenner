@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView signup;
     private Button login;
     private LocalDataHelper localDataHelper;
-
+    private Boolean requestLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +74,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.login_in_button) {
-            login.setEnabled(false);
-            login.setClickable(false);
-            tryLogin();
+            if(!requestLogin){
+                tryLogin();
+            }
+
         }
         if (v.getId() == R.id.sign_up_prompt) {
             startActivity(new Intent(this, SignUpActivity.class));
@@ -134,7 +135,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFinish() {
                 super.onFinish();
+                requestLogin = false;
 
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                requestLogin = true;
             }
 
             @Override
@@ -147,8 +155,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         User user = gson.fromJson(response.toString(), User.class);
                         localDataHelper.saveUserInFile(user);
                         login(user.getEmail());
-                        login.setEnabled(true);
-                        login.setClickable(true);
+
 
                     } else if (response.has("Error")) {
 

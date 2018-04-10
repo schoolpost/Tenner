@@ -168,17 +168,21 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 999) {
-            String path = data.getStringExtra("FILENAME");
+            try {
+                String path = data.getStringExtra("FILENAME");
 
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
 
-            PhotoConverterHelper photoConverter = new PhotoConverterHelper();
-            b64 = photoConverter.convertBMToString(bitmap);
+                PhotoConverterHelper photoConverter = new PhotoConverterHelper();
+                b64 = photoConverter.convertBMToString(bitmap);
 
-            Bitmap bm = photoConverter.convertStringToBM(b64);
+                Bitmap bm = photoConverter.convertStringToBM(b64);
 
-            mImageView.setImageBitmap(bm);
+                mImageView.setImageBitmap(bm);
+            }catch (Exception e){
+
+            }
         }
     }
 

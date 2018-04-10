@@ -29,7 +29,8 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:textSize="18sp"
-            tools:text="Welcome" />
+            tools:text="Welcome"
+            android:textColor="#ffffff"/>
 
         <EditText
             android:id="@+id/home_search"
@@ -45,7 +46,8 @@
             android:maxLines="1"
             android:padding="8dp"
             android:singleLine="true"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@null"
+            android:backgroundTint="#20ffffff"/>
 
 
     </LinearLayout>
