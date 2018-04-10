@@ -7,13 +7,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,9 +29,9 @@ import java.lang.ref.WeakReference;
 
 import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.User;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.activity.MapActivity;
-import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.ui.activity.SearchActivity;
 
 /**
@@ -70,6 +71,14 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            toolbarSetup();
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         localDataHelper = new LocalDataHelper(getActivity());
@@ -82,15 +91,9 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-        greeting = (TextView) view.findViewById(R.id.home_greeting);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        searchBar = (EditText) view.findViewById(R.id.home_search);
-        Button openMapButton = (Button) view.findViewById(R.id.openmapbutton);
-
+    private void toolbarSetup(){
+        ImageButton openMapButton = (ImageButton) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.homeNearMeButton);
         openMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +103,17 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        greeting = (TextView) view.findViewById(R.id.home_greeting);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        searchBar = (EditText) view.findViewById(R.id.home_search);
+        toolbarSetup();
+
 
 
         // your text box

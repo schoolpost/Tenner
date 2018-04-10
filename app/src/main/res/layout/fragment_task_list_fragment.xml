@@ -12,6 +12,14 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
+    <TextView
+        android:id="@+id/noResults"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="No Results Found."
+        android:visibility="gone" />
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -34,9 +42,9 @@
                 android:divider="@null"
                 android:dividerHeight="8sp"
                 android:padding="8dp"
-                android:scrollbarStyle="outsideOverlay"
                 android:paddingRight="3dp"
-                android:smoothScrollbar="true"/>
+                android:scrollbarStyle="outsideOverlay"
+                android:smoothScrollbar="true" />
 
         </FrameLayout>
 

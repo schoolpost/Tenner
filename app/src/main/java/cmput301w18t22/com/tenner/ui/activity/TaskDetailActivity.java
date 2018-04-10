@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -138,9 +137,9 @@ public class TaskDetailActivity extends AppCompatActivity {
         if (task.getBidList().size() == 0) {
             lowest.setText("$0.00");
         } else {
-            lowest.setText(task.getLowestBid().toString());
+            lowest.setText("$" + task.getLowestBid().toString());
         }
-        if (!task.getLocation().getAddress().equals("")){
+        if (!task.getLocation().getAddress().equals("")) {
             location.setText(task.getLocation().getAddress().substring(0, 10) + "...");
         } else {
             location.setText("");
@@ -184,7 +183,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         alertBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
-                String bid_amt = input.getText().toString();
+                final String bid_amt = input.getText().toString();
                 newBidAmt = bid_amt;
                 dialogInterface.cancel();
                 Log.i("bid is", bid_amt);
@@ -232,6 +231,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                             try {
                                 if (response.has("Success")) {
 
+                                    lowest.setText(task.getLowestBid().getValue().setScale(2).toPlainString());
                                     localDataHelper.saveTaskToFile(task);
 
                                 } else if (response.has("Error")) {

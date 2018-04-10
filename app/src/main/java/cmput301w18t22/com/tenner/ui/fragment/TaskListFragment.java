@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -42,10 +43,10 @@ import cmput301w18t22.com.tenner.R;
 import cmput301w18t22.com.tenner.classes.Task;
 import cmput301w18t22.com.tenner.classes.User;
 import cmput301w18t22.com.tenner.helpers.InternetStatusHelper;
+import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 import cmput301w18t22.com.tenner.server.ElasticServer;
 import cmput301w18t22.com.tenner.ui.activity.TaskDetailActivity;
 import cmput301w18t22.com.tenner.ui.adapter.TaskAdapter;
-import cmput301w18t22.com.tenner.helpers.LocalDataHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,6 +67,7 @@ public class TaskListFragment extends Fragment {
     private User user;
     private LocalDataHelper localDataHelper;
     private InternetStatusHelper internetStatusHelper = new InternetStatusHelper();
+    private TextView noResults;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -130,6 +132,7 @@ public class TaskListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         displayList = (SwipeMenuListView) view.findViewById(R.id.tasksList);
+        noResults = (TextView) view.findViewById(R.id.noResults);
         setFilter();
     }
 
@@ -211,6 +214,11 @@ public class TaskListFragment extends Fragment {
                 openTaskDetails(taskList.get(i));
             }
         });
+
+        if (taskList.size() == 0) {
+            noResults.setVisibility(View.VISIBLE);
+        }
+
     }
 
 
@@ -228,9 +236,8 @@ public class TaskListFragment extends Fragment {
      */
     private void loadData() {
         // Server Call
-        Log.i("lol2", "lol3");
-//        sendOfflineTasks();
         showProgressBar(true);
+
         user = localDataHelper.loadUserFromFile();
         String url;
         switch (tab) {
@@ -314,7 +321,15 @@ public class TaskListFragment extends Fragment {
                 } else if (url.equals("getProvidingTasks")) {
                     localDataHelper.saveProvidingTasksToFile(taskList);
                 }
+
+
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
                 sHandler.postDelayed(mRunnable, 500);
+
             }
         });
     }
@@ -389,7 +404,7 @@ public class TaskListFragment extends Fragment {
                 super.onSuccess(statusCode, headers, response);
                 try {
                     if (response.has("Success")) {
-                        if(i != 0){
+                        if (i != 0) {
                             //localDataHelper.deleteOfflineTasks();
                         }
                     } else if (response.has("Error")) {

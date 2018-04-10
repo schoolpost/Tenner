@@ -128,7 +128,7 @@ public class ProfileFragment extends Fragment {
         } catch (Exception e){
 
         }
-        sHandler.post(mRunnable);
+        sHandler.postDelayed(mRunnable, 500);
     }
 
     private static class WeakRunnable implements Runnable {
